@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="CentOS服务器CentOS服务器基本配置查看IP信息的两个命令ifconfig：比较旧的命令，net-tools中的命令 ip addr：比较新的命令，iproute2中的命令">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux3">
+<meta property="og:url" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="CentOS服务器CentOS服务器基本配置查看IP信息的两个命令ifconfig：比较旧的命令，net-tools中的命令 ip addr：比较新的命令，iproute2中的命令">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317164221990.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317174254977.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317200210219.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317174911314.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317193557678.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317193916305.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317212330202.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317213041041.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318090347627.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318090922704.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318090852439.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318091127105.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318112420184.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318125924702.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318132126931.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318132445330.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318133123660.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200318150930226.png">
+<meta property="og:updated_time" content="2020-03-18T08:05:05.623Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux3">
+<meta name="twitter:description" content="CentOS服务器CentOS服务器基本配置查看IP信息的两个命令ifconfig：比较旧的命令，net-tools中的命令 ip addr：比较新的命令，iproute2中的命令">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/17/0编程工具/Linux3/image-20200317164221990.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux3 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-0编程工具/Linux3" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/17/0编程工具/Linux3/" class="article-date">
+      <time datetime="2020-03-17T08:24:57.563Z" itemprop="datePublished">2020-03-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux3
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="CentOS服务器"><a href="#CentOS服务器" class="headerlink" title="CentOS服务器"></a>CentOS服务器</h1><h2 id="CentOS服务器基本配置"><a href="#CentOS服务器基本配置" class="headerlink" title="CentOS服务器基本配置"></a>CentOS服务器基本配置</h2><h3 id="查看IP信息的两个命令"><a href="#查看IP信息的两个命令" class="headerlink" title="查看IP信息的两个命令"></a>查看IP信息的两个命令</h3><p>ifconfig：比较旧的命令，net-tools中的命令</p>
+<p>ip addr：比较新的命令，iproute2中的命令</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317164221990.png" alt="image-20200317164221990"></p>
+<a id="more"></a>
+
+<p>lo：本地回环的接口</p>
+<p>enp0s3：对应以太网网络接口，其中10.0.2.15是一个内网的地址，其他虚拟机无法连接到这个服务器虚拟机，为了能够访问到，要改成局域网的ip地址</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317174254977.png" alt="image-20200317174254977"></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317200210219.png" alt="image-20200317200210219"></p>
+<p>此时的地址为192.168.1.103</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317174911314.png" alt="image-20200317174911314"></p>
+<p>onboot要为yes</p>
+<h2 id="连接远程终端"><a href="#连接远程终端" class="headerlink" title="连接远程终端"></a>连接远程终端</h2><p>服务器的主要特色就是保持开机，始终连接Internet，提供服务，把连接到服务器的机器称为客户机</p>
+<p>HTTP协议是Web最常用的传输网页的协议</p>
+<p>HTTPS协议是HHTP协议的安全版本，表示安全的超文本传输协议，是HTTP的扩展，HTTP的所有传输内容都是明文，HTTPS锁传输的内容都经过加密</p>
+<p>SSH是Secure SHell的缩写，表示安全的Shell，shell是英语壳的意思</p>
+<p>Shell在计算机科学中，shell俗称壳，用来区别于核，一个是外壳，一个是核心，Shell指提供用户使用界面的软件（命令解析器），它类似于DOS下的command和后来的cmd.exe</p>
+<p>Linux下有Bash等Shell程序</p>
+<h2 id="从以下两条主线来了解SSH协议"><a href="#从以下两条主线来了解SSH协议" class="headerlink" title="从以下两条主线来了解SSH协议"></a>从以下两条主线来了解SSH协议</h2><h3 id="有哪些不同的加密方法"><a href="#有哪些不同的加密方法" class="headerlink" title="有哪些不同的加密方法"></a>有哪些不同的加密方法</h3><h4 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h4><p>Symmetric（对称的）-Key Encryption（加密）</p>
+<p>对称加密算法用一个密钥来加密信息</p>
+<p>密钥加密</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317193557678.png" alt="image-20200317193557678"></p>
+<p>密钥解密 </p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317193916305.png" alt="image-20200317193916305"></p>
+<p>对称加密中对称的意思是指加密和解密使用的是同一个密钥，因此加密方和解密方都需要知道这个密钥</p>
+<p>对称加密的致命缺陷：必须谨慎传递密钥</p>
+<p>为了加密用于对称加密的密钥，将用另一种方法：非对称加密</p>
+<h4 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h4><p>Asymmetric（非对称的）-Key Encryption</p>
+<p>对称加密方法中，只用一个密钥来进行加密和解密</p>
+<p>非对称加密方法中，用一个密钥来加密，用另一个来解密，两个密钥不一样，所以是非对称</p>
+<h4 id="非对称加密的两个密钥"><a href="#非对称加密的两个密钥" class="headerlink" title="非对称加密的两个密钥"></a>非对称加密的两个密钥</h4><p>一个是公钥（Public Key），用于加密，一个是私钥（Private Key），用于解密</p>
+<p>公钥只用来加密，用非对称加密的算法，我们就只能用私钥来解密</p>
+<p>假设有如下一对密钥</p>
+<p>公钥：2K49c8uE</p>
+<p>私钥：5z3sR6Ln</p>
+<p>密钥加密</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317212330202.png" alt="image-20200317212330202"></p>
+<p>密钥解密</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200317213041041.png" alt="image-20200317213041041"></p>
+<p>公钥可以在网络上以明文传输，毕竟是公开的密钥，但是用于解密的私钥却不能被公开传输，需要保管好</p>
+<p>非对称算法不止一种，在这个大家族中，最有名的要数RSA算法</p>
+<h3 id="用SSH创建一个安全的通信管道"><a href="#用SSH创建一个安全的通信管道" class="headerlink" title="用SSH创建一个安全的通信管道"></a>用SSH创建一个安全的通信管道</h3><p>SSH结合使用非对称加密和对称加密两种方法</p>
+<p>首先使用非对称加密安全的传输对称加密的密钥，之后，就一直使用对称加密的密钥来作为加密和解密的手段</p>
+<h3 id="非对称加密的一个缺陷"><a href="#非对称加密的一个缺陷" class="headerlink" title="非对称加密的一个缺陷"></a>非对称加密的一个缺陷</h3><p>非对称加密台消耗电脑资源，非对称加密要比对称加密漫大概100~1000倍，因此两个电脑之间首先交换对称加密的密钥（用非对称加密的方式），之后就可以用对称加密来通信，会更快捷，非对称加密只是在通信之处用于交换对称加密的密钥</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318090347627.png" alt="image-20200318090347627"></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318090922704.png" alt="image-20200318090922704"></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318090852439.png" alt="image-20200318090852439"></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318091127105.png" alt="image-20200318091127105"></p>
+<h3 id="配置成SSH"><a href="#配置成SSH" class="headerlink" title="配置成SSH"></a>配置成SSH</h3><p>两种情况</p>
+<p>第一种情况：你已经租用了一台服务器，这台服务器因为已经配置好了SSH服务器，所以什么都不需要做</p>
+<p>第二种情况：你没有租用一台服务器（大多数人的情况）</p>
+<h4 id="安装openssh"><a href="#安装openssh" class="headerlink" title="安装openssh"></a>安装openssh</h4><p>openssh是SSH协议的免费开源实现，官网<a href="https://www.openssh.com" target="_blank" rel="noopener">https://www.openssh.com</a></p>
+<p>openssh分为客户端和服务端，客户端：openssh-client，服务端：openssh-server</p>
+<h4 id="安装openssh客户端"><a href="#安装openssh客户端" class="headerlink" title="安装openssh客户端"></a>安装openssh客户端</h4><p>如果只想用ssh远程连接到别的机器，那只需要安装opensh-client</p>
+<p><code>sudo yum install openssh-clients</code></p>
+<h4 id="安装openssh服务端"><a href="#安装openssh服务端" class="headerlink" title="安装openssh服务端"></a>安装openssh服务端</h4><p>如果想要使自己的机器开放ssh服务，则需要安装openssh-server</p>
+<p><code>sudo yum install openssh-server</code></p>
+<p>安装完成后，它会自动开启sshd这个守护进程</p>
+<h2 id="服务器安装SSH服务"><a href="#服务器安装SSH服务" class="headerlink" title="服务器安装SSH服务"></a>服务器安装SSH服务</h2><p>安装SSH：<code>yum install openssh-server</code></p>
+<p>启动SSH：<code>systemctl start(restart) sshd</code></p>
+<p>设置开机运行SSH：<code>systemctl enable sshd</code></p>
+<p>列出服务端开机启动的程序：<code>systemctl list-unit-files</code></p>
+<h2 id="客户端安装SSH工具"><a href="#客户端安装SSH工具" class="headerlink" title="客户端安装SSH工具"></a>客户端安装SSH工具</h2><p>Windows客户端：安装Putty、XShell或SecureCRT</p>
+<p>Linux客户端：<code>sudo yum install openssh-clients</code></p>
+<p>macOS客户端：默认已经安装SSH客户端</p>
+<h2 id="客户端通过SSH连接服务器"><a href="#客户端通过SSH连接服务器" class="headerlink" title="客户端通过SSH连接服务器"></a>客户端通过SSH连接服务器</h2><p>Linux连接：<code>ssh root@192.168.1.105</code></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318112420184.png" alt="image-20200318112420184"></p>
+<p>macOS与Linux相同</p>
+<h2 id="用config文件配置SSH"><a href="#用config文件配置SSH" class="headerlink" title="用config文件配置SSH"></a>用config文件配置SSH</h2><p>config文件可以配置SSH，方便批量管理多个SSH连接</p>
+<h3 id="全局config文件"><a href="#全局config文件" class="headerlink" title="全局config文件"></a>全局config文件</h3><p>全局的config文件有两个</p>
+<p>SSH客户端的配置：/etc/ssh/ssh_config</p>
+<p>SSH服务端的配置：/etc/ssh/sshd_config</p>
+<p>查看config文件的使用手册，SSH服务端config文件的使用手册：<code>man sshd_config</code>，SSH客户端config文件的使用手册：<code>man ssh_config</code></p>
+<p>客户端config文件的常用配置参数</p>
+<img src="/2020/03/17/0编程工具/Linux3/image-20200318125924702.png" alt="image-20200318125924702" style="zoom:50%;">
+
+<p>服务端config文件的常用 配置参数</p>
+<table>
+<thead>
+<tr>
+<th align="center">服务端config参数</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Port</td>
+<td align="center">sshd服务端口号（默认22）</td>
+</tr>
+<tr>
+<td align="center">PermitRootLogin</td>
+<td align="center">是否允许以root用户身份登录（默认可以）</td>
+</tr>
+<tr>
+<td align="center">PasswordAuthentication</td>
+<td align="center">是否允许密码验证登录（默认可以）</td>
+</tr>
+<tr>
+<td align="center">PubkeyAuthentication</td>
+<td align="center">是否允许公钥验证登录（默认可以）</td>
+</tr>
+<tr>
+<td align="center">PermitEmptyPasswords</td>
+<td align="center">是否允许空密码登录（不安全，默认不可以）</td>
+</tr>
+</tbody></table>
+<p>修改全局的config文件后，重启sshd服务使之立即生效<code>sudo systemctl restart sshd</code></p>
+<h3 id="局部config文件"><a href="#局部config文件" class="headerlink" title="局部config文件"></a>局部config文件</h3><p>只有客户端才有局部config文件</p>
+<p>root用户的家目录下如果没有<code>.ssh</code>目录，则使用一下命令来生成<code>.ssh</code>目录<code>ssh localhost</code></p>
+<p>局部的客户端config文件在用户家目录的<code>.ssh</code>隐藏目录中，<code>~/.ssh/config</code>，此文件一般默认是没有创建的，可以手动创建，创建完之后，会把<code>~/ssh/config</code>的权限修改为600，<code>chmod 600 ~/.ssh/config</code></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318132126931.png" alt="image-20200318132126931"></p>
+<p>客户端config文件的配置</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318132445330.png" alt="image-20200318132445330"></p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318133123660.png" alt="image-20200318133123660"></p>
+<p>SSH的config文件可以帮助我们配置SSH，config文件分为全局的config文件和局部的config文件，全局的config文件会对所有用户生效，请谨慎修改，修改全局的config文件后，重启sshd服务使之立即生效</p>
+<p><code>sudo systemctl restart sshd</code></p>
+<h2 id="SSH免密码登录"><a href="#SSH免密码登录" class="headerlink" title="SSH免密码登录"></a>SSH免密码登录</h2><p>SSH有两种安全验证的方法</p>
+<p>基于口令和基于密钥</p>
+<p>基于口令的就是用账户和密码来登录验证</p>
+<p>基于密钥的验证就是客户端生成密钥对（公钥和私钥），把公钥上传到服务器并与服务器的公钥进行比较，这种验证登录的方法更加安全，也称为公钥验证登录</p>
+<h3 id="公钥验证登录"><a href="#公钥验证登录" class="headerlink" title="公钥验证登录"></a>公钥验证登录</h3><p>第一步，在客户机中生成密钥对（公钥和私钥）<code>ssh-keygen</code>默认使用RSA非对称加密算法 </p>
+<p>在<code>~/.ssh/</code>目录下，会生成两个文件，<code>id_rsa.pub</code>是公钥，<code>id_rsa</code>是私钥</p>
+<p><img src="/2020/03/17/0编程工具/Linux3/image-20200318150930226.png" alt="image-20200318150930226"></p>
+<p>第二步，把客户机的公钥传送到服务器，<code>ssh-copy-id root@192.168.1.105</code></p>
+<p><code>ssh-copy-id</code>把客户机的公钥追加到服务器的一个文件authorized_keys，它在<code>~/.ssh/authorized_keys</code>中</p>
+<h3 id="设置SSH免密码后仍想使用密码登录"><a href="#设置SSH免密码后仍想使用密码登录" class="headerlink" title="设置SSH免密码后仍想使用密码登录"></a>设置SSH免密码后仍想使用密码登录</h3><p><code>ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no用户名@host</code></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/17/0编程工具/Linux3/">Linux3</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-17, 16:24:57</p>
+        <p><span>最后更新:</span>2020-03-18, 16:05:05</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/17/0编程工具/Linux3/" title="Linux3">http://yoursite.com/2020/03/17/0编程工具/Linux3/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/17/0编程工具/Linux3/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/19/0编程工具/Linux5/">
+                    
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/15/0编程工具/Linux2/">
+                    Linux2
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CentOS服务器"><span class="toc-number">1.</span> <span class="toc-text">CentOS服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CentOS服务器基本配置"><span class="toc-number">1.1.</span> <span class="toc-text">CentOS服务器基本配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看IP信息的两个命令"><span class="toc-number">1.1.1.</span> <span class="toc-text">查看IP信息的两个命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接远程终端"><span class="toc-number">1.2.</span> <span class="toc-text">连接远程终端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从以下两条主线来了解SSH协议"><span class="toc-number">1.3.</span> <span class="toc-text">从以下两条主线来了解SSH协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#有哪些不同的加密方法"><span class="toc-number">1.3.1.</span> <span class="toc-text">有哪些不同的加密方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对称加密"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">对称加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非对称加密"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">非对称加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非对称加密的两个密钥"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">非对称加密的两个密钥</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用SSH创建一个安全的通信管道"><span class="toc-number">1.3.2.</span> <span class="toc-text">用SSH创建一个安全的通信管道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非对称加密的一个缺陷"><span class="toc-number">1.3.3.</span> <span class="toc-text">非对称加密的一个缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置成SSH"><span class="toc-number">1.3.4.</span> <span class="toc-text">配置成SSH</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#安装openssh"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">安装openssh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装openssh客户端"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">安装openssh客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装openssh服务端"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">安装openssh服务端</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#服务器安装SSH服务"><span class="toc-number">1.4.</span> <span class="toc-text">服务器安装SSH服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端安装SSH工具"><span class="toc-number">1.5.</span> <span class="toc-text">客户端安装SSH工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#客户端通过SSH连接服务器"><span class="toc-number">1.6.</span> <span class="toc-text">客户端通过SSH连接服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用config文件配置SSH"><span class="toc-number">1.7.</span> <span class="toc-text">用config文件配置SSH</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#全局config文件"><span class="toc-number">1.7.1.</span> <span class="toc-text">全局config文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#局部config文件"><span class="toc-number">1.7.2.</span> <span class="toc-text">局部config文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH免密码登录"><span class="toc-number">1.8.</span> <span class="toc-text">SSH免密码登录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#公钥验证登录"><span class="toc-number">1.8.1.</span> <span class="toc-text">公钥验证登录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置SSH免密码后仍想使用密码登录"><span class="toc-number">1.8.2.</span> <span class="toc-text">设置SSH免密码后仍想使用密码登录</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Linux3　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/19/0编程工具/Linux5/" title="上一篇: ">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/15/0编程工具/Linux2/" title="下一篇: Linux2">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

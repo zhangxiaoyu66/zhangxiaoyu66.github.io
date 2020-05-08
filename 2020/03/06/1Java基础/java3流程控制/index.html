@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="123title: Java流程控制tags: Javacategories: Java基础  流程控制顺序结构 程序从上到下执行 分支结构 if-else if - else switch-case 循环结构 for while do-while">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爱吃鱼的呆先生">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="123title: Java流程控制tags: Javacategories: Java基础  流程控制顺序结构 程序从上到下执行 分支结构 if-else if - else switch-case 循环结构 for while do-while">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/wps24.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/wps25.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/wps26.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/wps27.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/wps28.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/3e80ae80-baad-11e9-8bd3-43e1fddff917">
+<meta property="og:updated_time" content="2020-01-29T03:53:38.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爱吃鱼的呆先生">
+<meta name="twitter:description" content="123title: Java流程控制tags: Javacategories: Java基础  流程控制顺序结构 程序从上到下执行 分支结构 if-else if - else switch-case 循环结构 for while do-while">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/1Java基础/java3流程控制/wps24.jpg">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-1Java基础/java3流程控制" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/1Java基础/java3流程控制/" class="article-date">
+      <time datetime="2020-03-06T09:35:06.980Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: Java流程控制</span><br><span class="line">tags: Java</span><br><span class="line">categories: Java基础</span><br></pre></td></tr></table></figure>
+
+<h1 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h1><p><strong>顺序结构</strong></p>
+<p>程序从上到下执行</p>
+<p><strong>分支结构</strong></p>
+<p>if-else if - else</p>
+<p>switch-case</p>
+<p><strong>循环结构</strong></p>
+<p>for</p>
+<p>while</p>
+<p>do-while</p>
+<a id="more"></a>
+
+<h2 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h2><h3 id="if-else条件判断结构"><a href="#if-else条件判断结构" class="headerlink" title="if-else条件判断结构"></a>if-else条件判断结构</h3><h4 id="结构一："><a href="#结构一：" class="headerlink" title="结构一："></a>结构一：</h4><p>if(条件表达式){</p>
+<p>​    执行表达式</p>
+<p>}</p>
+<h4 id="结构二：二选一"><a href="#结构二：二选一" class="headerlink" title="结构二：二选一"></a>结构二：二选一</h4><p>if(条件表达式){</p>
+<p>​    执行表达式1</p>
+<p>}else{</p>
+<p>​    执行表达式2</p>
+<p>}</p>
+<h4 id="结构三：n选一"><a href="#结构三：n选一" class="headerlink" title="结构三：n选一"></a>结构三：n选一</h4><p>if(条件表达式){</p>
+<p>​    执行表达式1</p>
+<p>}else if(条件表达式){</p>
+<p>​    执行表达式2</p>
+<p>}else if(条件表达式){</p>
+<p>​    执行表达式3</p>
+<p>}</p>
+<p>…</p>
+<p>else{</p>
+<p>​    执行表达式n</p>
+<p>}</p>
+<h4 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h4><ol>
+<li><p>else 结构是可选的</p>
+</li>
+<li><p>针对于条件表达式：</p>
+<p>&gt; 如果多个条件表达式之间是“互斥”关系(或没有交集的关系),哪个判断和执行语句声明在上面还是下面，无所谓</p>
+<p>&gt; 如果多个条件表达式之间有交集的关系，需要根据实际情况，考虑清楚应该将哪个结构声明在上面</p>
+<p>&gt; 如果多个条件表达式之间有包含的关系，通常情况下，需要将范围小的声明在范围大的上面。否则，范围小的就没机会执行了</p>
+</li>
+<li><p>if-else结构是可以相互嵌套的。</p>
+</li>
+<li><p>如果if-else结构中的执行语句只有一行时，对应的一对{}可以省略的。但是，不建议大家省略</p>
+</li>
+</ol>
+<p><img src="/2020/03/06/1Java基础/java3流程控制/wps24.jpg" alt="img"></p>
+<p>相当于</p>
+<p><img src="/2020/03/06/1Java基础/java3流程控制/wps25.jpg" alt="img"></p>
+<p><img src="/2020/03/06/1Java基础/java3流程控制/wps26.jpg" alt="img"></p>
+<h3 id="switch-case选择结构"><a href="#switch-case选择结构" class="headerlink" title="switch-case选择结构"></a>switch-case选择结构</h3><p>switch(表达式){</p>
+<p>case 常量1:</p>
+<p>​    执行语句1;</p>
+<p>​    //break;</p>
+<p>case 常量2:</p>
+<p>​    执行语句2;</p>
+<p>​    //break;</p>
+<p>…</p>
+<p>default:</p>
+<p>​    执行语句n;</p>
+<p>​    //break;</p>
+<p>}</p>
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ol>
+<li><p>根据switch表达式中的值，依次匹配各个case中的常量。一旦匹配成功，则进入相应case结构中，调用其执行语句。当调用完执行语句以后，则仍然继续向下执行其他case结构中的执行语句，直到遇到break关键字或此switch-case结构</p>
+<p>末尾结束为止。</p>
+</li>
+<li><p>break,可以使用在switch-case结构中，表示一旦执行到此关键字，就跳出switch-case结构</p>
+</li>
+<li><p>switch结构中的表达式，只能是如下的6种数据类型之一：</p>
+<p>byte 、short、char、int、枚举类型(JDK5.0新增)、String类型(JDK7.0新增)</p>
+</li>
+<li><p>case 之后只能声明常量。不能声明范围。</p>
+</li>
+<li><p>break关键字是可选的。</p>
+</li>
+<li><p>default:相当于if-else结构中的else。default结构是可选的，而且位置是灵活的。</p>
+</li>
+<li><p>如果switch-case结构中的多个case的执行语句相同，则可以考虑进行合并。</p>
+</li>
+<li><p>break在switch-case中是可选的</p>
+</li>
+</ol>
+<p><img src="/2020/03/06/1Java基础/java3流程控制/wps27.jpg" alt="img"></p>
+<p>注：Math.random()为double类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">编写程序：从键盘上输入2019年的“month”和“day”，要求通过程序输出输入的日期为2019年的第几天。</span><br><span class="line">2  15:  31 + 15</span><br><span class="line">5 7: 31 + 28 + 31 + 30 + 7 </span><br><span class="line">....</span><br><span class="line">说明:break在switch-case中是可选的</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SwitchCaseTest2</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Scanner scan = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		System.out.println(<span class="string">"请输入2019年的month："</span>);</span><br><span class="line">		<span class="keyword">int</span> month = scan.nextInt();</span><br><span class="line">		System.out.println(<span class="string">"请输入2019年的day："</span>);</span><br><span class="line">		<span class="keyword">int</span> day = scan.nextInt();</span><br><span class="line">		<span class="comment">//定义一个变量来保存总天数</span></span><br><span class="line">		<span class="keyword">int</span> sumDays = <span class="number">0</span>;</span><br><span class="line">		<span class="comment">//方式一：冗余</span></span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		if(month == 1)&#123;</span></span><br><span class="line"><span class="comment">			sumDays = day;</span></span><br><span class="line"><span class="comment">		&#125;else if(month == 2)&#123;</span></span><br><span class="line"><span class="comment">			sumDays = 31 + day;</span></span><br><span class="line"><span class="comment">		&#125;else if(month == 3)&#123;</span></span><br><span class="line"><span class="comment">			sumDays = 31 + 28 + day;</span></span><br><span class="line"><span class="comment">		&#125;else if(month == 4)&#123;</span></span><br><span class="line"><span class="comment">			sumDays = 31 + 28 + 31 + day;</span></span><br><span class="line"><span class="comment">		&#125;</span></span><br><span class="line"><span class="comment">		//...</span></span><br><span class="line"><span class="comment">		else&#123;//month == 12</span></span><br><span class="line"><span class="comment">			//sumDays = ..... + day;</span></span><br><span class="line"><span class="comment">		&#125;</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">		<span class="comment">//方式二：冗余</span></span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		switch(month)&#123;</span></span><br><span class="line"><span class="comment">		case 1:</span></span><br><span class="line"><span class="comment">			sumDays = day;</span></span><br><span class="line"><span class="comment">			break;</span></span><br><span class="line"><span class="comment">		case 2:</span></span><br><span class="line"><span class="comment">			sumDays = 31 + day;</span></span><br><span class="line"><span class="comment">			break;</span></span><br><span class="line"><span class="comment">		case 3:</span></span><br><span class="line"><span class="comment">			sumDays = 31 + 28 + day;</span></span><br><span class="line"><span class="comment">			break;</span></span><br><span class="line"><span class="comment">		...</span></span><br><span class="line"><span class="comment">		&#125;</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">		<span class="keyword">switch</span>(month)&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">12</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">11</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">9</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			sumDays += <span class="number">28</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			sumDays += day;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"2019年"</span> + month + <span class="string">"月"</span> + day + <span class="string">"日是当年的第"</span> + sumDays + <span class="string">"天"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">从键盘分别输入年、月、日，判断这一天是当年的第几天</span></span><br><span class="line"><span class="comment">   注：判断一年是否是闰年的标准：</span></span><br><span class="line"><span class="comment">       1）可以被4整除，但不可被100整除</span></span><br><span class="line"><span class="comment">	或</span></span><br><span class="line"><span class="comment">       2）可以被400整除</span></span><br><span class="line"><span class="comment">说明：</span></span><br><span class="line"><span class="comment">1. 凡是可以使用switch-case的结构，都可以转换为if-else。反之，不成立。</span></span><br><span class="line"><span class="comment">2. 我们写分支结构时，当发现既可以使用switch-case,（同时，switch中表达式的取值情况不太多），</span></span><br><span class="line"><span class="comment">  又可以使用if-else时，我们优先选择使用switch-case。原因：switch-case执行效率稍高。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SwitchCaseExer</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Scanner scan = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		System.out.println(<span class="string">"请输入year："</span>);</span><br><span class="line">		<span class="keyword">int</span> year = scan.nextInt();</span><br><span class="line">		System.out.println(<span class="string">"请输入month："</span>);</span><br><span class="line">		<span class="keyword">int</span> month = scan.nextInt();</span><br><span class="line">		System.out.println(<span class="string">"请输入day："</span>);</span><br><span class="line">		<span class="keyword">int</span> day = scan.nextInt();</span><br><span class="line">		<span class="comment">//定义一个变量来保存总天数</span></span><br><span class="line">		<span class="keyword">int</span> sumDays = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">switch</span>(month)&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">12</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">11</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">10</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">9</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">			sumDays += <span class="number">30</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			<span class="comment">//sumDays += 28;</span></span><br><span class="line">			<span class="comment">//判断year是否是闰年</span></span><br><span class="line">			<span class="keyword">if</span>((year % <span class="number">4</span> == <span class="number">0</span> &amp;&amp; year % <span class="number">100</span> != <span class="number">0</span> ) || year % <span class="number">400</span> == <span class="number">0</span>)&#123;</span><br><span class="line">				sumDays += <span class="number">29</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				sumDays += <span class="number">28</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			sumDays += <span class="number">31</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			sumDays += day;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(year + <span class="string">"年"</span> + month + <span class="string">"月"</span> + day + <span class="string">"日是当年的第"</span> + sumDays + <span class="string">"天"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h2><h3 id="循环结构的四要素"><a href="#循环结构的四要素" class="headerlink" title="循环结构的四要素"></a>循环结构的四要素</h3><p>① 初始化条件</p>
+<p>② 循环条件  —&gt;是boolean类型</p>
+<p>③ 循环体</p>
+<p>④ 迭代条件</p>
+<p>说明：通常情况下，循环结束都是因为②中循环条件返回false了</p>
+<h3 id="三种循环结构"><a href="#三种循环结构" class="headerlink" title="三种循环结构"></a>三种循环结构</h3><h4 id="for循环结构"><a href="#for循环结构" class="headerlink" title="for循环结构"></a>for循环结构</h4><p>for(①;②;④){</p>
+<p>​    ③</p>
+<p>}</p>
+<p>执行过程：① - ② - ③ - ④ - ② - ③ - ④ - … - ②</p>
+<p>说明：</p>
+<p>②循环条件部分为boolean类型表达式，当值为false时，退出循环</p>
+<p>①初始化部分可以声明多个变量，但必须是同一个类型，用逗号隔开</p>
+<p>④可以有多个变量更新，用逗号分隔</p>
+<p><img src="/2020/03/06/1Java基础/java3流程控制/wps28.jpg" alt="img"></p>
+<h4 id="while循环结构"><a href="#while循环结构" class="headerlink" title="while循环结构"></a>while循环结构</h4><p>①</p>
+<p>while(②){</p>
+<p>​    ③;</p>
+<p>​    ④;</p>
+<p>}</p>
+<p>执行过程：① - ② - ③ - ④ - ② - ③ - ④ - … - ②</p>
+<p>说明：</p>
+<p>写while循环千万小心不要丢了迭代条件。一旦丢了，就可能导致死循环</p>
+<h4 id="for和while循环总结："><a href="#for和while循环总结：" class="headerlink" title="for和while循环总结："></a>for和while循环总结：</h4><ol>
+<li><p>开发中，基本上我们都会从for、while中进行选择，实现循环结构。</p>
+</li>
+<li><p>for循环和while循环是可以相互转换的，区别：for循环和while循环的初始化条件部分的作用范围不同。while循环的初始化条件出了循环后，仍然可以调用</p>
+</li>
+<li><p>我们写程序，要避免出现死循环</p>
+</li>
+</ol>
+<h4 id="do-while循环结构"><a href="#do-while循环结构" class="headerlink" title="do-while循环结构"></a>do-while循环结构</h4><p>①</p>
+<p>do{</p>
+<p>​    ③;</p>
+<p>​    ④;</p>
+<p>}while(②);</p>
+<p>执行过程：① - ③ - ④ - ② - ③ - ④ - … - ②</p>
+<p><strong>说明</strong></p>
+<ol>
+<li><p>do-while循环至少会执行一次循环体</p>
+</li>
+<li><p>开发中，使用for和while更多一些。较少使用do-while</p>
+</li>
+<li><p>“无限循环”结构: while(true) 或 for(;;)</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">题目：</span></span><br><span class="line"><span class="comment">从键盘读入个数不确定的整数，并判断读入的正数和负数的个数，输入为0时结束程序。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">说明：</span></span><br><span class="line"><span class="comment">1. 不在循环条件部分限制次数的结构：for(;;) 或 while(true)</span></span><br><span class="line"><span class="comment">2. 结束循环有几种方式？</span></span><br><span class="line"><span class="comment">     方式一：循环条件部分返回false</span></span><br><span class="line"><span class="comment">	 方式二：在循环体中，执行break</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ForWhileTest</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;		</span><br><span class="line">		Scanner scan = <span class="keyword">new</span> Scanner(System.in);		</span><br><span class="line">		<span class="keyword">int</span> positiveNumber = <span class="number">0</span>;<span class="comment">//记录正数的个数</span></span><br><span class="line">		<span class="keyword">int</span> negativeNumber = <span class="number">0</span>;<span class="comment">//记录负数的个数</span></span><br><span class="line">		<span class="keyword">for</span>(;;)&#123;<span class="comment">//while(true)&#123;</span></span><br><span class="line">			<span class="keyword">int</span> number = scan.nextInt();</span><br><span class="line">			<span class="comment">//判断number的正负情况</span></span><br><span class="line">			<span class="keyword">if</span>(number &gt; <span class="number">0</span>)&#123;</span><br><span class="line">				positiveNumber++;</span><br><span class="line">			&#125;<span class="keyword">else</span> <span class="keyword">if</span>(number &lt; <span class="number">0</span>)&#123;</span><br><span class="line">				negativeNumber++;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="comment">//一旦执行break，跳出循环</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"输入的正数个数为："</span> + positiveNumber);</span><br><span class="line">		System.out.println(<span class="string">"输入的负数个数为："</span> + negativeNumber);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总结：如何结束一个循环结构？</p>
+<p>方式一：当循环条件是false时</p>
+<p>方式二：在循环体中，执行break</p>
+<h4 id="嵌套循环"><a href="#嵌套循环" class="headerlink" title="嵌套循环"></a>嵌套循环</h4><p>1.嵌套循环:将一个循环结构A声明在另一个循环结构B的循环体中,就构成了嵌套循环</p>
+<p>  内层循环：循环结构A</p>
+<p>  外层循环：循环结构B</p>
+<p>2.说明：</p>
+<p>① 内层循环结构遍历一遍，只相当于外层循环循环体执行了一次</p>
+<p>② 假设外层循环需要执行m次，内层循环需要执行n次。此时内层循环的循环体一共执行了m * n次</p>
+<p>③ 外层循环控制行数，内层循环控制列数</p>
+<h5 id="典型练习"><a href="#典型练习" class="headerlink" title="典型练习"></a>典型练习</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//练习一：</span></span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		******</span></span><br><span class="line"><span class="comment">		******</span></span><br><span class="line"><span class="comment">		******</span></span><br><span class="line"><span class="comment">		******</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>;j &lt;= <span class="number">4</span>;j++ )&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i &lt;= <span class="number">6</span>;i++)&#123;</span><br><span class="line">				System.out.print(<span class="string">'*'</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//练习二：</span></span><br><span class="line">		<span class="comment">/*			i(行号)		j(*的个数)</span></span><br><span class="line"><span class="comment">		*			1			1</span></span><br><span class="line"><span class="comment">		**			2			2</span></span><br><span class="line"><span class="comment">		***			3			3</span></span><br><span class="line"><span class="comment">		****		4			4</span></span><br><span class="line"><span class="comment">		*****		5			5</span></span><br><span class="line"><span class="comment">		*/</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>;i &lt;= <span class="number">5</span>;i++)&#123;<span class="comment">//控制行数</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>;j &lt;= i;j++)&#123;<span class="comment">//控制列数</span></span><br><span class="line">				System.out.print(<span class="string">"*"</span>);</span><br><span class="line">			</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//练习三：九九乘法表</span></span><br><span class="line">		<span class="comment">//练习四：100以内的质数</span></span><br></pre></td></tr></table></figure>
+
+<p>补充:衡量一个功能代码的优劣：</p>
+<p>1.正确性</p>
+<p>2.可读性</p>
+<p>3.健壮性</p>
+<p>4.高效率与低存储：时间复杂度 、空间复杂度 （衡量算法的好坏）</p>
+<p>如何理解流程控制的练习：</p>
+<p>流程控制结构的使用 + 算法逻辑</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">题目：输入两个正整数m和n，求其最大公约数和最小公倍数。</span></span><br><span class="line"><span class="comment">比如：12和20的最大公约数是4，最小公倍数是60。</span></span><br><span class="line"><span class="comment">说明：break关键字的使用：一旦在循环中执行到break，就跳出循环</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ForTest</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		Scanner scan = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		System.out.println(<span class="string">"请输入第一个正整数："</span>);</span><br><span class="line">		<span class="keyword">int</span> m = scan.nextInt();</span><br><span class="line">		System.out.println(<span class="string">"请输入第二个正整数："</span>);</span><br><span class="line">		<span class="keyword">int</span> n = scan.nextInt();</span><br><span class="line">		<span class="comment">//获取最大公约数</span></span><br><span class="line">		<span class="comment">//1.获取两个数中的较小值</span></span><br><span class="line">		<span class="keyword">int</span> min = (m &lt;= n)? m : n;</span><br><span class="line">		<span class="comment">//2.遍历</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = min;i &gt;= <span class="number">1</span> ;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>(m % i == <span class="number">0</span> &amp;&amp; n % i == <span class="number">0</span>)&#123;</span><br><span class="line">				System.out.println(<span class="string">"最大公约数为："</span> + i);</span><br><span class="line">				<span class="keyword">break</span>;<span class="comment">//一旦在循环中执行到break，就跳出循环</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//获取最小公倍数</span></span><br><span class="line">		<span class="comment">//1.获取两个数中的较大值</span></span><br><span class="line">		<span class="keyword">int</span> max = (m &gt;= n)? m : n;</span><br><span class="line">		<span class="comment">//2.遍历</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = max;i &lt;= m * n;i++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(i % m == <span class="number">0</span> &amp;&amp; i % n == <span class="number">0</span>)&#123;</span><br><span class="line">				System.out.println(<span class="string">"最小公倍数："</span> + i);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">练习：随意给出一个三位数的整数，打印显示它的个位数，十位数，百位数的值。</span></span><br><span class="line"><span class="comment">格式如下：</span></span><br><span class="line"><span class="comment">数字xxx的情况如下：</span></span><br><span class="line"><span class="comment">个位数：</span></span><br><span class="line"><span class="comment">十位数：</span></span><br><span class="line"><span class="comment">百位数：</span></span><br><span class="line"><span class="comment">例如：</span></span><br><span class="line"><span class="comment">数字153的情况如下：</span></span><br><span class="line"><span class="comment">个位数：3</span></span><br><span class="line"><span class="comment">十位数：5</span></span><br><span class="line"><span class="comment">百位数：1</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AriExer</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">187</span>;</span><br><span class="line">		<span class="keyword">int</span> bai = num / <span class="number">100</span>;</span><br><span class="line">		<span class="keyword">int</span> shi = num % <span class="number">100</span> / <span class="number">10</span>;<span class="comment">//int shi = num / 10 % 10;</span></span><br><span class="line">		<span class="keyword">int</span> ge = num % <span class="number">10</span>;</span><br><span class="line">		System.out.println(<span class="string">"百位为："</span> + bai);</span><br><span class="line">		System.out.println(<span class="string">"十位为："</span> + shi);</span><br><span class="line">		System.out.println(<span class="string">"个位为："</span> + ge);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>break和continue关键字的使用</p>
+<p>​                使用范围            循环中使用的作用(不同点)        相同点</p>
+<p>break:            switch-case            </p>
+<p>​                循环结构中            结束当前循环        关键字后面不能声明执行语句    </p>
+<p>continue:        循环结构中            结束当次循环        关键字后面不能声明执行语句``</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 100以内的所有质数的输出</span></span><br><span class="line"><span class="comment"> * 质数：素数，只有1和他本身整除的自然数</span></span><br><span class="line"><span class="comment"> * 从2开始，到这个数-1结束为止，都不能被这个数本身整除</span></span><br><span class="line"><span class="comment"> * 最小的质数2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrimeNumberTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">boolean</span> isFlag=<span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=<span class="number">100</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">2</span>;j&lt;i;j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(i%j==<span class="number">0</span>)&#123;</span><br><span class="line">                    isFlag=<span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (isFlag==<span class="keyword">true</span>)&#123;</span><br><span class="line">                <span class="comment">//System.out.println(i);</span></span><br><span class="line">                count++;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            isFlag=<span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="comment">/*int count = 0;</span></span><br><span class="line"><span class="comment">        label:</span></span><br><span class="line"><span class="comment">        for (int i = 2; i &lt;= 100; i++) &#123;</span></span><br><span class="line"><span class="comment">            for (int j = 2; j &lt; i; j++) &#123;</span></span><br><span class="line"><span class="comment">                if (i % j == 0) &#123;</span></span><br><span class="line"><span class="comment">                    continue label;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            count++;</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="关键字：break和continue"><a href="#关键字：break和continue" class="headerlink" title="关键字：break和continue"></a><strong>关键字：break和continue</strong></h2><p>break和continue关键字的使用</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>使用范围</th>
+<th>循环中使用的作用(不同点)</th>
+<th>相同点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>break</td>
+<td>switch-case和循环结构中</td>
+<td>终止本层循环</td>
+<td>关键字后面不能声明执行语句</td>
+</tr>
+<tr>
+<td>continue</td>
+<td>循环结构中</td>
+<td>终止本次循环</td>
+<td>关键字后面不能声明执行语句</td>
+</tr>
+</tbody></table>
+<p>补充：带标签的break和continue的使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//练习四：100以内的质数</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">100000以内的所有质数的输出。实现方式一</span></span><br><span class="line"><span class="comment">质数：素数，只能被1和它本身整除的自然数。--&gt;从2开始，到这个数-1结束为止，都不能被这个数本身整除。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrimeNumberTest1</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">boolean</span> isFlag = <span class="keyword">true</span>;<span class="comment">//标识i是否被j除尽，一旦除尽，修改其值</span></span><br><span class="line">		<span class="keyword">int</span> count = <span class="number">0</span>;<span class="comment">//记录质数的个数</span></span><br><span class="line">		<span class="comment">//获取当前时间距离1970-01-01 00:00:00 的毫秒数</span></span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>;i &lt;= <span class="number">100000</span>;i++)&#123;<span class="comment">//遍历100000以内的自然数</span></span><br><span class="line">			<span class="comment">//优化二：对本身是质数的自然数是有效的。</span></span><br><span class="line">			<span class="comment">//for(int j = 2;j &lt; i;j++)&#123;</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">2</span>;j &lt;= Math.sqrt(i);j++)&#123;<span class="comment">//j:被i去除		</span></span><br><span class="line">				<span class="keyword">if</span>(i % j == <span class="number">0</span>)&#123; <span class="comment">//i被j除尽</span></span><br><span class="line">					isFlag = <span class="keyword">false</span>;</span><br><span class="line">					<span class="keyword">break</span>;<span class="comment">//优化一：只对本身非质数的自然数是有效的。</span></span><br><span class="line">				&#125;	</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//</span></span><br><span class="line">			<span class="keyword">if</span>(isFlag == <span class="keyword">true</span>)&#123;</span><br><span class="line">				<span class="comment">//System.out.println(i);</span></span><br><span class="line">				count++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//重置isFlag</span></span><br><span class="line">			isFlag = <span class="keyword">true</span>;	</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//获取当前时间距离1970-01-01 00:00:00 的毫秒数</span></span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.println(<span class="string">"质数的个数为："</span> + count);</span><br><span class="line">		System.out.println(<span class="string">"所花费的时间为："</span> + (end - start));<span class="comment">//17110 - 优化一：break:1546 - 优化二：13</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">100000以内的所有质数的输出。实现方式二</span></span><br><span class="line"><span class="comment">质数：素数，只能被1和它本身整除的自然数。--&gt;从2开始，到这个数-1结束为止，都不能被这个数本身整除。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrimeNumberTest2</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> count = <span class="number">0</span>;<span class="comment">//记录质数的个数</span></span><br><span class="line">		<span class="comment">//获取当前时间距离1970-01-01 00:00:00 的毫秒数</span></span><br><span class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">		label:<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span>;i &lt;= <span class="number">100000</span>;i++)&#123;<span class="comment">//遍历100000以内的自然数</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">2</span>;j &lt;= Math.sqrt(i);j++)&#123;<span class="comment">//j:被i去除</span></span><br><span class="line">				<span class="keyword">if</span>(i % j == <span class="number">0</span>)&#123; <span class="comment">//i被j除尽</span></span><br><span class="line">					<span class="keyword">continue</span> label;</span><br><span class="line">				&#125;		</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//能执行到此步骤的，都是质数</span></span><br><span class="line">			count++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//获取当前时间距离1970-01-01 00:00:00 的毫秒数</span></span><br><span class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">		System.out.println(<span class="string">"质数的个数为："</span> + count);</span><br><span class="line">		System.out.println(<span class="string">"所花费的时间为："</span> + (end - start));<span class="comment">//17110 - 优化一：break:1546 - 优化二：13</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="补充：Scanner类的使用"><a href="#补充：Scanner类的使用" class="headerlink" title="补充：Scanner类的使用"></a>补充：Scanner类的使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">如何从键盘获取不同类型的变量：需要使用Scanner类</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">具体实现步骤：</span></span><br><span class="line"><span class="comment">1.导包：import java.util.Scanner;</span></span><br><span class="line"><span class="comment">2.Scanner的实例化:Scanner scan = new Scanner(System.in);</span></span><br><span class="line"><span class="comment">3.调用Scanner类的相关方法（next() / nextXxx()），来获取指定类型的变量（char类型没有指定变量）</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">注意：</span></span><br><span class="line"><span class="comment">需要根据相应的方法，来输入指定类型的值。如果输入的数据类型与要求的类型不匹配时，会报异常：InputMisMatchException</span></span><br><span class="line"><span class="comment">导致程序终止。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">//1.导包：import java.util.Scanner;</span></span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScannerTest</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		<span class="comment">//2.Scanner的实例化</span></span><br><span class="line">		Scanner scan = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//3.调用Scanner类的相关方法</span></span><br><span class="line">		System.out.println(<span class="string">"请输入你的姓名："</span>);</span><br><span class="line">		String name = scan.next();</span><br><span class="line">		System.out.println(name);</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">"请输入你的芳龄："</span>);</span><br><span class="line">		<span class="keyword">int</span> age = scan.nextInt();</span><br><span class="line">		System.out.println(age);</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">"请输入你的体重："</span>);</span><br><span class="line">		<span class="keyword">double</span> weight = scan.nextDouble();</span><br><span class="line">		System.out.println(weight);</span><br><span class="line"></span><br><span class="line">		System.out.println(<span class="string">"你是否相中我了呢？(true/false)"</span>);</span><br><span class="line">		<span class="keyword">boolean</span> isLove = scan.nextBoolean();</span><br><span class="line">		System.out.println(isLove);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//对于char型的获取，Scanner没有提供相关的方法。只能获取一个字符串</span></span><br><span class="line">		System.out.println(<span class="string">"请输入你的性别：(男/女)"</span>);</span><br><span class="line">		String gender = scan.next();<span class="comment">//"男"</span></span><br><span class="line">		<span class="keyword">char</span> genderChar = gender.charAt(<span class="number">0</span>);<span class="comment">//获取索引为0位置上的字符</span></span><br><span class="line">		System.out.println(genderChar);	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注"><a href="#注" class="headerlink" title="注"></a>注</h3><h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>Java 中的算术运算符，包括以下几种：</p>
+<table>
+<thead>
+<tr>
+<th><strong>算术运算符</strong></th>
+<th><strong>名称</strong></th>
+<th><strong>举例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>加法</td>
+<td>1+2=3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>减法</td>
+<td>2-1=1</td>
+</tr>
+<tr>
+<td>*</td>
+<td>乘法</td>
+<td>2*3=6</td>
+</tr>
+<tr>
+<td>/</td>
+<td>除法</td>
+<td>24/8=3</td>
+</tr>
+<tr>
+<td>%</td>
+<td>求余</td>
+<td>24%7=3</td>
+</tr>
+<tr>
+<td>++</td>
+<td>自增1</td>
+<td>int i=1;i++</td>
+</tr>
+<tr>
+<td>–</td>
+<td>自减1</td>
+<td>int i=1;i–</td>
+</tr>
+</tbody></table>
+<p>我们本讲要重点讲的是 “++” 和 “–”，其他的算术运算符相对比较简单直观，本讲就不花精力去讲解了，之所以要把 “++” 和 “–” 单独拿出来讲，是因为在使用他们的时候有很多坑需要开发者注意，最重要的是 “++” 和 “–” 也是面试中高频出现的面试题。</p>
+<p>先来看 “++” 的基本使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">int</span> i2 = ++i; <span class="comment">// ++i 相当于 i = 1+i;</span></span><br><span class="line">System.out.println(i);  <span class="comment">// 2</span></span><br><span class="line">System.out.println(i2); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>++i</code> 和 <code>i++</code> 的区别</strong></p>
+<ul>
+<li><code>++i</code> 先自加再赋值</li>
+<li><code>i++</code> 先赋值再自加</li>
+</ul>
+<p>比如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> i2 = i++;</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> j2 = ++j;</span><br><span class="line">System.out.println(<span class="string">"i2="</span> + i2);</span><br><span class="line">System.out.println(<span class="string">"j2="</span> + j2);</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i2=0</span><br><span class="line">j2=1</span><br></pre></td></tr></table></figure>
+
+<p>代码解析：<code>i++</code> 是先给 i2 赋值再自身 +1 ，所以 i2 等于0，而 <code>++j</code> 是先自加等于 1 之后，再赋值给 j2，所以 j2 等于 1。</p>
+<p><strong>注意事项</strong></p>
+<p>++/– 是非线程安全的，也就是说 ++/– 操作在多线程下可能会引发混乱，例如下面代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"thread:"</span> + <span class="keyword">this</span>.getName() + <span class="string">",count="</span> + (++count));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.start();</span><br><span class="line"><span class="keyword">new</span> Thread() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"thread:"</span> + <span class="keyword">this</span>.getName() + <span class="string">",count="</span> + (++count));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;.start();</span><br></pre></td></tr></table></figure>
+
+<p>执行的结果，如下图：</p>
+<p><img src="/2020/03/06/1Java基础/java3流程控制/3e80ae80-baad-11e9-8bd3-43e1fddff917" alt="执行结果"></p>
+<p>如上图所示，每台机器的执行可能略有差距，但大多数情况下并不能给我们想要的真实值 200000。</p>
+<p><strong>原理分析</strong></p>
+<p>“++” 操作在多线程下引发混乱的原因：因为 ++ 操作对于底层操作系统来说，并不是一条 CPU 操作指令，而是三条 CPU 操作指令——取值、累加、存储，因此无法保证原子性，就会出现上面代码执行后的误差。</p>
+<p><strong>如何避免 ++/– 操作在多线程下的“误差”？</strong></p>
+<ul>
+<li>方法一：++/– 操作放在同步块 synchronized 中。</li>
+<li>方法二：自己申明锁，把 ++/– 操作放入其中。</li>
+<li>方法三：使用 AtomicInteger 类型替代 int 类型。</li>
+</ul>
+<p>最后，因为 – 的语法和 ++ 完全一致，所以 – 的操作，请参照上面的 ++ 语法。</p>
+<h3 id="条件运算符（三元运算符）"><a href="#条件运算符（三元运算符）" class="headerlink" title="条件运算符（三元运算符）"></a>条件运算符（三元运算符）</h3><p>条件运算符（?:）也叫“三元运算符”。</p>
+<p>语法：</p>
+<blockquote>
+<p>布尔表达式 ? 表达式1 ：表达式2</p>
+</blockquote>
+<p>运算过程：如果布尔表达式的值为 true，则返回 <strong>表达式 1 的值</strong>，否则返回 <strong>表达式 2 的值</strong>。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="number">3</span> &gt; <span class="number">1</span> ? <span class="string">"三大于一"</span> : <span class="string">"三小于一"</span>;</span><br><span class="line">System.out.println(s);</span><br></pre></td></tr></table></figure>
+
+<p>执行结果：<code>三大于一</code>。</p>
+<h3 id="流程控制-1"><a href="#流程控制-1" class="headerlink" title="流程控制"></a>流程控制</h3><p>在 Java 语言中使用条件语句和循环结构来实现流程控制。</p>
+<h4 id="1-条件语句"><a href="#1-条件语句" class="headerlink" title="1 条件语句"></a>1 条件语句</h4><p>条件语句的语法格式：</p>
+<blockquote>
+<p>if(……) ……</p>
+</blockquote>
+<p>其中的条件判断必须使用括号括起来不能省略。</p>
+<p>基础用法使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">if</span> (i &gt; <span class="number">1</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">"i大于一"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (i == <span class="number">1</span>) &#123;</span><br><span class="line">    System.out.println(<span class="string">"i等于一"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">"其他"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-循环"><a href="#2-循环" class="headerlink" title="2 循环"></a>2 循环</h4><p>while 当条件成立的时候执行下一条语句。</p>
+<p>while 语法格式：</p>
+<blockquote>
+<p>while(……) ……</p>
+</blockquote>
+<p>基本语法使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (i &lt; <span class="number">3</span>) &#123;</span><br><span class="line">  System.out.println(++i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>while 是先判断再决定是否执行，有可能一次也不执行，如果希望至少执行一次，可以使用 do/while。</p>
+<p>do/while 语法格式：</p>
+<blockquote>
+<p>do{……}while(……);</p>
+</blockquote>
+<p>基本语法使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">  System.out.println(++i);</span><br><span class="line">&#125; <span class="keyword">while</span> (i &lt; <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-确定循环"><a href="#3-确定循环" class="headerlink" title="3 确定循环"></a>3 确定循环</h4><p>for 循环是程序中最长使用的循环之一，它是利用每次迭代之后更新计数器来控制循环的次数。</p>
+<p>for 语法格式：</p>
+<blockquote>
+<p>for(int i=0;i&lt;n;i++){  ……  }</p>
+</blockquote>
+<p>基础语法使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    System.out.println(<span class="string">"i="</span> + i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>for 循环中可使用关键字 continue，跳过后续操作，继续下一次迭代。</p>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">2</span>) <span class="keyword">continue</span>;</span><br><span class="line">    System.out.println(<span class="string">"i="</span> + i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i=1</span><br><span class="line">i=3</span><br></pre></td></tr></table></figure>
+
+<p>如结果所示，第二次循环就会跳过，执行下一次循环。</p>
+<p><strong>for 注意事项</strong></p>
+<p>在循环中检查两个浮点数是否相等要格外小心，例如下面代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">float</span> i = <span class="number">0</span>; i != <span class="number">1</span>; i += <span class="number">0.1</span>) &#123;</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>循环永远不会停下来，由于舍入误差，因为 0.1 无法精确的用二级制表示，所以上面代码到 0.9000001 之后，会直接跳到 1.0000001，不会等于 1，所以循环就永远不会停下来。</p>
+<h4 id="4-多重选择"><a href="#4-多重选择" class="headerlink" title="4 多重选择"></a>4 多重选择</h4><p>switch 的特点是可以判断多个条件，if 的特点是执行少量判断，它们两个刚好形成互补的关系。</p>
+<p>switch 语法格式：</p>
+<blockquote>
+<p>switch(……){  case 1:  ……  break;  ……  default:  ……  break;  }</p>
+</blockquote>
+<p>switch 基础使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">switch</span> (i) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于1"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于2"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于3"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于其他"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可用于 case 的类型有：</p>
+<ul>
+<li>byte、char、short、int</li>
+<li>枚举</li>
+<li>字符串（Java SE 7 新加入）</li>
+</ul>
+<p><strong>switch 注意事项</strong></p>
+<p>switch 使用时，每个选项最末尾一定不要忘记加 break 关键字，否则会执行多个条件。</p>
+<p>案例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">switch</span> (i) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于1"</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于2"</span>);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于3"</span>);</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">"等于其他"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序执行的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">等于1</span><br><span class="line">等于2</span><br><span class="line">等于3</span><br><span class="line">等于其他</span><br></pre></td></tr></table></figure>
+
+<p>所以使用 switch 时，每个选项的末尾一定得加 break 关键字。</p>
+<h3 id="相关面试题"><a href="#相关面试题" class="headerlink" title="相关面试题"></a>相关面试题</h3><h4 id="1-Java-中-i-和-i-有什么区别？"><a href="#1-Java-中-i-和-i-有什么区别？" class="headerlink" title="1. Java 中 i++ 和 ++i 有什么区别？"></a>1. Java 中 i++ 和 ++i 有什么区别？</h4><p>答：i 先赋值再运算；i 先运算再赋值。</p>
+<p>示例代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">int i2 = i++;</span><br><span class="line">int j = 0;</span><br><span class="line">int j2 = ++j;</span><br><span class="line">System.out.println(&quot;i2=&quot; + i2);</span><br><span class="line">System.out.println(&quot;j2=&quot; + j2);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：i2=0，j2=1</p>
+<h4 id="2-以下代码-i-的值是多少？"><a href="#2-以下代码-i-的值是多少？" class="headerlink" title="2. 以下代码 i 的值是多少？"></a>2. 以下代码 i 的值是多少？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">i = i++;</span><br><span class="line">System.out.println(i);</span><br></pre></td></tr></table></figure>
+
+<p>答：i=0</p>
+<p>题目解析：因为 Java 虚拟机在执行 i++ 时，把这个值有赋值给了 i，而 i++ 是先赋值再相加，所以这个时候 i 接收到的结果自然是 0 了。</p>
+<h4 id="3-以下代码-i2-和-i3-的值分别为多少？"><a href="#3-以下代码-i2-和-i3-的值分别为多少？" class="headerlink" title="3. 以下代码 i2 和 i3 的值分别为多少？"></a>3. 以下代码 i2 和 i3 的值分别为多少？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">int i2 = i++;</span><br><span class="line">int i3 = ++i;</span><br></pre></td></tr></table></figure>
+
+<p>答：i2=0，i3=2</p>
+<h4 id="4-以下代码能不能正常执行？"><a href="#4-以下代码能不能正常执行？" class="headerlink" title="4. 以下代码能不能正常执行？"></a>4. 以下代码能不能正常执行？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (true) System.out.println(&quot;laowang&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>答：可以正常执行，其中判断条件的括号不能省略，大括号是可以省略的（作者并不建议为了省代码的而牺牲代码的可读性）。</p>
+<h4 id="5-以下-switch-执行的结果是什么？"><a href="#5-以下-switch-执行的结果是什么？" class="headerlink" title="5. 以下 switch 执行的结果是什么？"></a>5. 以下 switch 执行的结果是什么？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int num = 1;</span><br><span class="line">switch (num) &#123;</span><br><span class="line">    case 0:</span><br><span class="line">        System.out.print(&quot;0&quot;);</span><br><span class="line">    case 1:</span><br><span class="line">        System.out.print(&quot;1&quot;);</span><br><span class="line">    case 2:</span><br><span class="line">        System.out.print(&quot;2&quot;);</span><br><span class="line">    case 3:</span><br><span class="line">        System.out.print(&quot;3&quot;);</span><br><span class="line">    default:</span><br><span class="line">        System.out.print(&quot;default&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答：123default</p>
+<h4 id="6-switch-能否用于-byte-类型的判断上？能否用于-long-类型的判断上？"><a href="#6-switch-能否用于-byte-类型的判断上？能否用于-long-类型的判断上？" class="headerlink" title="6. switch 能否用于 byte 类型的判断上？能否用于 long 类型的判断上？"></a>6. switch 能否用于 byte 类型的判断上？能否用于 long 类型的判断上？</h4><p>答：switch 支持 byte 类型的判断，不支持 long 类型的判断。</p>
+<p>题目解析：switch 支持的全部类型（JDK 8）：char、byte、short、int、Charachter、Byte、Short、Integer、String、enum。</p>
+<h4 id="7-while-必须配合-break-一起使用的说法正确吗？"><a href="#7-while-必须配合-break-一起使用的说法正确吗？" class="headerlink" title="7. while 必须配合 break 一起使用的说法正确吗？"></a>7. while 必须配合 break 一起使用的说法正确吗？</h4><p>答：错误，while 可以单独使用。</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">while (i &lt; 3) &#123;</span><br><span class="line">    System.out.println(++i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-以下代码可以正常运行吗？为什么？"><a href="#8-以下代码可以正常运行吗？为什么？" class="headerlink" title="8. 以下代码可以正常运行吗？为什么？"></a>8. 以下代码可以正常运行吗？为什么？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">while (i &lt; 3) &#123;</span><br><span class="line">    if (i == 2) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(++i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答：可以正常运行，这里的 return 和 break 的效果是一致的，while 可以配合 return 或 break 一起使用。</p>
+<h4 id="9-以下的程序执行结果什么？"><a href="#9-以下的程序执行结果什么？" class="headerlink" title="9. 以下的程序执行结果什么？"></a>9. 以下的程序执行结果什么？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">do &#123;</span><br><span class="line">  System.out.println(++i);</span><br><span class="line">&#125; while (i &lt; 3)</span><br></pre></td></tr></table></figure>
+
+<p>答：编译器报错，do/while 之后必须使用分号 <code>;</code> 结尾。</p>
+<h4 id="10-以下程序输出的结果是？"><a href="#10-以下程序输出的结果是？" class="headerlink" title="10. 以下程序输出的结果是？"></a>10. 以下程序输出的结果是？</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="keyword">new</span> String(<span class="string">"laowang"</span>);</span><br><span class="line">String s2 = <span class="keyword">new</span> String(<span class="string">"laowang"</span>);</span><br><span class="line">System.out.println(s == s2);</span><br><span class="line"><span class="keyword">switch</span> (s) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"laowang"</span>:</span><br><span class="line">        System.out.println(<span class="string">"laowang"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        System.out.println(<span class="string">"default"</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>A：true,default<br>B：false,default<br>C：false,laowang<br>D：true,laowang</p>
+<p>答：C</p>
+<h4 id="11-以下代码循环执行了几次？"><a href="#11-以下代码循环执行了几次？" class="headerlink" title="11. 以下代码循环执行了几次？"></a>11. 以下代码循环执行了几次？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (float i = 0; i != 10; i += 0.1) &#123;</span><br><span class="line">    System.out.println(&quot;hi&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>答：无数次，循环永远不会停下来。由于舍入误差，因为 0.1 无法精确的用二级制表示，所以上面代码到 0.9000001 之后，会直接跳到 1.0000001，不会等于 1，所以循环就永远不会停下来。</p>
+<h4 id="12-以下代码输出的结果是？"><a href="#12-以下代码输出的结果是？" class="headerlink" title="12. 以下代码输出的结果是？"></a>12. 以下代码输出的结果是？</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = -<span class="number">4</span>;</span><br><span class="line">System.out.println(num % <span class="number">2</span> == <span class="number">1</span> || num % <span class="number">2</span> == -<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>A：1<br>B：-1<br>C：true<br>D：false</p>
+<p>答：D</p>
+<p>题目解析：-4 % 2 = 0 既不等于 1 也不等于 -1，所以结果为 false。 </p>
+<h4 id="13-以下代码输出的结果是？"><a href="#13-以下代码输出的结果是？" class="headerlink" title="13. 以下代码输出的结果是？"></a>13. 以下代码输出的结果是？</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = <span class="number">4</span>;</span><br><span class="line">num = ((num &amp; <span class="number">1</span>) == <span class="number">1</span>);</span><br><span class="line">System.out.println(num);</span><br></pre></td></tr></table></figure>
+
+<p>A：4<br>B：1<br>C：以上都不是</p>
+<p>答：C</p>
+<p>题目解析：== 运算返回的是 boolean 类型，不能使用 int 接收，所以程序会报错。 </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/1Java基础/java3流程控制/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:35:06</p>
+        <p><span>最后更新:</span>2020-01-29, 11:53:38</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/1Java基础/java3流程控制/" title="">http://yoursite.com/2020/03/06/1Java基础/java3流程控制/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/1Java基础/java3流程控制/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/1Java基础/代码简洁之道/">
+                    代码简洁之道
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/1Java基础/Java2基本语法/">
+                    
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#流程控制"><span class="toc-number">1.</span> <span class="toc-text">流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#分支结构"><span class="toc-number">1.1.</span> <span class="toc-text">分支结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if-else条件判断结构"><span class="toc-number">1.1.1.</span> <span class="toc-text">if-else条件判断结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#结构一："><span class="toc-number">1.1.1.1.</span> <span class="toc-text">结构一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结构二：二选一"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">结构二：二选一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#结构三：n选一"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">结构三：n选一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#说明："><span class="toc-number">1.1.1.4.</span> <span class="toc-text">说明：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switch-case选择结构"><span class="toc-number">1.1.2.</span> <span class="toc-text">switch-case选择结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#说明"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">说明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环结构"><span class="toc-number">1.2.</span> <span class="toc-text">循环结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#循环结构的四要素"><span class="toc-number">1.2.1.</span> <span class="toc-text">循环结构的四要素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三种循环结构"><span class="toc-number">1.2.2.</span> <span class="toc-text">三种循环结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for循环结构"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">for循环结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#while循环结构"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">while循环结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#for和while循环总结："><span class="toc-number">1.2.2.3.</span> <span class="toc-text">for和while循环总结：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#do-while循环结构"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">do-while循环结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#嵌套循环"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">嵌套循环</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#典型练习"><span class="toc-number">1.2.2.5.1.</span> <span class="toc-text">典型练习</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字：break和continue"><span class="toc-number">1.3.</span> <span class="toc-text">关键字：break和continue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充：Scanner类的使用"><span class="toc-number">1.4.</span> <span class="toc-text">补充：Scanner类的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注"><span class="toc-number">1.4.1.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算术运算符"><span class="toc-number">1.4.2.</span> <span class="toc-text">算术运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件运算符（三元运算符）"><span class="toc-number">1.4.3.</span> <span class="toc-text">条件运算符（三元运算符）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流程控制-1"><span class="toc-number">1.4.4.</span> <span class="toc-text">流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-条件语句"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">1 条件语句</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-循环"><span class="toc-number">1.4.4.2.</span> <span class="toc-text">2 循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-确定循环"><span class="toc-number">1.4.4.3.</span> <span class="toc-text">3 确定循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-多重选择"><span class="toc-number">1.4.4.4.</span> <span class="toc-text">4 多重选择</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#相关面试题"><span class="toc-number">1.4.5.</span> <span class="toc-text">相关面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Java-中-i-和-i-有什么区别？"><span class="toc-number">1.4.5.1.</span> <span class="toc-text">1. Java 中 i++ 和 ++i 有什么区别？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-以下代码-i-的值是多少？"><span class="toc-number">1.4.5.2.</span> <span class="toc-text">2. 以下代码 i 的值是多少？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-以下代码-i2-和-i3-的值分别为多少？"><span class="toc-number">1.4.5.3.</span> <span class="toc-text">3. 以下代码 i2 和 i3 的值分别为多少？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-以下代码能不能正常执行？"><span class="toc-number">1.4.5.4.</span> <span class="toc-text">4. 以下代码能不能正常执行？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-以下-switch-执行的结果是什么？"><span class="toc-number">1.4.5.5.</span> <span class="toc-text">5. 以下 switch 执行的结果是什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-switch-能否用于-byte-类型的判断上？能否用于-long-类型的判断上？"><span class="toc-number">1.4.5.6.</span> <span class="toc-text">6. switch 能否用于 byte 类型的判断上？能否用于 long 类型的判断上？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-while-必须配合-break-一起使用的说法正确吗？"><span class="toc-number">1.4.5.7.</span> <span class="toc-text">7. while 必须配合 break 一起使用的说法正确吗？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-以下代码可以正常运行吗？为什么？"><span class="toc-number">1.4.5.8.</span> <span class="toc-text">8. 以下代码可以正常运行吗？为什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-以下的程序执行结果什么？"><span class="toc-number">1.4.5.9.</span> <span class="toc-text">9. 以下的程序执行结果什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-以下程序输出的结果是？"><span class="toc-number">1.4.5.10.</span> <span class="toc-text">10. 以下程序输出的结果是？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11-以下代码循环执行了几次？"><span class="toc-number">1.4.5.11.</span> <span class="toc-text">11. 以下代码循环执行了几次？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#12-以下代码输出的结果是？"><span class="toc-number">1.4.5.12.</span> <span class="toc-text">12. 以下代码输出的结果是？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#13-以下代码输出的结果是？"><span class="toc-number">1.4.5.13.</span> <span class="toc-text">13. 以下代码输出的结果是？</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/1Java基础/代码简洁之道/" title="上一篇: 代码简洁之道">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/1Java基础/Java2基本语法/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

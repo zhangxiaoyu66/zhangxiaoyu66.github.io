@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="AQS学习AQS的思路学习AQS的目的主要是理解原理、提高技术以及应对面试 先从应用层面理解为什么需要它、如何使用它，然后再看一看Java代码的设计者是如何使用它的，了解它的应用场景 为什么学习AQS锁和协作类有共同的特点就是闸门 事实上，不仅是ReentrantLock和Semaphore，包括CountDownLatch、ReentrantReadWriteLock都有这样类似“协作”（或者叫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爱吃鱼的呆先生">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="AQS学习AQS的思路学习AQS的目的主要是理解原理、提高技术以及应对面试 先从应用层面理解为什么需要它、如何使用它，然后再看一看Java代码的设计者是如何使用它的，了解它的应用场景 为什么学习AQS锁和协作类有共同的特点就是闸门 事实上，不仅是ReentrantLock和Semaphore，包括CountDownLatch、ReentrantReadWriteLock都有这样类似“协作”（或者叫">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/image-20200225201434705.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/image-20200226092323742.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/image-20200226094956287.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/1.png">
+<meta property="og:updated_time" content="2020-02-26T08:17:08.788Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爱吃鱼的呆先生">
+<meta name="twitter:description" content="AQS学习AQS的思路学习AQS的目的主要是理解原理、提高技术以及应对面试 先从应用层面理解为什么需要它、如何使用它，然后再看一看Java代码的设计者是如何使用它的，了解它的应用场景 为什么学习AQS锁和协作类有共同的特点就是闸门 事实上，不仅是ReentrantLock和Semaphore，包括CountDownLatch、ReentrantReadWriteLock都有这样类似“协作”（或者叫">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/image-20200225201434705.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-4悟空Java并发编程/AQS" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/4悟空Java并发编程/AQS/" class="article-date">
+      <time datetime="2020-03-06T09:41:28.600Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h1><h2 id="学习AQS的思路"><a href="#学习AQS的思路" class="headerlink" title="学习AQS的思路"></a>学习AQS的思路</h2><p>学习AQS的目的主要是理解原理、提高技术以及应对面试</p>
+<p>先从应用层面理解为什么需要它、如何使用它，然后再看一看Java代码的设计者是如何使用它的，了解它的应用场景</p>
+<h2 id="为什么学习AQS"><a href="#为什么学习AQS" class="headerlink" title="为什么学习AQS"></a>为什么学习AQS</h2><p>锁和协作类有共同的特点就是闸门</p>
+<p>事实上，不仅是ReentrantLock和Semaphore，包括CountDownLatch、ReentrantReadWriteLock都有这样类似“协作”（或者叫“同步”）的功能，其实他们底层都用了一个共同的基类，这就是AQS</p>
+<h3 id="为什么需要AQS"><a href="#为什么需要AQS" class="headerlink" title="为什么需要AQS"></a>为什么需要AQS</h3><p>因为上面的那些协作类，它们有很多工作都是类似的，所以如果能提取出一个工具类，那么就可以直接用，对于ReentrantLock和Semaphore而言就可以屏蔽很多的细节，只关注它们自己的“业务逻辑”就可以</p>
+<h3 id="Semaphore和AQS的关系"><a href="#Semaphore和AQS的关系" class="headerlink" title="Semaphore和AQS的关系"></a>Semaphore和AQS的关系</h3><p>Semaphore内部有一个Sync类，Sync类继承了AQS</p>
+ <img src="/2020/03/06/4悟空Java并发编程/AQS/image-20200225201434705.png" alt="image-20200225201434705" style="zoom:67%;">
+
+<h3 id="AQS的比喻"><a href="#AQS的比喻" class="headerlink" title="AQS的比喻"></a>AQS的比喻</h3><p>比喻：群面、单面</p>
+<p>安排就坐、叫号、先来后到等HR的工作就是AQS做的工作</p>
+<p>面试官不会去关心两个面试者是不是号码相同冲突了，也不想去管面试者是不是需要一个地方坐着休息，这些都交给HR处理</p>
+<p>Semaphore：一个人面试完以后，后一个人才能进来继续面试</p>
+<p>CountDownLatch：群面，等待10人到齐</p>
+<p>Semaphore、CountDownLatch这些同步工具要做的就只是写下自己的招聘规则，比如是出一个进一个，或者说凑齐10人，一起面试</p>
+<h3 id="如果没有AQS"><a href="#如果没有AQS" class="headerlink" title="如果没有AQS"></a>如果没有AQS</h3><p>就需要每个协作工具自己实现</p>
+<ul>
+<li><p>同步状态的原子性管理</p>
+</li>
+<li><p>线程的阻塞与解除阻塞</p>
+</li>
+<li><p>队列的管理</p>
+</li>
+</ul>
+<p>在并发场景下，自己正确且高效地实现这些内容，是相当有难度的，所以使用AQS来帮我们把这些脏活累活都搞定，我们只关心业务逻辑就够了</p>
+<h2 id="AQS的作用"><a href="#AQS的作用" class="headerlink" title="AQS的作用"></a>AQS的作用</h2><p>AQS是一个用于构建锁、同步器、协作工具类的工具类（框架）。有了AQS以后，更多的协作工具类就可以很方便的被写出来</p>
+<p>一句话总结：有了AQS，构建线程协作类就容易多了</p>
+<h2 id="AQS的重要性"><a href="#AQS的重要性" class="headerlink" title="AQS的重要性"></a>AQS的重要性</h2><p>AbstractQueueSynchronizer是Doug Lea写的，从JDK5</p>
+<p>加入的一个基于FIFO等待队列实现的一个用于实现同步器的基础框架，用IDE看AQS的实现类，可以发现实现类有以下这些</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/AQS/image-20200226092323742.png" alt="image-20200226092323742"></p>
+<h2 id="AQS内部原理解析"><a href="#AQS内部原理解析" class="headerlink" title="AQS内部原理解析"></a>AQS内部原理解析</h2><p>AQS最核心的就是三大部分</p>
+<ul>
+<li>state</li>
+<li>控制线程抢锁和配合的FIFO队列</li>
+<li>期望协作工具类去实现的获取、释放等重要方法</li>
+</ul>
+<h3 id="state"><a href="#state" class="headerlink" title="state"></a>state</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The synchronization state.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> state;</span><br></pre></td></tr></table></figure>
+
+<p>这里的state的具体含义，会根据具体实现类的不同而不同，比如在Semaphore里，它表示剩余的许可证的数量，而在CountDownLatch里，它表示还需要倒数的数量</p>
+<p>state是volatile修饰的，会并发的修改，所以所有修改state的方法都需要保证线程安全，比如getState、setState以及compareAndSetState操作来读取和更新这个状态，这些方法都依赖于juc.atomic包的支持</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">compareAndSetState</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// See below for intrinsics setup to support this</span></span><br><span class="line">    <span class="keyword">return</span> unsafe.compareAndSwapInt(<span class="keyword">this</span>, stateOffset, expect, update);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在ReentrantLock中，state用来表示“锁”的占有情况，包括可重入计数</p>
+<p>当state的值为0的时候，表示该Lock不被任何线程所占有，加一表示有一个线程占用，减一表示有一个线程释放锁</p>
+<h3 id="控制线程抢锁和配合的FIFO队列"><a href="#控制线程抢锁和配合的FIFO队列" class="headerlink" title="控制线程抢锁和配合的FIFO队列"></a>控制线程抢锁和配合的FIFO队列</h3><p>这个队列用来存放等待的线程，AQS就是排队管理器，当多个线程争用同一把锁时，必须有排队机制将那些没有拿到锁的线程串起来，当锁释放的时候，锁管理器就会挑选一个合适的线程来占用刚被释放的锁</p>
+<p>AQS会维护一个等待的线程队列，把线程都放到这个队列里，这是一个双向形式的队列</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/AQS/image-20200226094956287.png" alt="image-20200226094956287"></p>
+<h3 id="期望协作工具类去实现的获取-释放等重要方法"><a href="#期望协作工具类去实现的获取-释放等重要方法" class="headerlink" title="期望协作工具类去实现的获取/释放等重要方法"></a>期望协作工具类去实现的获取/释放等重要方法</h3><p>这里的获取和释放方法，是利用AQS的协作工具类里最重要的方法，是由协作类自己去实现的，并且含义各不相同</p>
+<h4 id="获取方法"><a href="#获取方法" class="headerlink" title="获取方法"></a>获取方法</h4><p>获取操作会依赖state变量，经常会阻塞，比如获取不到锁的时候</p>
+<p>在Semphore中，获取就是acquire方法，作用是获取一个许可证，而在CountDownLatch中，获取就是await方法，作用是等待，直到倒数结束</p>
+<h4 id="释放方法"><a href="#释放方法" class="headerlink" title="释放方法"></a>释放方法</h4><p>释放操作不会阻塞</p>
+<p>在Semaphore中，释放就是release方法，作用是释放一个许可证</p>
+<p>在CountDownLatch中，释放就是countDown方法，作用是倒数1个数</p>
+<p>需要重新tryAcquire和tryRelease等方法</p>
+<h2 id="应用实例与源码解析"><a href="#应用实例与源码解析" class="headerlink" title="应用实例与源码解析"></a>应用实例与源码解析</h2><h3 id="AQS的用法"><a href="#AQS的用法" class="headerlink" title="AQS的用法"></a>AQS的用法</h3><p>第一步：写一个类，想好协作的逻辑，实现获取/释放方法</p>
+<p>第二步：内部写一个Sync类继承</p>
+<p>第三步：根据是否独占来重写tryAcquire/tryRelease或tryAcquireShared(int acquires)和tryReleaseShared(int releases)等方法，在之前写的获取/释放方法中调用AQS的acquire/release或者Shared方法</p>
+<h3 id="AQS在CountDownLatch的应用"><a href="#AQS在CountDownLatch的应用" class="headerlink" title="AQS在CountDownLatch的应用"></a>AQS在CountDownLatch的应用</h3><p>内部类Sync继承AQS</p>
+<img src="/2020/03/06/4悟空Java并发编程/AQS/1.png" style="zoom:67%;">
+
+<p><strong>构造函数</strong></p>
+<p>CountDownLatch中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CountDownLatch</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (count &lt; <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"count &lt; 0"</span>);</span><br><span class="line">    <span class="keyword">this</span>.sync = <span class="keyword">new</span> Sync(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在<code>private static final class Sync extends AbstractQueuedSynchronizer</code>中有如下定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sync(<span class="keyword">int</span> count) &#123;</span><br><span class="line">    setState(count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在setState()方法中有如下定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> newState)</span> </span>&#123;</span><br><span class="line">    state = newState;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>getCount()</strong></p>
+<p>CountDownLatch中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> sync.getCount();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getState();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>public abstract class AbstractQueuedSynchronizer类中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>countDown()</strong></p>
+<p>CountDownLatch中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">countDown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    sync.releaseShared(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>public abstract class AbstractQueuedSynchronizer类中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</span><br><span class="line">        doReleaseShared();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CountDownLatch中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryReleaseShared</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Decrement count; signal when transition to zero</span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="keyword">int</span> c = getState();</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">int</span> nextc = c-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (compareAndSetState(c, nextc))</span><br><span class="line">            <span class="keyword">return</span> nextc == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>await()</strong></p>
+<p>CountDownLatch中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    sync.acquireSharedInterruptibly(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>public abstract class AbstractQueuedSynchronizer类中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.interrupted())</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">    <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)</span><br><span class="line">        doAcquireSharedInterruptibly(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AQS在CountDownLatch的总结"><a href="#AQS在CountDownLatch的总结" class="headerlink" title="AQS在CountDownLatch的总结"></a>AQS在CountDownLatch的总结</h3><p>调用CountDownLatch的await方法，便会尝试获取共享锁，不过一开始是获取不到该锁的，于是线程被阻塞</p>
+<p>而共享锁可以获得到的条件，就是锁计数器的值为0，而锁计数器的初始值为count，每当一个线程调用该CountDownLatch对象的countDown()方法时，才将锁计数器减1</p>
+<p>count个线程调用countDown()之后，锁计数器才为0，而前面提到的等待获取共享锁的线程才能继续运行</p>
+<h3 id="AQS在Semaphore的应用"><a href="#AQS在Semaphore的应用" class="headerlink" title="AQS在Semaphore的应用"></a>AQS在Semaphore的应用</h3><p>在Semaphore中，state表示许可证的剩余数量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">(<span class="keyword">int</span> permits)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (permits &lt; <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">    sync.acquireSharedInterruptibly(permits);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看tryAcquire方法，判断nonfairTryAcquireShared，若大于等于0的则代表成功</p>
+<p>这里会先检查剩余许可证数量够不够这次需要，用减法来计算，如果直接不够，则返回负数，表示失败。如果够了，就用自旋加compareAndSetState来改变state状态，直到改变成功就返回正数</p>
+<p>如果在这期间被其他人修改了导致剩余数量不够了，那也返回负数代表获取失败</p>
+<h3 id="AQS在ReentrantLock的应用"><a href="#AQS在ReentrantLock的应用" class="headerlink" title="AQS在ReentrantLock的应用"></a>AQS在ReentrantLock的应用</h3><p>分析释放锁的方法tryRelease</p>
+<p>由于是可重入的，所以state代表重入的次数，每次释放锁先判断当前持有锁的线程是不是都是十方的，如果不是就抛出异常，如果是的话，重入次数就减一，当减到0时说明完全释放了，于是free就为true，并把state设置为0</p>
+<p>加锁的方法</p>
+<h2 id="利用AQS实现一个自己的Latch门闩"><a href="#利用AQS实现一个自己的Latch门闩" class="headerlink" title="利用AQS实现一个自己的Latch门闩"></a>利用AQS实现一个自己的Latch门闩</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     自己用AQS实现一个简单的线程协作器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OneShotLatch</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Sync sync = <span class="keyword">new</span> Sync();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">signal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        sync.releaseShared(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">await</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        sync.acquireShared(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (getState() == <span class="number">1</span>) ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">tryReleaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">           setState(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        OneShotLatch oneShotLatch = <span class="keyword">new</span> OneShotLatch();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    System.out.println(Thread.currentThread().getName()+<span class="string">"尝试获取latch，获取失败那就等待"</span>);</span><br><span class="line">                    oneShotLatch.await();</span><br><span class="line">                    System.out.println(<span class="string">"开闸放行"</span>+Thread.currentThread().getName()+<span class="string">"继续运行"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line">        Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        oneShotLatch.signal();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">"尝试获取latch，获取失败那就等待"</span>);</span><br><span class="line">                oneShotLatch.await();</span><br><span class="line">                System.out.println(<span class="string">"开闸放行"</span>+Thread.currentThread().getName()+<span class="string">"继续运行"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Thread-0尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-2尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-1尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-3尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-4尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-5尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-6尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-7尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-8尝试获取latch，获取失败那就等待</span><br><span class="line">Thread-9尝试获取latch，获取失败那就等待</span><br><span class="line">开闸放行Thread-0继续运行</span><br><span class="line">开闸放行Thread-2继续运行</span><br><span class="line">开闸放行Thread-1继续运行</span><br><span class="line">开闸放行Thread-3继续运行</span><br><span class="line">开闸放行Thread-4继续运行</span><br><span class="line">开闸放行Thread-5继续运行</span><br><span class="line">开闸放行Thread-6继续运行</span><br><span class="line">开闸放行Thread-7继续运行</span><br><span class="line">开闸放行Thread-8继续运行</span><br><span class="line">开闸放行Thread-9继续运行</span><br><span class="line">Thread-10尝试获取latch，获取失败那就等待</span><br><span class="line">开闸放行Thread-10继续运行</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/4悟空Java并发编程/AQS/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:41:28</p>
+        <p><span>最后更新:</span>2020-02-26, 16:17:08</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/4悟空Java并发编程/AQS/" title="">http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/4悟空Java并发编程/AQS/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">
+                    Java内存模型之底层原理
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/3Java高级/Java反射机制/">
+                    Java反射机制
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AQS"><span class="toc-number">1.</span> <span class="toc-text">AQS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#学习AQS的思路"><span class="toc-number">1.1.</span> <span class="toc-text">学习AQS的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么学习AQS"><span class="toc-number">1.2.</span> <span class="toc-text">为什么学习AQS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么需要AQS"><span class="toc-number">1.2.1.</span> <span class="toc-text">为什么需要AQS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Semaphore和AQS的关系"><span class="toc-number">1.2.2.</span> <span class="toc-text">Semaphore和AQS的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS的比喻"><span class="toc-number">1.2.3.</span> <span class="toc-text">AQS的比喻</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如果没有AQS"><span class="toc-number">1.2.4.</span> <span class="toc-text">如果没有AQS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AQS的作用"><span class="toc-number">1.3.</span> <span class="toc-text">AQS的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AQS的重要性"><span class="toc-number">1.4.</span> <span class="toc-text">AQS的重要性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AQS内部原理解析"><span class="toc-number">1.5.</span> <span class="toc-text">AQS内部原理解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#state"><span class="toc-number">1.5.1.</span> <span class="toc-text">state</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制线程抢锁和配合的FIFO队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">控制线程抢锁和配合的FIFO队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#期望协作工具类去实现的获取-释放等重要方法"><span class="toc-number">1.5.3.</span> <span class="toc-text">期望协作工具类去实现的获取/释放等重要方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#获取方法"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">获取方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#释放方法"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">释放方法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用实例与源码解析"><span class="toc-number">1.6.</span> <span class="toc-text">应用实例与源码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS的用法"><span class="toc-number">1.6.1.</span> <span class="toc-text">AQS的用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS在CountDownLatch的应用"><span class="toc-number">1.6.2.</span> <span class="toc-text">AQS在CountDownLatch的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS在CountDownLatch的总结"><span class="toc-number">1.6.3.</span> <span class="toc-text">AQS在CountDownLatch的总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS在Semaphore的应用"><span class="toc-number">1.6.4.</span> <span class="toc-text">AQS在Semaphore的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AQS在ReentrantLock的应用"><span class="toc-number">1.6.5.</span> <span class="toc-text">AQS在ReentrantLock的应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用AQS实现一个自己的Latch门闩"><span class="toc-number">1.7.</span> <span class="toc-text">利用AQS实现一个自己的Latch门闩</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/" title="上一篇: Java内存模型之底层原理">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/3Java高级/Java反射机制/" title="下一篇: Java反射机制">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

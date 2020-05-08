@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="并发容器精讲面试杀手锏 ConcurrentHashMap、CopyOnWriteArrayList、阻塞队列 并发容器并发容器概览ConcurrentHashMap：线程安全的HashMap CopyOnWriteArrayList：线程安全的List BlockingQueue：这是一个接口，表示阻塞队列，非常适合用于作为数据共享的通道 ConcurrentLinkedQueue：高效的非阻塞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爱吃鱼的呆先生">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="并发容器精讲面试杀手锏 ConcurrentHashMap、CopyOnWriteArrayList、阻塞队列 并发容器并发容器概览ConcurrentHashMap：线程安全的HashMap CopyOnWriteArrayList：线程安全的List BlockingQueue：这是一个接口，表示阻塞队列，非常适合用于作为数据共享的通道 ConcurrentLinkedQueue：高效的非阻塞">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200223222538740.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200223222640457.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200223230321759.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224095604376.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224174734549.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224185451780.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224191055479.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224192035440.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200225082849924.png">
+<meta property="og:updated_time" content="2020-02-25T00:51:12.549Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爱吃鱼的呆先生">
+<meta name="twitter:description" content="并发容器精讲面试杀手锏 ConcurrentHashMap、CopyOnWriteArrayList、阻塞队列 并发容器并发容器概览ConcurrentHashMap：线程安全的HashMap CopyOnWriteArrayList：线程安全的List BlockingQueue：这是一个接口，表示阻塞队列，非常适合用于作为数据共享的通道 ConcurrentLinkedQueue：高效的非阻塞">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/1.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-4悟空Java并发编程/并发容器精讲" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/4悟空Java并发编程/并发容器精讲/" class="article-date">
+      <time datetime="2020-03-06T09:41:28.623Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="并发容器精讲"><a href="#并发容器精讲" class="headerlink" title="并发容器精讲"></a>并发容器精讲</h1><p>面试杀手锏</p>
+<p>ConcurrentHashMap、CopyOnWriteArrayList、阻塞队列</p>
+<h2 id="并发容器"><a href="#并发容器" class="headerlink" title="并发容器"></a>并发容器</h2><h3 id="并发容器概览"><a href="#并发容器概览" class="headerlink" title="并发容器概览"></a>并发容器概览</h3><p>ConcurrentHashMap：线程安全的HashMap</p>
+<p>CopyOnWriteArrayList：线程安全的List</p>
+<p>BlockingQueue：这是一个接口，表示阻塞队列，非常适合用于作为数据共享的通道</p>
+<p>ConcurrentLinkedQueue：高效的非阻塞并发队列，使用链表实现。可以看做一个线程安全的LinkedList</p>
+<p>ConcurrentSkipListMap：是一个Map，使用跳表的数据结构进行快速查询</p>
+<h2 id="古老和过时的同步容器"><a href="#古老和过时的同步容器" class="headerlink" title="古老和过时的同步容器"></a>古老和过时的同步容器</h2><h3 id="Vector和Hashtable"><a href="#Vector和Hashtable" class="headerlink" title="Vector和Hashtable"></a>Vector和Hashtable</h3><p><strong>Vector</strong></p>
+<p>是jdk早期的一部分，目标也是提供一个线程安全的集合类，但是随着jdk的发展已经不能满足需求了，性能不够好</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VectorDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Vector&lt;String&gt; vector = <span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line">        vector.add(<span class="string">"test"</span>);</span><br><span class="line">        System.out.println(vector.get(<span class="number">0</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test</span><br></pre></td></tr></table></figure>
+
+<p>Vector中的很多方法都是由synchronized修饰的，在多线程下线程性能不够好</p>
+<p><strong>Hashtable</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashtableDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Hashtable&lt;String, String&gt; hashtable = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">        hashtable.put(<span class="string">"学完以后跳槽涨薪幅度"</span>, <span class="string">"80%"</span>);</span><br><span class="line">        System.out.println(hashtable.get(<span class="string">"学完以后跳槽涨薪幅度"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">80%</span><br></pre></td></tr></table></figure>
+
+<p>同样，Hashtable中的很多方法都是由synchronized修饰的，在多线程下线程性能不够好</p>
+<h3 id="HashMap和ArrayList"><a href="#HashMap和ArrayList" class="headerlink" title="HashMap和ArrayList"></a>HashMap和ArrayList</h3><p>虽然这两个类不是线程安全的，但是可以用<code>Collections.synchronizedList(new ArrayList\&lt;E&gt;())</code>和<code>Collections.synchronizedMap(new HashMap&lt;K,V&gt;)</code>使之变成线程安全的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：演示Collections.synchronizedList(new ArrayList&lt;E&gt;())</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SynList</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = Collections.synchronizedList(<span class="keyword">new</span> ArrayList&lt;Integer&gt;());</span><br><span class="line">        list.add(<span class="number">5</span>);</span><br><span class="line">        System.out.println(list.get(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line">        Map&lt;Object, Object&gt; objectObjectMap = Collections.synchronizedMap(<span class="keyword">new</span> HashMap&lt;&gt;());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样使用synchronized来修饰，与上面的方法差不多</p>
+<h3 id="ConcurrentHashMap和CopyOnWriteArrayList"><a href="#ConcurrentHashMap和CopyOnWriteArrayList" class="headerlink" title="ConcurrentHashMap和CopyOnWriteArrayList"></a>ConcurrentHashMap和CopyOnWriteArrayList</h3><p>取代同步的HashMap和同步的ArrayList</p>
+<p>绝大多数并发情况下，ConcurrentHashMap和CopyOnWriteArrayList的性能都更好</p>
+<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p>重点、面试常考</p>
+<h3 id="Map简介"><a href="#Map简介" class="headerlink" title="Map简介"></a>Map简介</h3><p>HashMap、Hashtabe、LinkedHashMap、TreeMap</p>
+<img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/1.png" style="zoom: 67%;">
+
+<img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/2.png" style="zoom:50%;">
+
+<h4 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h4><p>HashMap会根据键的HashCode来存储，由于可以直接算出HashCode的值，所以可以直接定位到需要找到的位置，它的访问速度是非常快的，允许键（key）为null来写入的，值也可以是null，但是是线程不安全的</p>
+<h4 id="Hashtable"><a href="#Hashtable" class="headerlink" title="Hashtable"></a>Hashtable</h4><p>是历史遗留类，很多功能与HashMap是一致的，但是线程安全的，任何时刻只有一个线程能对它进行操作，不建议使用</p>
+<h4 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h4><p>HashMap的一个子类，保存了记录的插入顺序，在遍历的时候有用，遍历的顺序与插入的顺序一致</p>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><p>由于实现了SortedMap接口，所以可以根据键来排序，默认是升序，也可以自定义排序条件</p>
+<p>以上一种实现都要求key是不可变对象，即key在创建后它的hash值不会改变</p>
+<h3 id="Map的基本用法"><a href="#Map的基本用法" class="headerlink" title="Map的基本用法"></a>Map的基本用法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     演示Map的基本用法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MapDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        System.out.println(map.isEmpty());</span><br><span class="line">        map.put(<span class="string">"东哥"</span>, <span class="number">38</span>);</span><br><span class="line">        map.put(<span class="string">"西哥"</span>, <span class="number">28</span>);</span><br><span class="line">        System.out.println(map.keySet());</span><br><span class="line">        System.out.println(map.get(<span class="string">"西哥"</span>));</span><br><span class="line">        System.out.println(map.size());</span><br><span class="line">        System.out.println(map.containsKey(<span class="string">"东哥"</span>));</span><br><span class="line">        map.remove(<span class="string">"东哥"</span>);</span><br><span class="line">        System.out.println(map.containsKey(<span class="string">"东哥"</span>));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">true</span></span><br><span class="line">[东哥, 西哥]</span><br><span class="line"><span class="number">28</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么需要ConcurrentHashMap"><a href="#为什么需要ConcurrentHashMap" class="headerlink" title="为什么需要ConcurrentHashMap"></a>为什么需要ConcurrentHashMap</h3><h4 id="为什么不用Collections-synchronizedMap"><a href="#为什么不用Collections-synchronizedMap" class="headerlink" title="为什么不用Collections.synchronizedMap()"></a>为什么不用Collections.synchronizedMap()</h4><p>它是通过锁来保证线程的安全访问的，但是由于synchronized对于并发量高的时候并不理想，所以不采用这样的方法</p>
+<h4 id="为什么HashMap是线程不安全的"><a href="#为什么HashMap是线程不安全的" class="headerlink" title="为什么HashMap是线程不安全的"></a>为什么HashMap是线程不安全的</h4><p>注意：HashMap本来就不是用于并发的</p>
+<p><strong>同时put碰撞导致数据丢失</strong></p>
+<p>如果多个线程同时put，如果计算出来的hash值是一样的话，那么这几个key会放到同一个位置，但是多个线程放在同一个位置，只能保留一个线程的数据，其他线程的数据都会丢失的，所以会丢失一部分数据</p>
+<p><strong>同时put扩容导致数据丢失</strong></p>
+<p>如果多个线程同时put，并且发现需要同时扩容，那么扩容之后的数组，也只有一个会保留下来，所以也会造成某些数据的丢失</p>
+<p><strong>死循环造成CPU100%</strong></p>
+<p>HashMap在高并发下的死循环（仅在JDK7及以前存在）</p>
+<p>原因：在多个线程同时扩容的时候会造成链表的死循环，这样一来就没有尽头了</p>
+<h3 id="HashMap的分析"><a href="#HashMap的分析" class="headerlink" title="HashMap的分析"></a>HashMap的分析</h3><p><img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200223222538740.png" alt="image-20200223222538740"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200223222640457.png" alt="image-20200223222640457"></p>
+<p>红黑树</p>
+<p>对二叉查找树BST的一种平衡策略，会自动平衡，防止极端不平衡从而影响查找效率的情况发生</p>
+<p>特点</p>
+<p>每个节点要么是红色的，要么是黑色的，但根节点永远是黑色的</p>
+<p>红色节点不能连续，即红色节点的孩子和父亲都不能是红色</p>
+<p>从任意节点到其子树中每个叶子节点的路径都包含相同数量的黑色节点</p>
+<p>所有的叶结点都是黑色的</p>
+<p>HashMap关于并发的特点</p>
+<ol>
+<li>非线程安全</li>
+<li>迭代时不允许改变内容</li>
+<li>只读的并发是安全的</li>
+<li>如果一定要把HashMap用在并发环境，用Collections.synchronizedMap(new HashMap())</li>
+</ol>
+<h3 id="JDK1-7的ConcurrentHashMap实现和分析"><a href="#JDK1-7的ConcurrentHashMap实现和分析" class="headerlink" title="JDK1.7的ConcurrentHashMap实现和分析"></a>JDK1.7的ConcurrentHashMap实现和分析</h3><img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200223230321759.png" alt="image-20200223230321759" style="zoom: 67%;">
+
+<ol>
+<li><p>Java7中的ConcurrentHashMap最外层是多个segment，每个segment的底层数据结构与HashMap类似，仍然是数组和链表组成的拉链法</p>
+</li>
+<li><p>每个segment设置了独立的ReentrantLock锁，每个segment之间互不影响，提高了并发效率</p>
+</li>
+<li><p>ConcurrentHashMap默认有16个Segments，所以最多可以同时支持16个线程并发的写（操作分别分布在不同的Segment），这个默认值可以在初始化的时候设置为其他值，但是一旦初始化以后，是不可以扩容的</p>
+</li>
+</ol>
+<h3 id="JDK1-8的ConcurrentHashMap实现和分析"><a href="#JDK1-8的ConcurrentHashMap实现和分析" class="headerlink" title="JDK1.8的ConcurrentHashMap实现和分析"></a>JDK1.8的ConcurrentHashMap实现和分析</h3><p> <img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224095604376.png" alt="image-20200224095604376"></p>
+<p>putVal()流程</p>
+<ol>
+<li>判断key、value不为空</li>
+<li>计算hash值</li>
+<li>根据对应位置节点的类型来赋值，或者helpTransfer，或者增长链表，或者给红黑树增加节点</li>
+<li>检查满足阈值就红黑树化</li>
+<li>返回oldVal</li>
+</ol>
+<p>get()流程</p>
+<ol>
+<li>计算hash值</li>
+<li>找到对应的位置，根据情况进行：直接取值、或红黑树里找值、或遍历链表取值</li>
+<li>返回找到的结果 </li>
+</ol>
+<h3 id="为什么要把1-7结构改成1-8的结构"><a href="#为什么要把1-7结构改成1-8的结构" class="headerlink" title="为什么要把1.7结构改成1.8的结构"></a>为什么要把1.7结构改成1.8的结构</h3><p>数据结构</p>
+<p>Hash碰撞</p>
+<p>保证并发安全</p>
+<p>为什么超过8要转为红黑树</p>
+<p>默认不是红黑树节点，默认是链表的形式，这是因为它所占用的内存更少</p>
+<p>想要达到冲突为8是很难的，如果达到8就会转为红黑树，依然能提高效率</p>
+<h3 id="组合操作"><a href="#组合操作" class="headerlink" title="组合操作"></a>组合操作</h3><p>ConcurrentHashMap为什么也不是线程安全的</p>
+<p>replace操作</p>
+<p>putIfAbsent</p>
+<p>if(!map.containsKey(key)){</p>
+<p>​    return map.put(key,value);</p>
+<p>}else{</p>
+<p>​    return map.get(key);</p>
+<p>}</p>
+<h3 id="实际生产案例"><a href="#实际生产案例" class="headerlink" title="实际生产案例"></a>实际生产案例</h3><p>线程安全问题需要时刻注意</p>
+<h2 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a>CopyOnWriteArrayList</h2><h3 id="诞生的历史和原因"><a href="#诞生的历史和原因" class="headerlink" title="诞生的历史和原因"></a>诞生的历史和原因</h3><p>在JDK5引入，是List中最主要的并发工具，用来代替Vector和SynchronizedList，就和ConcurrentHashMap代替SynchronizedMap的原因是一样的</p>
+<p>Vector和SynchronizedList的锁的粒度太大，并发效率相对比较低，并且迭代时无法编辑</p>
+<p>CopyOnWrite并发容器还包括CopyOnWriteArraySet，用来替代同步Set</p>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><p>读操作尽可能快，而写即使慢也没有太大关系</p>
+<p>读多写少：黑名单、每日更新、监听器，这些的迭代操作远多于修改操作</p>
+<h3 id="读写原则"><a href="#读写原则" class="headerlink" title="读写原则"></a>读写原则</h3><p>回顾读写锁，读读共享，其他都互斥（写写互斥，读写互斥，写读互斥）</p>
+<p>读写锁规则的升级：读取是完全不用加锁的，并且更厉害的是写入也不会阻塞读取操作，只用写入和写入之间要进行同步等待</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：演示CopyOnWriteArrayList可以在迭代的过程中修改数组内容，但是ArrayList不行，对比</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CopyOnWriteArrayListDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ArrayList&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">//CopyOnWriteArrayList&lt;String&gt; list = new CopyOnWriteArrayList&lt;&gt;();</span></span><br><span class="line"></span><br><span class="line">        list.add(<span class="string">"1"</span>);</span><br><span class="line">        list.add(<span class="string">"2"</span>);</span><br><span class="line">        list.add(<span class="string">"3"</span>);</span><br><span class="line">        list.add(<span class="string">"4"</span>);</span><br><span class="line">        list.add(<span class="string">"5"</span>);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;String&gt; iterator = list.iterator();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            System.out.println(<span class="string">"list is"</span> + list);</span><br><span class="line">            String next = iterator.next();</span><br><span class="line">            System.out.println(next);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (next.equals(<span class="string">"2"</span>)) &#123;</span><br><span class="line">                list.remove(<span class="string">"5"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (next.equals(<span class="string">"3"</span>)) &#123;</span><br><span class="line">                list.add(<span class="string">"3 found"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">list is[1, 2, 3, 4, 5]</span><br><span class="line">1</span><br><span class="line">list is[1, 2, 3, 4, 5]</span><br><span class="line">2</span><br><span class="line">list is[1, 2, 3, 4]</span><br><span class="line">Exception in thread &quot;main&quot; java.util.ConcurrentModificationException</span><br><span class="line">	at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:909)</span><br><span class="line">	at java.util.ArrayList$Itr.next(ArrayList.java:859)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：演示CopyOnWriteArrayList可以在迭代的过程中修改数组内容，但是ArrayList不行，对比</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CopyOnWriteArrayListDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</span></span><br><span class="line">        CopyOnWriteArrayList&lt;String&gt; list = <span class="keyword">new</span> CopyOnWriteArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        list.add(<span class="string">"1"</span>);</span><br><span class="line">        list.add(<span class="string">"2"</span>);</span><br><span class="line">        list.add(<span class="string">"3"</span>);</span><br><span class="line">        list.add(<span class="string">"4"</span>);</span><br><span class="line">        list.add(<span class="string">"5"</span>);</span><br><span class="line"></span><br><span class="line">        Iterator&lt;String&gt; iterator = list.iterator();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">            System.out.println(<span class="string">"list is"</span> + list);</span><br><span class="line">            String next = iterator.next();</span><br><span class="line">            System.out.println(next);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (next.equals(<span class="string">"2"</span>)) &#123;</span><br><span class="line">                list.remove(<span class="string">"5"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (next.equals(<span class="string">"3"</span>)) &#123;</span><br><span class="line">                list.add(<span class="string">"3 found"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">list is[1, 2, 3, 4, 5]</span><br><span class="line">1</span><br><span class="line">list is[1, 2, 3, 4, 5]</span><br><span class="line">2</span><br><span class="line">list is[1, 2, 3, 4]</span><br><span class="line">3</span><br><span class="line">list is[1, 2, 3, 4, 3 found]</span><br><span class="line">4</span><br><span class="line">list is[1, 2, 3, 4, 3 found]</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><h4 id="CopyOnWrite的含义"><a href="#CopyOnWrite的含义" class="headerlink" title="CopyOnWrite的含义"></a>CopyOnWrite的含义</h4><p>创建新副本，读写分离</p>
+<p>不可变原理</p>
+<p>迭代时候</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>数据一致性问题</p>
+<p>CopyOnWrite容器只能保证数据的最终一致性，不能保证数据的实时一致性，所以如果希望写入的数据马上能读到，就不要使用CopyOnWrite容器</p>
+<p>内存占用问题</p>
+<p>因为CopyOnWrite的写是复制机制，所以在进行写操作的时候，内存里会同时保存两个对象的内存</p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>数据结构</p>
+<p>get</p>
+<p>add</p>
+<h2 id="并发队列Queue"><a href="#并发队列Queue" class="headerlink" title="并发队列Queue"></a>并发队列Queue</h2><p>阻塞队列、非阻塞队列</p>
+<h3 id="为什么要使用队列"><a href="#为什么要使用队列" class="headerlink" title="为什么要使用队列"></a>为什么要使用队列</h3><p>用队列可以在线程间传递数据：生产者消费者模式、银行转账</p>
+<p>考虑锁等线程安全问题的重任从用户转移到了队列上</p>
+<h3 id="并发队列简介"><a href="#并发队列简介" class="headerlink" title="并发队列简介"></a>并发队列简介</h3><p>Queue与BlockingQueue是JDK5中新增的，Queue只用来保存一组等待处理的数据，它会有很多种实现，底层是LinkedList，Queue只能从头或者尾来获取数据，不能从中间获取数据</p>
+<p>BlockingQueue增加了可阻塞的插入和获取操作，若队列为空，取的操作会一直阻塞，直到里面有了数据，如果队列满了，插入也插入不进去，也会一直阻塞，直到有用户把其中的数据取出来，这体现了生产者消费者模式</p>
+<h3 id="各并发队列关系图"><a href="#各并发队列关系图" class="headerlink" title="各并发队列关系图"></a>各并发队列关系图</h3><p><img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224174734549.png" alt="image-20200224174734549"></p>
+<h3 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h3><p>BlockingQueue</p>
+<h4 id="什么是阻塞队列"><a href="#什么是阻塞队列" class="headerlink" title="什么是阻塞队列"></a>什么是阻塞队列</h4><p>阻塞队列是具有阻塞功能的队列，所以它首先是一个队列，其次是具有阻塞功能</p>
+<p>通常，阻塞队列的一端是给生产者放数据用，另一端给消费者拿数据用，阻塞队列是线程安全的，所以生产者和消费者都可以是多线程的</p>
+<img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224185451780.png" alt="image-20200224185451780" style="zoom:50%;">
+
+<p>阻塞功能：最有特色的两个带有阻塞功能的方法是take()方法和put()方法</p>
+<p>take()方法：获取并移除队列的头结点，一旦在执行take的时候，队列里无数据，则阻塞，直到队列里有数据</p>
+<img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224191055479.png" alt="image-20200224191055479" style="zoom:50%;">
+
+<p>put()方法：插入元素，但是如果队列已满，那么就无法继续插入，并且阻塞，直到队列里有了空闲空间</p>
+<img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200224192035440.png" alt="image-20200224192035440" style="zoom:50%;">
+
+<p>是否有界(容量有多大)</p>
+<p>这是一个非常重要的属性，无界队列意味着里面可以容纳非常多的数据，Integer.MAX_VALUE，约为2的31次方，可以近似认为是无限容量</p>
+<p>线程池与阻塞队列的关系：阻塞队列是线程池的重要组成部分</p>
+<h4 id="BlockingQueue的主要方法"><a href="#BlockingQueue的主要方法" class="headerlink" title="BlockingQueue的主要方法"></a>BlockingQueue的主要方法</h4><p>put、take（会阻塞住）</p>
+<p>add、remove、element（会抛出异常）</p>
+<p>offer（添加元素）、poll（取出元素）、peek</p>
+<h4 id="主要方法介绍"><a href="#主要方法介绍" class="headerlink" title="主要方法介绍"></a>主要方法介绍</h4><h4 id="ArrayBlockingQueue"><a href="#ArrayBlockingQueue" class="headerlink" title="ArrayBlockingQueue"></a>ArrayBlockingQueue</h4><p>有界</p>
+<p>指定容量</p>
+<p>公平：可以指定是否需要保证公平，如果要保证公平的话，那么等待了最长时间的线程就会被优先处理，不过这同时会带来一定的性能损耗</p>
+<p>使用案例</p>
+<p>有10个面试者，但只有1个面试官，大厅里有三个位置休息，每个人面试时间是10秒，模拟所有人面试的场景</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     TODO</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayBlockingQueueDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        ArrayBlockingQueue&lt;String&gt; queue = <span class="keyword">new</span> ArrayBlockingQueue&lt;String&gt;(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">        Interviewer r1 = <span class="keyword">new</span> Interviewer(queue);</span><br><span class="line">        Consumer r2 = <span class="keyword">new</span> Consumer(queue);</span><br><span class="line">        <span class="keyword">new</span> Thread(r1).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(r2).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Interviewer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    BlockingQueue&lt;String&gt; queue;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Interviewer</span><span class="params">(BlockingQueue queue)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.queue = queue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"10个候选人都来啦"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            String candidate = <span class="string">"Candidate"</span> + i;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                queue.put(candidate);</span><br><span class="line">                System.out.println(<span class="string">"安排好了"</span> + candidate);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            queue.put(<span class="string">"stop"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    BlockingQueue&lt;String&gt; queue;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Consumer</span><span class="params">(BlockingQueue queue)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.queue = queue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        String msg;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span>(!(msg = queue.take()).equals(<span class="string">"stop"</span>))&#123;</span><br><span class="line">                System.out.println(msg + <span class="string">"到了"</span>);</span><br><span class="line">                Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"所有候选人都结束了"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">10个候选人都来啦</span><br><span class="line">安排好了Candidate0</span><br><span class="line">安排好了Candidate1</span><br><span class="line">安排好了Candidate2</span><br><span class="line">安排好了Candidate3</span><br><span class="line">Candidate0到了</span><br><span class="line">Candidate1到了</span><br><span class="line">安排好了Candidate4</span><br><span class="line">Candidate2到了</span><br><span class="line">安排好了Candidate5</span><br><span class="line">Candidate3到了</span><br><span class="line">安排好了Candidate6</span><br><span class="line">Candidate4到了</span><br><span class="line">安排好了Candidate7</span><br><span class="line">Candidate5到了</span><br><span class="line">安排好了Candidate8</span><br><span class="line">Candidate6到了</span><br><span class="line">安排好了Candidate9</span><br><span class="line">Candidate7到了</span><br><span class="line">Candidate8到了</span><br><span class="line">Candidate9到了</span><br><span class="line">所有候选人都结束了</span><br></pre></td></tr></table></figure>
+
+<p>源码分析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    checkNotNull(e);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (count == items.length)</span><br><span class="line">            notFull.await();</span><br><span class="line">        enqueue(e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a>LinkedBlockingQueue</h4><p>无界，容量能达到Integer.MAX_VALUE</p>
+<p>内部结构：Node、两把锁</p>
+<p>put()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    <span class="comment">// Note: convention in all put/take/etc is to preset local var</span></span><br><span class="line">    <span class="comment">// holding count negative to indicate failure unless set.</span></span><br><span class="line">    <span class="keyword">int</span> c = -<span class="number">1</span>;</span><br><span class="line">    Node&lt;E&gt; node = <span class="keyword">new</span> Node&lt;E&gt;(e);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock putLock = <span class="keyword">this</span>.putLock;</span><br><span class="line">    <span class="keyword">final</span> AtomicInteger count = <span class="keyword">this</span>.count;</span><br><span class="line">    putLock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Note that count is used in wait guard even though it is</span></span><br><span class="line"><span class="comment">         * not protected by lock. This works because count can</span></span><br><span class="line"><span class="comment">         * only decrease at this point (all other puts are shut</span></span><br><span class="line"><span class="comment">         * out by lock), and we (or some other waiting put) are</span></span><br><span class="line"><span class="comment">         * signalled if it ever changes from capacity. Similarly</span></span><br><span class="line"><span class="comment">         * for all other uses of count in other wait guards.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">while</span> (count.get() == capacity) &#123;</span><br><span class="line">            notFull.await();</span><br><span class="line">        &#125;</span><br><span class="line">        enqueue(node);</span><br><span class="line">        c = count.getAndIncrement();</span><br><span class="line">        <span class="keyword">if</span> (c + <span class="number">1</span> &lt; capacity)</span><br><span class="line">            notFull.signal();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        putLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="number">0</span>)</span><br><span class="line">        signalNotEmpty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PriorityBlockingQueue"><a href="#PriorityBlockingQueue" class="headerlink" title="PriorityBlockingQueue"></a>PriorityBlockingQueue</h4><p>支持优先级</p>
+<p>自然排序，而不是先进先出</p>
+<p>无界队列</p>
+<p>是PriorityQueue的线程安全版本</p>
+<h4 id="SynchronousQueue"><a href="#SynchronousQueue" class="headerlink" title="SynchronousQueue"></a>SynchronousQueue</h4><p>容量为0，值得注意的是，SynchronousQueue的容量不是1而是0，因为SynchronousQueue不需要持有元素，它所做的就是直接传递（direct handoff），因此效率很高</p>
+<img src="/2020/03/06/4悟空Java并发编程/并发容器精讲/image-20200225082849924.png" alt="image-20200225082849924" style="zoom:50%;">
+
+<p>SynchronousQueue没有peek函数，因为peek的含义是取出头结点，但是SynchronousQueue的容量为0，所以连头结点都没有，也就没有peek方法，同理，没有iterate相关方法</p>
+<p>因此它是一个极好的用来直接传递的并发数据结构</p>
+<p>SynchronousQueue是线程池Executors.newCachedThreadPool()使用的阻塞队列</p>
+<h3 id="非阻塞队列"><a href="#非阻塞队列" class="headerlink" title="非阻塞队列"></a>非阻塞队列</h3><p>ConcurrentLinkedQueue</p>
+<p>并发包中的非阻塞队列只有ConcurrentLinkedQueue这一种，ConcurrentLinkedQueue是使用链表作为其数据结构的，使用CAS非阻塞算法来实现线程安全（不具备阻塞功能），适合用在对性能要求较高的并发场景，用的相对比较少</p>
+<p>源码中的offer体现了CAS的思想，内有p.casNext方法，用了Unsafe.compareAndSwapObject</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">offer</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    checkNotNull(e);</span><br><span class="line">    <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;E&gt;(e);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (Node&lt;E&gt; t = tail, p = t;;) &#123;</span><br><span class="line">        Node&lt;E&gt; q = p.next;</span><br><span class="line">        <span class="keyword">if</span> (q == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// p is last node</span></span><br><span class="line">            <span class="keyword">if</span> (p.casNext(<span class="keyword">null</span>, newNode)) &#123;</span><br><span class="line">                <span class="comment">// Successful CAS is the linearization point</span></span><br><span class="line">                <span class="comment">// for e to become an element of this queue,</span></span><br><span class="line">                <span class="comment">// and for newNode to become "live".</span></span><br><span class="line">                <span class="keyword">if</span> (p != t) <span class="comment">// hop two nodes at a time</span></span><br><span class="line">                    casTail(t, newNode);  <span class="comment">// Failure is OK.</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// Lost CAS race to another thread; re-read next</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (p == q)</span><br><span class="line">            <span class="comment">// We have fallen off list.  If tail is unchanged, it</span></span><br><span class="line">            <span class="comment">// will also be off-list, in which case we need to</span></span><br><span class="line">            <span class="comment">// jump to head, from which all live nodes are always</span></span><br><span class="line">            <span class="comment">// reachable.  Else the new tail is a better bet.</span></span><br><span class="line">            p = (t != (t = tail)) ? t : head;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="comment">// Check for tail updates after two hops.</span></span><br><span class="line">            p = (p != t &amp;&amp; t != (t = tail)) ? t : q;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何选择适合自己的队列"><a href="#如何选择适合自己的队列" class="headerlink" title="如何选择适合自己的队列"></a>如何选择适合自己的队列</h3><p>边界</p>
+<p>空间</p>
+<p>吞吐量</p>
+<h2 id="各并发容器总结"><a href="#各并发容器总结" class="headerlink" title="各并发容器总结"></a>各并发容器总结</h2><p>Java.util.concurrent包提供的容器分为3类，Concurrent*、CopyOnWrite*、Blocking*</p>
+<p>Concurrent*的特点是大部分通过CAS实现并发的</p>
+<p>CopyOnWrite*则是通过复制一份原数据来实现的</p>
+<p>Blocking*通过AQS实现的</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/4悟空Java并发编程/并发容器精讲/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:41:28</p>
+        <p><span>最后更新:</span>2020-02-25, 08:51:12</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/" title="">http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/4悟空Java并发编程/并发容器精讲/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">
+                    并发工具类
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/实战项目/">
+                    
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#并发容器精讲"><span class="toc-number">1.</span> <span class="toc-text">并发容器精讲</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#并发容器"><span class="toc-number">1.1.</span> <span class="toc-text">并发容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#并发容器概览"><span class="toc-number">1.1.1.</span> <span class="toc-text">并发容器概览</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#古老和过时的同步容器"><span class="toc-number">1.2.</span> <span class="toc-text">古老和过时的同步容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector和Hashtable"><span class="toc-number">1.2.1.</span> <span class="toc-text">Vector和Hashtable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap和ArrayList"><span class="toc-number">1.2.2.</span> <span class="toc-text">HashMap和ArrayList</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ConcurrentHashMap和CopyOnWriteArrayList"><span class="toc-number">1.2.3.</span> <span class="toc-text">ConcurrentHashMap和CopyOnWriteArrayList</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">1.3.</span> <span class="toc-text">ConcurrentHashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Map简介"><span class="toc-number">1.3.1.</span> <span class="toc-text">Map简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HashMap"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">HashMap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hashtable"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">Hashtable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedHashMap"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">LinkedHashMap</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TreeMap"><span class="toc-number">1.3.2.</span> <span class="toc-text">TreeMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Map的基本用法"><span class="toc-number">1.3.3.</span> <span class="toc-text">Map的基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么需要ConcurrentHashMap"><span class="toc-number">1.3.4.</span> <span class="toc-text">为什么需要ConcurrentHashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么不用Collections-synchronizedMap"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">为什么不用Collections.synchronizedMap()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么HashMap是线程不安全的"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">为什么HashMap是线程不安全的</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HashMap的分析"><span class="toc-number">1.3.5.</span> <span class="toc-text">HashMap的分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK1-7的ConcurrentHashMap实现和分析"><span class="toc-number">1.3.6.</span> <span class="toc-text">JDK1.7的ConcurrentHashMap实现和分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK1-8的ConcurrentHashMap实现和分析"><span class="toc-number">1.3.7.</span> <span class="toc-text">JDK1.8的ConcurrentHashMap实现和分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要把1-7结构改成1-8的结构"><span class="toc-number">1.3.8.</span> <span class="toc-text">为什么要把1.7结构改成1.8的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合操作"><span class="toc-number">1.3.9.</span> <span class="toc-text">组合操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实际生产案例"><span class="toc-number">1.3.10.</span> <span class="toc-text">实际生产案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CopyOnWriteArrayList"><span class="toc-number">1.4.</span> <span class="toc-text">CopyOnWriteArrayList</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#诞生的历史和原因"><span class="toc-number">1.4.1.</span> <span class="toc-text">诞生的历史和原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#适用场景"><span class="toc-number">1.4.2.</span> <span class="toc-text">适用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读写原则"><span class="toc-number">1.4.3.</span> <span class="toc-text">读写原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-number">1.4.4.</span> <span class="toc-text">实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CopyOnWrite的含义"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">CopyOnWrite的含义</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-number">1.4.5.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#源码分析"><span class="toc-number">1.4.6.</span> <span class="toc-text">源码分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发队列Queue"><span class="toc-number">1.5.</span> <span class="toc-text">并发队列Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要使用队列"><span class="toc-number">1.5.1.</span> <span class="toc-text">为什么要使用队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并发队列简介"><span class="toc-number">1.5.2.</span> <span class="toc-text">并发队列简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各并发队列关系图"><span class="toc-number">1.5.3.</span> <span class="toc-text">各并发队列关系图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞队列"><span class="toc-number">1.5.4.</span> <span class="toc-text">阻塞队列</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是阻塞队列"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">什么是阻塞队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BlockingQueue的主要方法"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">BlockingQueue的主要方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主要方法介绍"><span class="toc-number">1.5.4.3.</span> <span class="toc-text">主要方法介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ArrayBlockingQueue"><span class="toc-number">1.5.4.4.</span> <span class="toc-text">ArrayBlockingQueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LinkedBlockingQueue"><span class="toc-number">1.5.4.5.</span> <span class="toc-text">LinkedBlockingQueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PriorityBlockingQueue"><span class="toc-number">1.5.4.6.</span> <span class="toc-text">PriorityBlockingQueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SynchronousQueue"><span class="toc-number">1.5.4.7.</span> <span class="toc-text">SynchronousQueue</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非阻塞队列"><span class="toc-number">1.5.5.</span> <span class="toc-text">非阻塞队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何选择适合自己的队列"><span class="toc-number">1.5.6.</span> <span class="toc-text">如何选择适合自己的队列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#各并发容器总结"><span class="toc-number">1.6.</span> <span class="toc-text">各并发容器总结</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/" title="上一篇: 并发工具类">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/4悟空Java并发编程/实战项目/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

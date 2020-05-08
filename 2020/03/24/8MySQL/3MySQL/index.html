@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="MySQL锁篇MySQL锁介绍 乐观锁用数据版本（Version）记录机制实现，这是乐观锁最常用的一种实现方式。何谓数据版本？ 即为数据增加一个版本标识，一般是通过为数据库表增加一个数字类型的 “version” 字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加1。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的versio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爱吃鱼的呆先生">
+<meta property="og:url" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="MySQL锁篇MySQL锁介绍 乐观锁用数据版本（Version）记录机制实现，这是乐观锁最常用的一种实现方式。何谓数据版本？ 即为数据增加一个版本标识，一般是通过为数据库表增加一个数字类型的 “version” 字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加1。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的versio">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324081447694.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324091556199.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324130737365.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324131019621.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324132340513.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324132743428.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324132447232.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324134431137.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324143346439.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324144429574.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324144526704.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324154034728.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324154111628.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324154123678.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324153644093.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324165722062.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324165733234.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324185925517.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200325201401026.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200325082955488.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200325083053080.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324165324400.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200325153751857.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324191044587.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324191302065.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324191417286.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324191431981.png">
+<meta property="og:updated_time" content="2020-03-26T02:01:37.035Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爱吃鱼的呆先生">
+<meta name="twitter:description" content="MySQL锁篇MySQL锁介绍 乐观锁用数据版本（Version）记录机制实现，这是乐观锁最常用的一种实现方式。何谓数据版本？ 即为数据增加一个版本标识，一般是通过为数据库表增加一个数字类型的 “version” 字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加1。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的versio">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/24/8MySQL/3MySQL/image-20200324081447694.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-8MySQL/3MySQL" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/24/8MySQL/3MySQL/" class="article-date">
+      <time datetime="2020-03-24T02:32:20.346Z" itemprop="datePublished">2020-03-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="MySQL锁篇"><a href="#MySQL锁篇" class="headerlink" title="MySQL锁篇"></a>MySQL锁篇</h1><h2 id="MySQL锁介绍"><a href="#MySQL锁介绍" class="headerlink" title="MySQL锁介绍"></a>MySQL锁介绍</h2><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324081447694.png" alt></p>
+<h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>用数据版本（Version）记录机制实现，这是乐观锁最常用的一种实现方式。何谓数据版本？</p>
+<p>即为数据增加一个版本标识，一般是通过为数据库表增加一个数字类型的 “version” 字段来实现。当读取数据时，将version字段的值一同读出，数据每更新一次，对此version值加1。当我们提交更新的时候，判断数据库表对应记录的当前版本信息与第一次取出来的version值进行比对，如果数据库表当前版本号与第一次取出来的version值相等，则予以更新，否则认为是过期数据</p>
+<p><strong>举例</strong></p>
+<p>数据库表三个字段，分别是id、value、version</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select id,value,version from TABLE where id = #&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次更新表中的value字段时，为了防止发生冲突，需要这样操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update TABLE set value=2,version=version+1 where id=#&#123;id&#125; and version=#&#123;version&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="锁的分类"><a href="#锁的分类" class="headerlink" title="锁的分类"></a>锁的分类</h3><h4 id="按照锁的粒度"><a href="#按照锁的粒度" class="headerlink" title="按照锁的粒度"></a>按照锁的粒度</h4><p>MySQL主要包含三种类型（级别）的锁定机制</p>
+<p>全局锁：锁的是整个database。由MySQL的SQL layer层实现的</p>
+<p>表级锁：锁的是某个table。由MySQL的SQL layer层实现的</p>
+<p>行级锁：锁的是某行数据，也可能锁定行之间的间隙。由某些存储引擎实现，比如InnoDB</p>
+<p>表级锁和行级锁的区别</p>
+<p>表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低</p>
+<p>行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高</p>
+<h4 id="按照锁的功能"><a href="#按照锁的功能" class="headerlink" title="按照锁的功能"></a>按照锁的功能</h4><p>共享读锁和排他写锁</p>
+<h4 id="按照锁的实现方式"><a href="#按照锁的实现方式" class="headerlink" title="按照锁的实现方式"></a>按照锁的实现方式</h4><p>悲观锁和乐观锁（使用某一版本列或者唯一列进行逻辑控制）</p>
+<h2 id="MySQL表级锁"><a href="#MySQL表级锁" class="headerlink" title="MySQL表级锁"></a>MySQL表级锁</h2><h3 id="表级锁介绍"><a href="#表级锁介绍" class="headerlink" title="表级锁介绍"></a>表级锁介绍</h3><p>由MySQL SQL layer层实现</p>
+<h4 id="MySQL的表级锁有两种"><a href="#MySQL的表级锁有两种" class="headerlink" title="MySQL的表级锁有两种"></a>MySQL的表级锁有两种</h4><p>一种是表锁，一种是元数据锁（meta data lock，MDL)</p>
+<h4 id="MySQL-实现的表级锁定的争用状态变量"><a href="#MySQL-实现的表级锁定的争用状态变量" class="headerlink" title="MySQL 实现的表级锁定的争用状态变量"></a>MySQL 实现的表级锁定的争用状态变量</h4> <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'table%'</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324091556199.png" alt></p>
+<p>table_locks_immediate：产生表级锁定的次数</p>
+<p>table_locks_waited：出现表级锁定争用而发生等待的次数</p>
+<h3 id="表锁介绍"><a href="#表锁介绍" class="headerlink" title="表锁介绍"></a>表锁介绍</h3><p>MySQL允许客户端会话明确获取表锁，以防止其他会话在特定时间段内访问表。客户端会话只能为自己获取或释放表锁。它不能获取或释放其他会话的表锁</p>
+<h4 id="表锁有两种表现形式"><a href="#表锁有两种表现形式" class="headerlink" title="表锁有两种表现形式"></a>表锁有两种表现形式</h4><p>表共享读锁（Table Read Lock），表独占写锁（Table Write Lock）</p>
+<h4 id="手动增加表锁"><a href="#手动增加表锁" class="headerlink" title="手动增加表锁"></a>手动增加表锁</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCK TABLES table_name [READ | WRITE];</span><br></pre></td></tr></table></figure>
+
+<p>可将表的名称放在<code>LOCK TABLES</code>关键字后面，后跟一个锁类型。 MySQL提供两种锁类型：<code>READ</code>和<code>WRITE</code></p>
+<h4 id="查看表锁情况"><a href="#查看表锁情况" class="headerlink" title="查看表锁情况"></a>查看表锁情况</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show open tables;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除表锁"><a href="#删除表锁" class="headerlink" title="删除表锁"></a>删除表锁</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlock tables;</span><br></pre></td></tr></table></figure>
+
+<h3 id="表锁演示"><a href="#表锁演示" class="headerlink" title="表锁演示"></a>表锁演示</h3><h4 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h4><p>新建表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> testdb;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">USE</span> testdb;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbl (</span><br><span class="line">  <span class="keyword">id</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="keyword">col</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="读锁演示"><a href="#读锁演示" class="headerlink" title="读锁演示"></a>读锁演示</h4><p>表锁定为READ</p>
+<p>表的READ锁具有以下功能：</p>
+<ul>
+<li>同时可以通过多个会话获取表的<code>READ</code>锁。此外，其他会话可以从表中读取数据，而无需获取锁定</li>
+<li>持有<code>READ</code>锁的会话只能从表中读取数据，但不能写入。此外，其他会话在释放<code>READ</code>锁之前无法将数据写入表中。来自另一个会话的写操作将被放入等待状态，直到释放<code>READ</code>锁</li>
+<li>如果会话正常或异常终止，MySQL将会隐式释放所有锁。这也与<code>WRITE</code>锁相关</li>
+</ul>
+<p>首先，连接到<code>testdb</code>数据库。要查找当前的连接ID，请使用<code>CONNECTION_ID()</code>函数，如下所示</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONNECTION_ID();</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">| CONNECTION_ID() |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">|               6 |</span><br><span class="line">+<span class="comment">-----------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<p>CONNECTION_ID()：MySQL的这个函数返回的是这个连接的连接ID或者thread ID。对于已经建立的连接的客户端，都有一个唯一的连接ID</p>
+<p>然后，在向<code>tbl</code>表中插入一个新行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> tbl(<span class="keyword">col</span>) <span class="keyword">VALUES</span>(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>接下来，从上表<code>tbl</code>中检索所有行</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM tbl;</span><br><span class="line">+<span class="comment">----+-----+</span></span><br><span class="line">| id | col |</span><br><span class="line">+<span class="comment">----+-----+</span></span><br><span class="line">|  1 |  10 |</span><br><span class="line">+<span class="comment">----+-----+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>之后，要获取锁，可以使用<code>LOCK TABLE</code>语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; LOCK TABLES tbl READ;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>最后，在同一个会话中，如果您尝试在<code>tbl</code>表中插入一个新行，将收到一条错误消息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; INSERT INTO tbl(col) VALUES(11);</span><br><span class="line">ERROR 1099 (HY000): Table 'tbl' was locked <span class="keyword">with</span> a <span class="keyword">READ</span> <span class="keyword">lock</span> <span class="keyword">and</span> can<span class="string">'t be updated</span></span><br></pre></td></tr></table></figure>
+
+<p>所以一旦获得了<code>READ</code>锁定，就不能在同一个会话中的表中写入数据。让我们从不同的会话中来查看<code>READ</code>锁</p>
+<p>首先，打开另一个终端并连接到数据库<code>testdb</code>，然后检查连接ID：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CONNECTION_ID();</span><br><span class="line">+-----------------+</span><br><span class="line">| CONNECTION_ID() |</span><br><span class="line">+-----------------+</span><br><span class="line">|              11 |</span><br><span class="line">+-----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>然后，从<code>tbl</code>检索数据，如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM tbl;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | col |</span><br><span class="line">+----+-----+</span><br><span class="line">|  1 |  10 |</span><br><span class="line">+----+-----+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>接下来，从第二个会话(会话ID为7)插入一个新行到<code>tbl</code>表中</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324130737365.png" alt="image-20200324130737365"></p>
+<p>第二个会话的插入操作处于等待状态，因为第一个会话已经在<code>tbl</code>表上获取了一个<code>READ</code>锁，并且尚未释放</p>
+<p>可以使用<code>SHOW PROCESSLIST;</code>语句查看详细信息，如下所示</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324131019621.png" alt="image-20200324131019621"></p>
+<p>之后，返回第一个会话并使用<code>UNLOCK TABLES;</code>语句来释放锁。从第一个会话释放<code>READ</code>锁之后，在第二个会话中执行<code>INSERT</code>操作</p>
+<p>最后，查看<code>tbl</code>表中的数据，以查看第二个会话中的<code>INSERT</code>操作是否真的执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM tbl;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | col |</span><br><span class="line">+----+-----+</span><br><span class="line">|  1 |  10 |</span><br><span class="line">|  5 |  12 |</span><br><span class="line">+----+-----+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="写锁演示"><a href="#写锁演示" class="headerlink" title="写锁演示"></a>写锁演示</h4><p>表锁定WRITE</p>
+<p>表锁为<code>WRITE</code>具有以下功能：</p>
+<ul>
+<li>只有拥有表锁定的会话才能从表读取和写入数据</li>
+<li>在释放<code>WRITE</code>锁之前，其他会话不能从表中读写</li>
+</ul>
+<p>首先，从第一个会话获取一个<code>WRITE</code>锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCK TABLE tbl WRITE;</span><br></pre></td></tr></table></figure>
+
+<p>然后，在<code>tbl</code>表中插入一个新行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO tbl(col) VALUES(14);</span><br></pre></td></tr></table></figure>
+
+<p>没有问题，上面语句可能正常执行。接下来，从<code>tbl</code>表读取数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM tbl;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | col |</span><br><span class="line">+----+-----+</span><br><span class="line">|  1 |  10 |</span><br><span class="line">|  5 |  12 |</span><br><span class="line">|  6 |  14 |</span><br><span class="line">+----+-----+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>之后，打开第二个连接到MySQL的会话，尝试写和读数据</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324132340513.png" alt="image-20200324132340513"></p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324132743428.png" alt="image-20200324132743428"></p>
+<p>MySQL将这些操作置于等待状态。可以在第一个会话中，使用<code>SHOW PROCESSLIST;</code>语句来查看它</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324132447232.png" alt="image-20200324132447232"></p>
+<p>最后，从第一个会话释放锁。执行以下语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNLOCK TABLES;</span><br></pre></td></tr></table></figure>
+
+<p>执行上面语句后，将看到第二个会话中的所有待处理已经执行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM tbl;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | col |</span><br><span class="line">+----+-----+</span><br><span class="line">|  1 |  10 |</span><br><span class="line">|  5 |  12 |</span><br><span class="line">|  6 |  14 |</span><br><span class="line">|  7 |  20 |</span><br><span class="line">+----+-----+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="元数据锁介绍"><a href="#元数据锁介绍" class="headerlink" title="元数据锁介绍"></a>元数据锁介绍</h3><p>MDL不需要显式使用，在访问一个表的时候会被自动加上。MDL的作用是，保证读写的正确性。你可以想象一下，如果一个查询正在遍历一个表中的数据，而执行期间另一个线程对这个表结构做变更，删了一列，那么查询线程拿到的结果跟表结构对不上，肯定是不行的</p>
+<p>因此，在MySQL 5.5 版本中引入了MDL，当对一个表做增删改查操作的时候，加MDL 读锁，当要对表做结构变更操作的时候，加MDL 写锁</p>
+<p>读锁之间不互斥，因此你可以有多个线程同时对一张表增删改查</p>
+<p>读写锁之间、写锁之间是互斥的，用来保证变更表结构操作的安全性。因此，如果有两个线程要同时给一个表加字段，其中一个要等另一个执行完才能开始执行</p>
+<h4 id="元数据锁演示"><a href="#元数据锁演示" class="headerlink" title="元数据锁演示"></a>元数据锁演示</h4><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324134431137.png" alt="image-20200324134431137"></p>
+<p>session1（Mysql1）、session2（Mysql2）</p>
+<p>1、session1</p>
+<p>开启事务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin;</span><br></pre></td></tr></table></figure>
+
+<p>加MDL读锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from tbl;</span><br><span class="line">+----+-----+</span><br><span class="line">| id | col |</span><br><span class="line">+----+-----+</span><br><span class="line">|  1 |  10 |</span><br><span class="line">|  5 |  12 |</span><br><span class="line">|  6 |  14 |</span><br><span class="line">|  7 |  20 |</span><br><span class="line">+----+-----+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>2、session2</p>
+<p>修改阻塞</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table tbl add size int;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324143346439.png" alt="image-20200324143346439"></p>
+<p>3、session1</p>
+<p>提交事务或者rollback 释放读锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<p>4、session2</p>
+<p>修改完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Query OK, 0 rows affected (38.67 sec)  </span><br><span class="line">Records: 0 Duplicates: 0 Warnings: 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><h4 id="表读锁"><a href="#表读锁" class="headerlink" title="表读锁"></a>表读锁</h4><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324144429574.png" alt="image-20200324144429574"></p>
+<p>session1（Navicat）、session2（mysql）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、session1: lock table mylock read; -- 给mylock表加读锁</span><br><span class="line">2、session1: select * from mylock; -- 可以查询</span><br><span class="line">3、session1：select * from tdep; --不能访问非锁定表</span><br><span class="line">4、session2：select * from mylock; -- 可以查询没有锁</span><br><span class="line">5、session2：update mylock set name=&apos;x&apos; where id=2; -- 修改阻塞,自动加行写锁</span><br><span class="line">6、session1：unlock tables; -- 释放表锁</span><br><span class="line">7、session2：Rows matched: 1 Changed: 1 Warnings: 0 -- 修改执行完成</span><br><span class="line">8、session1：select * from tdep; --可以访问</span><br></pre></td></tr></table></figure>
+
+<h4 id="表写锁"><a href="#表写锁" class="headerlink" title="表写锁"></a>表写锁</h4><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324144526704.png" alt="image-20200324144526704"></p>
+<p>session1（Navicat）、session2（mysql）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、session1: lock table mylock write; -- 给mylock表加写锁</span><br><span class="line">2、session1: select * from mylock; -- 可以查询</span><br><span class="line">3、session1：select * from tdep; --不能访问非锁定表</span><br><span class="line">4、session1：update mylock set name=&apos;y&apos; where id=2; --可以执行</span><br><span class="line">5、session2：select * from mylock; -- 查询阻塞</span><br><span class="line">6、session1：unlock tables; -- 释放表锁</span><br><span class="line">7、session2：4 rows in set (22.57 sec) -- 查询执行完成</span><br><span class="line">8、session1：select * from tdep; --可以访问</span><br></pre></td></tr></table></figure>
+
+<h2 id="MySQL行锁"><a href="#MySQL行锁" class="headerlink" title="MySQL行锁"></a>MySQL行锁</h2><p>InnoDB行锁是通过给索引上的索引项加锁来实现的，因此InnoDB这种行锁实现特点意味着：只有通过索引条件检索的数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁</p>
+<h3 id="行锁介绍"><a href="#行锁介绍" class="headerlink" title="行锁介绍"></a>行锁介绍</h3><p>行锁的劣势：开销大；加锁慢；会出现死锁</p>
+<p>行锁的优势：锁的粒度小，发生锁冲突的概率低，处理并发的能力强</p>
+<p>加锁的方式：自动加锁。对于UPDATE、DELETE和INSERT语句，InnoDB会自动给涉及数据集加排他锁（行写锁），对于普通SELECT语句，InnoDB不会加任何锁</p>
+<p>当然我们也可以显式的加锁</p>
+<p>共享锁：select * from tableName where … + lock in share more</p>
+<p>排他锁：select * from tableName where … + for update</p>
+<p>InnoDB和MyISAM的最大不同点有两个</p>
+<p>一，InnoDB支持事务(transaction)</p>
+<p>二，默认采用行级锁。加锁可以保证事务的一致性，可谓是有人(锁)的地方，就有江湖(事务)</p>
+<h3 id="查看行锁状态"><a href="#查看行锁状态" class="headerlink" title="查看行锁状态"></a>查看行锁状态</h3><p><code>show STATUS like &#39;innodb_row_lock%&#39;;</code></p>
+<p>Innodb_row_lock_current_waits：当前正在等待锁定的数量</p>
+<p>Innodb_row_lock_time：从系统启动到现在锁定总时间长度</p>
+<p>Innodb_row_lock_time_avg：每次等待所花平均时间</p>
+<p>Innodb_row_lock_time_max：从系统启动到现在等待最常的一次所花的时间</p>
+<p>Innodb_row_lock_waits：系统启动后到现在总共等待的次数</p>
+<h3 id="行读锁"><a href="#行读锁" class="headerlink" title="行读锁"></a>行读锁</h3><p>session1（Mysql1）、session2（Mysql2）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">1、session1: begin;--开启事务未提交</span><br><span class="line">         select * from mylock  where ID=1 lock in share mode; --手动加id=1</span><br><span class="line">的行读锁,使用索引</span><br><span class="line">2、session2：update mylock set name=&apos;y&apos; where id=2; -- 未锁定该行可以修改</span><br><span class="line">3、session2：update mylock set name=&apos;y&apos; where id=1; -- 锁定该行修改阻塞</span><br><span class="line">ERROR 1205 (HY000): Lock wait timeout exceeded; try restarting</span><br><span class="line">transaction  -- 锁定超时</span><br><span class="line">4、session1: commit; --提交事务或者rollback 释放读锁</span><br><span class="line">5、session2：update mylock set name=&apos;y&apos; where id=1; --修改成功</span><br><span class="line">          Query OK, 1 row affected (0.00 sec)</span><br><span class="line">          Rows matched: 1 Changed: 1 Warnings: 0</span><br></pre></td></tr></table></figure>
+
+<p>注：使用索引加行锁，未锁定的行可以访问</p>
+<h3 id="行读锁升级为表锁"><a href="#行读锁升级为表锁" class="headerlink" title="行读锁升级为表锁"></a>行读锁升级为表锁</h3><p>session1（Mysql1）、session2（Mysql2）</p>
+<p>背景：name列没有加索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、session1: begin;--开启事务未提交</span><br><span class="line">            --手动加name=&apos;c&apos;的行读锁,未使用索引</span><br><span class="line">            select * from mylock  where name=&apos;c&apos; lock in share mode;</span><br><span class="line">2、session2：update mylock set name=&apos;y&apos; where id=2; -- 修改阻塞未用索引行锁升级</span><br><span class="line">为表锁</span><br><span class="line">3、session1: commit; --提交事务或者rollback 释放读锁</span><br><span class="line">4、session2：update mylock set name=&apos;y&apos; where id=2; --修改成功</span><br><span class="line">          Query OK, 1 row affected (0.00 sec)</span><br><span class="line">          Rows matched: 1 Changed: 1 Warnings: 0</span><br></pre></td></tr></table></figure>
+
+<p>注：未使用索引行锁升级为表锁</p>
+<h3 id="行写锁"><a href="#行写锁" class="headerlink" title="行写锁"></a>行写锁</h3><p>session1（Mysql1）、session2（Mysql2）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、session1: begin;--开启事务未提交</span><br><span class="line">            --手动加id=1的行写锁,</span><br><span class="line">            select * from mylock  where id=1 for update;</span><br><span class="line">           </span><br><span class="line">2、session2：select * from mylock  where id=2 ; -- 可以访问</span><br><span class="line">3、session2: select * from mylock  where id=1 ; -- 可以读不加锁 </span><br><span class="line">4、session2: select * from mylock  where id=1 lock in share mode ; --加读锁被阻塞</span><br><span class="line">5、session1：commit; -- 提交事务或者rollback 释放写锁</span><br><span class="line">6、session2：执行成功</span><br></pre></td></tr></table></figure>
+
+<p>注：主键索引产生记录锁</p>
+<p>结论：读锁和读锁不冲突，读锁和写锁冲突，带有读锁&amp;写锁这两个任何之一的语句和未加锁的语句是不冲突的</p>
+<h3 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h3><p>一般来说，事务的幻读问题，都是通过Seriablizable隔离级别来解决的。但是MySQL使用的间隙锁来解决了，只有在RR（可重复读）隔离级别才会产生间隙锁</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324154034728.png" alt="image-20200324154034728"></p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324154111628.png" alt="image-20200324154111628"></p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324154123678.png" alt="image-20200324154123678"></p>
+<p>间隙锁防止两种情况<br>1、防止插入间隙内的数据</p>
+<p>2、防止已有数据更新为间隙内的数据</p>
+<p>间隙的范围</p>
+<p>update news set number=3 where number=4;</p>
+<p>number : 2 3 4</p>
+<p>id:1 2 3 4 5</p>
+<p>间隙情况：</p>
+<p>id、number均在间隙内</p>
+<p>id、number均在间隙外</p>
+<p>id在间隙内、number在间隙外</p>
+<p>id在间隙外，number在间隙内</p>
+<p>id、number为边缘数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">案例演示：</span><br><span class="line">mysql&gt; create table news (id int, number int,primary key (id));</span><br><span class="line">mysql&gt; insert into news values(1,2);</span><br><span class="line">......</span><br><span class="line">--加非唯一索引</span><br><span class="line">mysql&gt; alter table news add index idx_num(number);</span><br></pre></td></tr></table></figure>
+
+<p>非唯一索引等值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-- 非唯一索引的等值</span><br><span class="line">session 1:</span><br><span class="line">start transaction ;</span><br><span class="line">update news set number=3 where number=4;</span><br><span class="line">session 2:</span><br><span class="line">start transaction ;</span><br><span class="line">insert into news value(2,3);#（均在间隙内，阻塞）</span><br><span class="line">insert into news value(7,8);#（均在间隙外，成功）</span><br><span class="line">insert into news value(2,8);#（id在间隙内，number在间隙外，成功）</span><br><span class="line">insert into news value(4,8);#（id在间隙内，number在间隙外，成功）</span><br><span class="line">insert into news value(7,3);#（id在间隙外，number在间隙内，阻塞）</span><br><span class="line">insert into news value(7,2);# (id在间隙外，number为上边缘数据，阻塞)</span><br><span class="line">insert into news value(2,2);#（id在间隙内，number为上边缘数据，阻塞）</span><br><span class="line">insert into news value(7,5);#（id在间隙外，number为下边缘数据，成功）</span><br><span class="line">insert into news value(4,5);#（id在间隙内，number为下边缘数据，阻塞）</span><br></pre></td></tr></table></figure>
+
+<p>结论：只要number（where后面的）在间隙里（2 3 4），不包含最后一个数（5）则不管id是多少都会阻塞</p>
+<p>主键索引范围</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--主键索引范围</span></span><br><span class="line">session 1:</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span> ;</span><br><span class="line"><span class="keyword">update</span> news <span class="keyword">set</span> <span class="built_in">number</span>=<span class="number">3</span> <span class="keyword">where</span> <span class="keyword">id</span>&gt;<span class="number">1</span> <span class="keyword">and</span> <span class="keyword">id</span> &lt;<span class="number">6</span>;</span><br><span class="line">session 2:</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span> ;</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> news <span class="keyword">value</span>(<span class="number">2</span>,<span class="number">3</span>);<span class="comment">#（均在间隙内，阻塞）</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> news <span class="keyword">value</span>(<span class="number">7</span>,<span class="number">8</span>);<span class="comment">#（均在间隙外，成功）</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> news <span class="keyword">value</span>(<span class="number">2</span>,<span class="number">8</span>);<span class="comment">#（id在间隙内，number在间隙外，阻塞）</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> news <span class="keyword">value</span>(<span class="number">4</span>,<span class="number">8</span>);<span class="comment">#（id在间隙内，number在间隙外，阻塞）</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> news <span class="keyword">value</span>(<span class="number">7</span>,<span class="number">3</span>);<span class="comment">#（id在间隙外，number在间隙内，成功）</span></span><br><span class="line"><span class="comment">--id无边缘数据，因为主键不能重复</span></span><br></pre></td></tr></table></figure>
+
+<p>结论：只要id（在where后面的）在间隙里(2 4 5)，则不管number是多少都会阻塞。非唯一索引无穷大</p>
+<p>session1（Navicat）、session2（mysql）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">--无穷大</span><br><span class="line">session 1:</span><br><span class="line">start transaction ;</span><br><span class="line">update news set number=3 where number=13 ;</span><br><span class="line">session 2:</span><br><span class="line">start transaction ;</span><br><span class="line">insert into news value(11,5);#(执行成功)</span><br><span class="line">insert into news value(12,11);#(执行成功)</span><br><span class="line">insert into news value(14,11);#(阻塞)</span><br><span class="line">insert into news value(15,12);#(阻塞)</span><br><span class="line">检索条件number=13,向左取得最靠近的值11作为左区间，向右由于没有记录因此取得无穷大作为右区</span><br><span class="line">间，因此，session 1的间隙锁的范围（11，无穷大）</span><br><span class="line">结论：id和number同时满足</span><br><span class="line">注：非主键索引产生间隙锁，主键范围产生间隙锁</span><br></pre></td></tr></table></figure>
+
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>两个session 互相等等待对方的资源释放之后，才能释放自己的资源,造成了死锁</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324153644093.png" alt="image-20200324153644093"></p>
+<p>session1（Navicat）、session2（mysql）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、session1: <span class="keyword">begin</span>;<span class="comment">--开启事务未提交</span></span><br><span class="line">            <span class="comment">--手动加行写锁id=1 ，使用索引</span></span><br><span class="line">           <span class="keyword">update</span> mylock <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'m'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>;</span><br><span class="line">2、session2：<span class="keyword">begin</span>;<span class="comment">--开启事务未提交</span></span><br><span class="line"><span class="comment">--手动加行写锁id=2 ，使用索引</span></span><br><span class="line">           <span class="keyword">update</span> mylock <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'m'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>; </span><br><span class="line">3、session1: <span class="keyword">update</span> mylock <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'nn'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>; <span class="comment">-- 加写锁被阻塞</span></span><br><span class="line">4、session2：<span class="keyword">update</span> mylock <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'nn'</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>; <span class="comment">-- 加写锁会死锁，不允许操作</span></span><br><span class="line">ERROR 1213 (40001): Deadlock found when trying to get <span class="keyword">lock</span>; try</span><br><span class="line">restarting transaction</span><br></pre></td></tr></table></figure>
+
+<h1 id="InnoDB架构分析"><a href="#InnoDB架构分析" class="headerlink" title="InnoDB架构分析"></a>InnoDB架构分析</h1><h2 id="InnoDB架构图"><a href="#InnoDB架构图" class="headerlink" title="InnoDB架构图"></a>InnoDB架构图</h2><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324165722062.png" alt="image-20200324165722062"></p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324165733234.png" alt="image-20200324165733234"></p>
+<p>上图详细显示了InnoDB存储引擎的体系架构，从图中可见，InnoDB存储引擎由内存池，后台线程和磁盘文件三大部分组成。接下来我们就来简单了解一下内存相关的概念和原理</p>
+<h2 id="InnoDB内存结构"><a href="#InnoDB内存结构" class="headerlink" title="InnoDB内存结构"></a>InnoDB内存结构</h2><h3 id="Buﬀer-Pool缓冲池"><a href="#Buﬀer-Pool缓冲池" class="headerlink" title="Buﬀer Pool缓冲池"></a>Buﬀer Pool缓冲池</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>InnoDB存储引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理。但是由于CPU速度和磁盘速度之间的鸿沟，基于磁盘的数据库系统通常使用缓冲池记录来提高数据库的的整体性能</p>
+<p>所以，缓冲池的大小直接影响着数据库的整体性能，可以通过配置参数innodb_buffer_pool_size来设置</p>
+<p>具体来看，缓冲池中缓存的数据页类型有：索引页、数据页、undo页、插入缓冲(insertbuﬀer)、自适应哈希索引(adaptive hash index)、InnoDB存储的锁信息(lock info)和数据字典信息(data dictionary)</p>
+<p>物理上是存在一个文件里的，但是逻辑上不是存储在一起</p>
+<p>在架构图上可以看到，InnoDB存储引擎的内存区域除了有缓冲池之外，还有重做日志缓冲和额外内存池。InnoDB存储引擎首先将重做日志信息先放到这个缓冲区中，然后按照一定频率将其刷新到重做日志文件中。重做日志缓冲一般不需要设置的很大，该值可由配置参数innodb_log_buffer_size控制</p>
+<h4 id="数据页和索引页"><a href="#数据页和索引页" class="headerlink" title="数据页和索引页"></a>数据页和索引页</h4><p>InnoDB存储引擎工作时，需要以Page页为最小单位去将磁盘中的数据加载到内存中，与数据库相关的所有内容都存储在Page结构里。</p>
+<p>Page分为几种类型，数据页和索引页就是其中最为重要的两种类型</p>
+<h4 id="插入缓冲（Insert-Buﬀer）"><a href="#插入缓冲（Insert-Buﬀer）" class="headerlink" title="插入缓冲（Insert Buﬀer）"></a>插入缓冲（Insert Buﬀer）</h4><p>主要针对次要索引的数据插入存在的问题而设计</p>
+<p>我们都知道，在InnoDB引擎上进行插入操作时，一般需要按照主键顺序进行插入，这样才能获得较高的插入性能。当一张表中存在次要索引时，在插入时，数据页的存放还是按照主键进行顺序存放，但是对于次要索引叶节点的插入不再是顺序的了，这时就需要离散的访问次要索引页，由于随机读取的存在导致插入操作性能下降</p>
+<p>InnoDB为此设计了Insert Buﬀer来进行插入优化。对于次要索引的插入或者更新操作，不是每一次都直接插入到索引页中，而是先判断插入的非主键索引是否在缓冲池中，若在，则直接插入；若不在，则先放入到一个Insert Buﬀer中。看似数据库这个非主键的索引已经插到叶节点，而实际没有，这时存放在另外一个位置。然后再以一定的频率和情况进行Insert Buﬀer和非聚簇索引页子节点的合并操作。这时通常能够将多个插入合并到一个操作中，这样就大大提高了对于非聚簇索引的插入性能</p>
+<h4 id="自适应哈希索引（Adaptive-Hash-Index）"><a href="#自适应哈希索引（Adaptive-Hash-Index）" class="headerlink" title="自适应哈希索引（Adaptive Hash Index）"></a>自适应哈希索引（Adaptive Hash Index）</h4><p>InnoDB会根据访问的频率和模式，为热点页建立哈希索引，来提高查询效率。InnoDB存储引擎会监控对表上各个索引页的查询，如果观察到建立哈希索引可以带来速度上的提升，则建立哈希索引，所以叫做自适应哈希索引</p>
+<p>自适应哈希索引是通过缓冲池B+树页构建而来，因此建立速度很快，而且不需要对整张数据表建立哈希索引。其有一个要求，即对这个页的连续访问模式必须是一样的，也就是说其查询的条件（WHERE）必须完全一样，而且必须是连续的</p>
+<h4 id="锁信息（Lock-Info）"><a href="#锁信息（Lock-Info）" class="headerlink" title="锁信息（Lock Info）"></a>锁信息（Lock Info）</h4><p>InnoDB存储引擎会在行级别上对表数据进行上锁，不过InnoDB也会在数据库内部其他很多地方使用锁，从而允许对多种不同资源提供并发访问，数据库系统使用锁是为了支持对共享资源进行并发访问，提供数据的完整性和一致性</p>
+<h4 id="数据字典信息（Data-Dictionary）"><a href="#数据字典信息（Data-Dictionary）" class="headerlink" title="数据字典信息（Data Dictionary）"></a>数据字典信息（Data Dictionary）</h4><p>InnoDB有自己的表缓存，可以称为表定义缓存或数据字典，当InnoDB打开一张表，就会增加一个对应的对象到数据字典</p>
+<p> 数据字典是对数据库中的数据、库对象、表对象等元素的集合。在MySQL中，数据字典信息内容就包括表结构、数据库名或表名、字段的数据类型、视图、索引、表字段信息、存储过程、触发器等内容。</p>
+<h3 id="内存数据落盘分析"><a href="#内存数据落盘分析" class="headerlink" title="内存数据落盘分析"></a>内存数据落盘分析</h3><h4 id="整体思路分析"><a href="#整体思路分析" class="headerlink" title="整体思路分析"></a>整体思路分析</h4><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324185925517.png" alt="image-20200324185925517"></p>
+<p>InnoDB内存缓冲池中的数据page要完成持久化的话，是通过两个流程来完成的，一个是脏页落盘，一个是预写<code>redo log</code>日志，这样才能保证数据的可靠性</p>
+<p>当缓冲池中的页的版本比磁盘要新时，数据库需要将新版本的页从缓冲池刷新到磁盘。但是如果每次一个页发送变化，就进行刷新，那么性能开发是非常大的，于是InnoDB对于数据文件和日志文件的刷盘遵守了<code>Write AheadLog</code>（WAL）策略和<code>Force Log at Commit</code>两种规则，二者保证了事务的持久性</p>
+<p>WAL要求数据的变更写入到磁盘前，首先必须将内存中的日志写入到磁盘，即当事务提交时，先写重做日志，然后再择时将脏读写入磁盘，如果发生宕机导致数据丢失，就通过重做日志进行数据恢复</p>
+<p>InnoDB存储引擎会首先将重做日志信息先放入重做日志缓冲中，然后再按照一定频率将其刷新到重做日志文件。重做日志缓冲一般不需要设置得很大，因为一般情况每一秒都会将重做日志缓冲刷新到日志文件中，可通过配置参数<code>innodb_log_buffer_size</code>控制，默认为8MB</p>
+<p>除每秒刷新机制之外，每次事务提交时重做日志缓冲也会刷新到日志中。InnoDB是事务的存储引擎，其通过<code>Force-log-at-commit</code>机制实现事务的持久性，即当事务提交时，必须先将该事务的所有日志写入到重做日志文件进行持久化，然后事务的提交操作才算完成</p>
+<p>Force-log-at-commit要求当一个事务提交时，所有产生的日志都必须刷新到磁盘上，如果日志刷新成功后，缓冲池中的数据刷新到磁盘前数据库发生了宕机，那么重启时，数据库可以从日志中恢复数据</p>
+<p>如上图所示，InnoDB在缓冲池中变更数据时，会首先将相关变更写入重做日志缓冲中，然后再按时或者当事务提交时写入磁盘，这符合Force-log-at-commit原则；当重做日志写入磁盘后，缓冲池中的变更数据才会依据checkpoint机制择时写入到磁盘中，这符合WAL原则。 在checkpoint择时机制中，就有重做日志文件写满的判断。所以，如前文所述，如果重做日志文件太小，经常被写满，就会频繁导致checkpoint将更改的数据写入磁盘，导致性能抖动</p>
+<p>为了确保每次日志都写入到重做日志文件，在每次将重做日志缓冲写入重做日志后，必须调用一次fsync操作（操作系统的函数），将缓冲文件从文件系统缓存中真正写入磁盘</p>
+<p>可以通过<code>innodb_flush_log_at_trx_commit</code>来控制重做日志刷新到磁盘的策略</p>
+<p>该参数的默认值为1，表示事务提交必须进行一次fsync操作（操作系统的函数），还可以设置为0和2</p>
+<p>0表示事务提交时不进行写入重做日志操作，该操作只在主线程中完成</p>
+<p>2表示提交时写入重做日志，但是之邪入文件系统缓存，不进行fsync操作</p>
+<p>由此可见，设置为0时，性能最高，但是丧失了事务的一致性</p>
+<p>捋一捋</p>
+<p>将数据加载到内存中，是在内存中发生的修改，以page为单位加载到内存中进行存储</p>
+<p>磁盘中页中的数据和内存中页的数据不一样的时候，就是脏页</p>
+<p>此时就要开始两个流程，一个就是脏页落盘，一个就是预写<code>rudo log</code>日志</p>
+<p>为什么要写<code>redo log</code>日志，因为写<code>redo log</code>写入速度很快，它是一种顺序写入，它的作用是先写<code>redo log</code>日志，之后进行脏页落盘，如果在进行脏页落盘的时候发生了宕机数据也不会丢，所以在<code>rudo log</code>日志中存入相应的日志数据</p>
+<p>在进行<code>rudo log file</code>的时候先缓存到<code>redo log buffer</code>中，之后一并将<code>redo log buffer</code>中的数据存储到<code>rudo log file</code>中，这样就变相提高写rudo log日志的性能</p>
+<p><code>rudo log</code>日志只有在数据丢失的时候才会有用，如果落盘成功的话，<code>redo log</code>日志中相应的内容就可以被清掉</p>
+<p>只要事务提交，就强制写入<code>redo log file</code>中</p>
+<h4 id="脏页落盘"><a href="#脏页落盘" class="headerlink" title="脏页落盘"></a>脏页落盘</h4><p>在数据库中进行读取操作，将从磁盘中读到的页放在缓冲池中，下次再读相同的页时，首先判断该页是否在缓冲池中。若在缓冲池中，称该页在缓冲池中被命中，直接读取该页。否则，读取磁盘上的页</p>
+<p>对于数据库中页的修改操作，则首先修改在缓冲池中的页，然后再以一定的频率刷新到磁盘上。页从缓冲池刷新回磁盘的操作并不是在每次页发生更新时触发，而是通过一种称为CheckPoint的机制刷新回磁盘</p>
+<h4 id="重做日志落盘"><a href="#重做日志落盘" class="headerlink" title="重做日志落盘"></a>重做日志落盘</h4><p>InnoDB存储引擎会首先将重做日志信息先放入重做日志缓冲中，然后再按照一定频率将其刷新到重做日志文件。重做日志缓冲一般不需要设置得很大，因为一般情况每一秒钟都会讲重做日志缓冲刷新到日志文件中。可通过配置参数innodb_log_buffer_size控制，默认为8MB</p>
+<h3 id="CheckPoint检查点机制"><a href="#CheckPoint检查点机制" class="headerlink" title="CheckPoint检查点机制"></a>CheckPoint检查点机制</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>思考一下这个场景：如果重做日志可以无限地增大，同时缓冲池也足够大，那么是不需要将缓冲池中页的新版本刷新回磁盘。因为当发生宕机时，完全可以通过重做日志来恢复整个数据库系统中的数据到宕机发生的时刻</p>
+<p>但是这需要两个前提条件：1. 缓冲池可以缓存数据库中所有的数据，2. 重做日志可以无限增大</p>
+<p>因此Checkpoint（检查点）技术就诞生了，目的是解决以下几个问题</p>
+<p>1、缩短数据库的恢复时间</p>
+<p>2、缓冲池不够用时，将脏页刷新到磁盘</p>
+<p>3、重做日志不可用时，刷新脏页</p>
+<p>当数据库发生宕机时，数据库不需要重做所有的日志，因为Checkpoint之前的页都已经刷新回磁盘。数据库只需对Checkpoint后的重做日志进行恢复，这样就大大缩短了恢复的时间</p>
+<p>当缓冲池不够用时，根据LRU算法会溢出最近最少使用的页，若此页为脏页，那么需要强制执行Checkpoint，将脏页也就是页的新版本刷回磁盘</p>
+<p>当重做日志出现不可用时，因为当前事务数据库系统对重做日志的设计都是循环使用的，并不是让其无限增大的。重做日志可以被重用的部分是指这些重做日志已经不再需要，当数据库发生宕机时，数据库恢复操作不需要这部分的重做日志，因此这部分就可以被覆盖重用。如果重做日志还需要使用，那么必须强制Checkpoint，将缓冲池中的页至少刷新到当前重做日志的位置</p>
+<p>对于InnoDB存储引擎而言，是通过LSN（Log Sequence Number）来标记版本的</p>
+<p>Checkpoint发生的时间、条件及脏页的选择等都非常复杂。而Checkpoint所做的事情无外乎是将缓冲池中的脏页刷回到磁盘，不同之处在于每次刷新多少页到磁盘，每次从哪里取脏页，以及什么时间触发Checkpoint</p>
+<h4 id="Checkpoint分类"><a href="#Checkpoint分类" class="headerlink" title="Checkpoint分类"></a>Checkpoint分类</h4><p>在InnoDB存储引擎内部，有两种Checkpoint，分别为：Sharp Checkpoint、Fuzzy Checkpoint</p>
+<p>sharp checkpoint：在关闭数据库的时候，将buﬀer pool中的脏页全部刷新到磁盘中</p>
+<p>fuzzy checkpoint：数据库正常运行时，在不同的时机，将部分脏页写入磁盘。仅刷新部分脏页到磁盘，也是为了避免一次刷新全部的脏页造成的性能问题</p>
+<p>Fuzzy Checkpoint：</p>
+<p>1、Master Thread Checkpoint</p>
+<p>在Master Thread中，会以每秒或者每10秒一次的频率，将部分脏页从内存中刷新到磁盘，这个过程是异步的。正常的用户线程对数据的操作不会被阻塞</p>
+<p>2、FLUSH_LRU_LIST Checkpoint</p>
+<p>FLUSH_LRU_LIST checkpoint是在单独的page cleaner线程中执行的</p>
+<p>MySQL对缓存的管理是通过buﬀer pool中的LRU列表实现的，LRU 空闲列表中要保留一定数量的空闲页面，来保证buﬀer pool中有足够的空闲页面来相应外界对数据库的请求</p>
+<p>当这个空间页面数量不足的时候，发生FLUSH_LRU_LIST checkpoint</p>
+<p>空闲页的数量由innodb_lru_scan_depth参数表来控制的，因此在空闲列表页面数量少于配置的值的时候，会发生checkpoint，剔除部分LRU列表尾端的页面</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200325201401026.png" alt="image-20200325201401026"></p>
+<p>3、Async/Sync Flush Checkpoint</p>
+<p>Async/Sync Flush checkpoint是在单独的page cleaner线程中执行的</p>
+<p>Async/Sync Flush checkpoint 发生在重做日志不可用的时候，将buﬀer pool中的一部分脏页刷新到磁盘中，在脏页写入磁盘之后，事物对应的重做日志也就可以释放了</p>
+<p>关于redo_log文件的的大小，可以通过innodb_log_file_size 来配置</p>
+<p>对于是执行Async Flush checkpoint还是Sync Flush checkpoint，由checkpoint_age以及async_water_mark和sync_water_mark来决定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##即checkpoint_age等于最新的lsn减去已经刷新到磁盘的lsn的值</span><br><span class="line">checkpoint_age = redo_lsn-checkpoint_lsn</span><br><span class="line">async_water_mark = 75%*innodb_log_file_size</span><br><span class="line">sync_water_mark = 90%*innodb_log_file_size</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>当checkpoint_age&lt;sync_water_mark的时候，无需执行Flush checkpoint。也就说，redo<br>log剩余空间超过25%的时候，无需执行Async/Sync Flush checkpoint</li>
+<li>当async_water_mark&lt;checkpoint_age&lt;sync_water_mark的时候，执行Async Flush<br>checkpoint，也就说，redo log剩余空间不足25%，但是大于10%的时候，执行Async Flush<br>checkpoint，刷新到满足条件1</li>
+<li>当checkpoint_age&gt;sync_water_mark的时候，执行sync Flush checkpoint。也就说，redo<br>log剩余空间不足10%的时候，执行Sync Flush checkpoint，刷新到满足条件1。<br>在mysql 5.6之后，不管是Async Flush checkpoint还是Sync Flush checkpoint，都不会阻<br>塞用户的查询进程</li>
+</ol>
+<p>总结</p>
+<p>由于磁盘是一种相对较慢的存储设备，内存与磁盘的交互是一个相对较慢的过程由于<code>innodb_log_ﬁle_size</code>定义的是一个相对较大的值，正常情况下，由前面两种<code>checkpoint</code>刷新脏页到磁盘，在前面两种checkpoint刷新脏页到磁盘之后，脏页对应的redo log空间随即释放，一般不会发生Async/Sync Flush checkpoint。同时也要意识到，为了避免频繁低发生Async/SyncFlush checkpoint，也应该将innodb_log_ﬁle_size配置的相对较大一些</p>
+<p>4、Dirty Page too much Checkpoint</p>
+<p>Dirty Page too much Checkpoint是在Master Thread 线程中每秒一次的频率实现的</p>
+<p>Dirty Page too much 意味着buﬀer pool中的脏页过多，执行checkpoint脏页刷入磁盘，保证buﬀer pool中有足够的可用页面</p>
+<p>Dirty Page 由innodb_max_dirty_pages_pct配置，innodb_max_dirty_pages_pct的默认值在innodb 1.0之前是90%，之后是75%</p>
+<h3 id="Double-Write双写"><a href="#Double-Write双写" class="headerlink" title="Double Write双写"></a>Double Write双写</h3><p>如果说Insert Buﬀer给InnoDB存储引擎带来了性能上的提升，那么Double Write带给InnoDB存储引擎的是数据页的可靠性</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200325082955488.png" alt="image-20200325082955488"></p>
+<p>如上图所示，Double Write由两部分组成，一部分是内存中的double write buﬀer，大小为2MB，另一部分是物理磁盘上共享表空间连续的128个页，大小也为2MB</p>
+<p>在对缓冲池的脏页进行刷新时，并不直接写磁盘，而是通过memcpy函数将脏页先复制到内存中的double write buﬀer区域，之后通过double write buﬀer再分两次，每次1MB顺序地写入共享表空间的物理磁盘上，然后马上调用fsync函数，同步磁盘，避免操作系统缓冲写带来的问题。在完成doublewrite页的写入后，再讲double wirite buﬀer中的页写入各个表空间文件中</p>
+<p>如果操作系统在将页写入磁盘的过程中发生了崩溃，在恢复过程中，InnoDB存储引擎可以从共享表空间中的double write中找到该页的一个副本，将其复制到表空间文件中，再应用重做日志</p>
+<h3 id="Redo-log-Buﬀer重做日志缓冲"><a href="#Redo-log-Buﬀer重做日志缓冲" class="headerlink" title="Redo log Buﬀer重做日志缓冲"></a>Redo log Buﬀer重做日志缓冲</h3><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200325083053080.png" alt="image-20200325083053080"></p>
+<p>如上图所示，InnoDB在缓冲池中变更数据时，会首先将相关变更写入重做日志缓冲中，然后再按时或者当事务提交时写入磁盘，这符合Force-log-at-commit原则</p>
+<p>当重做日志写入磁盘后，缓冲池中的变更数据才会依据checkpoint机制择时写入到磁盘中，这符合WAL原则</p>
+<p>在checkpoint择时机制中，就有重做日志文件写满的判断，所以，如前文所述，如果重做日志文件太小，经常被写满，就会频繁导致checkpoint将更改的数据写入磁盘，导致性能抖动</p>
+<p>操作系统的文件系统是带有缓存的，当InnoDB向磁盘写入数据时，有可能只是写入到了文件系统的缓存中，没有真正的“落袋为安”</p>
+<p>InnoDB的<code>innodb_ﬂush_log_at_trx_commit</code>属性可以控制每次事务提交时InnoDB的行为</p>
+<p>当属性值为0时，事务提交时，不会对重做日志进行写入操作，而是等待主线程按时写入</p>
+<p>当属性值为1时，事务提交时，会将重做日志写入文件系统缓存，并且调用文件系统的fsync，将文件系统缓冲中的数据真正写入磁盘存储，确保不会出现数据丢失</p>
+<p>当属性值为2时，事务提交时，也会将日志文件写入文件系统缓存，但是不会调用fsync，而是让文件系统自己去判断何时将缓存写入磁盘</p>
+<p><code>innodb_ﬂush_log_at_commit</code>是InnoDB性能调优的一个基础参数，涉及InnoDB的写入效率和数据安全。</p>
+<p>当参数值为0时，写入效率最高，但是数据安全最低</p>
+<p>参数值为1时，写入效率最低，但是数据安全最高</p>
+<p>参数值为2时，二者都是中等水平。</p>
+<p>一般建议将该属性值设置为1，以获得较高的数据安全性，而且也只有设置为1，才能保证事务的持久性</p>
+<p>日志的刷盘机制如下图所示</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324165324400.png" alt="image-20200324165324400"></p>
+<p>该参数默认值为1<br>可以通过<code>innodb_flush_log_at_trx_commit</code>来控制重做日志刷新到磁盘的策略。该参数默认值为1，表示事务提交必须进行一次fsync操作，还可以设置为0和2。</p>
+<p>0表示事务提交时不进行写入重做日志操作，该操作只在主线程中完成</p>
+<p>2表示提交时写入重做日志，但是只写入文件系统缓存，不进行fsync操作</p>
+<p>由此可见，设置为0时，性能最高，但是丧失了事务的一致性。</p>
+<h2 id="InnoDB磁盘文件"><a href="#InnoDB磁盘文件" class="headerlink" title="InnoDB磁盘文件"></a>InnoDB磁盘文件</h2><p>InnoDB的主要的磁盘文件主要分为三大块：一是系统表空间，二是用户表空间，三是redo日志文件和归档文件。二进制文件(binlog)等文件是MySQL Server层维护的文件，所以未列入InnoDB的磁盘文件中</p>
+<h3 id="系统表空间和用户表空间"><a href="#系统表空间和用户表空间" class="headerlink" title="系统表空间和用户表空间"></a>系统表空间和用户表空间</h3><p><img src="/2020/03/24/8MySQL/3MySQL/1.png" alt></p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200325153751857.png" alt="image-20200325153751857"></p>
+<p>上图显示InnoDB存储引擎对于文件的存储方式，其中frm文件是表结构定义文件，记录每个表的表结构定义</p>
+<h4 id="系统表空间存储哪些数据"><a href="#系统表空间存储哪些数据" class="headerlink" title="系统表空间存储哪些数据"></a>系统表空间存储哪些数据</h4><p>系统表空间是一个共享的表空间，因为它是被多个表共享的</p>
+<p>InnoDB系统表空间包含InnoDB数据字典(元数据以及相关对象)、double write buﬀer、change buﬀer、undo logs的存储区域</p>
+<p>系统表空间也默认包含任何用户在系统表空间创建的表数据和索引数据。系统表空间是一个共享的表空间因为它是被多个表共享的</p>
+<p>1、数据字典(data dictionary)：记录数据库相关信息</p>
+<p>2、doublewrite write buﬀer：解决部分写失败（页断裂）</p>
+<p>3、insert buﬀer：内存insert buﬀer数据，周期写入共享表空间，防止意外宕机</p>
+<p>4、回滚段(rollback segments)</p>
+<p>5、undo空间：undo页</p>
+<p>系统表空间也默认包含任何用户在系统表空间创建的表数据和索引数据</p>
+<p>系统表空间是以每个数据库为单位的</p>
+<h4 id="系统表空间配置解析"><a href="#系统表空间配置解析" class="headerlink" title="系统表空间配置解析"></a>系统表空间配置解析</h4><p>系统表空间是由一个或者多个数据文件组成</p>
+<p>默认情况下，一个初始大小为10MB，名为ibdata1的系统数据文件在MySQL的data目录下被创建。用户可以使用<code>innodb_data_file_path</code>对数据文件的大小和数量进行配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;innodb_data%&apos;;</span><br><span class="line">+-----------------------+------------------------+</span><br><span class="line">| Variable_name         | Value                  |</span><br><span class="line">+-----------------------+------------------------+</span><br><span class="line">| innodb_data_file_path | ibdata1:12M:autoextend |</span><br><span class="line">| innodb_data_home_dir  |                        |</span><br><span class="line">+-----------------------+------------------------+</span><br><span class="line">2 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<p><code>innodb_data_file_path</code> 的格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innodb_data_file_path=datafile1[,datafile2]...</span><br></pre></td></tr></table></figure>
+
+<p>用户可以通过多个文件组成一个表空间，同时制定文件的属性</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innodb_data_file_path = /db/ibdata1:1000M;/dr2/db/ibdata2:1000M:autoextend</span><br></pre></td></tr></table></figure>
+
+<p>这里将/db/ibdata1和/dr2/db/ibdata2两个文件组成系统表空间</p>
+<p>如果这两个文件位于不同的磁盘上，磁盘的负载可能被平均，因此可以提高数据库的整体性能</p>
+<p>两个文件的文件名之后都跟了属性，表示文件ibdata1的大小为1000MB，文件ibdata2的大小为1000MB，而且用完空间之后可以自动增长(autoextend)</p>
+<p>设置innodb_data_file_path参数之后，所有基于InnoDB存储引擎的表的数据都会记录到该系统表空间中，如果设置了参数innodb_file_per_table，则用户可以将每个基于InnoDB存储引擎的表产生一个独立的用户表空间。用户表空间的命名规则为：表名.ibd。</p>
+<p> 通过这种方式，用户不用将所有数据都存放于默认的系统表空间中，但是用户表空间只存储该表的数据、索引和插入缓冲BITMAP等信息，其余信息还是存放在默认的表空间中</p>
+<h4 id="注"><a href="#注" class="headerlink" title="注"></a>注</h4><p><code>innodb_data_file_path</code>用来指定innodb tablespace文件，如果我们不在My.cnf文件中指定innodb_data_home_dir和innodb_data_file_path那么默认会在datadir目录下创建ibdata1 作为innodb tablespace</p>
+<h4 id="如何使用用户表空间"><a href="#如何使用用户表空间" class="headerlink" title="如何使用用户表空间"></a>如何使用用户表空间</h4><p>如果设置了参数innodb_ﬁle_per_table，则用户可以将每个基于InnoDB存储引擎的表产生一个独立的用户表空间。用户表空间的命名规则为：表名.ibd</p>
+<p>通过这种方式，用户不用将所有数据都存放于默认的系统表空间中</p>
+<h4 id="用户表空间存储哪些数据"><a href="#用户表空间存储哪些数据" class="headerlink" title="用户表空间存储哪些数据"></a>用户表空间存储哪些数据</h4><p>用户表空间只存储该表的数据、索引和插入缓冲BITMAP等信息，其余信息还是存放在默认的系统表空间中</p>
+<p>1、每个表的数据和索引都会存在自已的表空间中</p>
+<p>2、每个表的结构</p>
+<p>3、undo空间：undo页（需要设置）</p>
+<h3 id="重做日志文件和归档文件"><a href="#重做日志文件和归档文件" class="headerlink" title="重做日志文件和归档文件"></a>重做日志文件和归档文件</h3><p><img src="/2020/03/24/8MySQL/3MySQL/2.png" alt></p>
+<h4 id="哪些文件是重做日志文件"><a href="#哪些文件是重做日志文件" class="headerlink" title="哪些文件是重做日志文件"></a>哪些文件是重做日志文件</h4><p>默认情况下，在InnoDB存储引擎的数据目录下会有两个名为<code>ib_logﬁle0</code>和<code>ib_logﬁle1</code>的文件，这就是InnoDB的重做日志文件(redo log ﬁle)，它记录了对于InnoDB存储引擎的事务日志</p>
+<h4 id="重做日志文件的作用是什么"><a href="#重做日志文件的作用是什么" class="headerlink" title="重做日志文件的作用是什么"></a>重做日志文件的作用是什么</h4><p>当InnoDB的数据存储文件发生错误时，重做日志文件就能派上用场。InnoDB存储引擎可以使用重做日志文件将数据恢复为正确状态，以此来保证数据的正确性和完整性</p>
+<p>为了得到更高的可靠性，用户可以设置多个镜像日志组，将不同的文件组放在不同的磁盘上，以此来提高重做日志的高可用性</p>
+<h4 id="重做日志文件组是如何写入数据的"><a href="#重做日志文件组是如何写入数据的" class="headerlink" title="重做日志文件组是如何写入数据的"></a>重做日志文件组是如何写入数据的</h4><p>每个InnoDB存储引擎至少有1个重做日志文件组(group)，每个文件组下至少有2个重做日志文件，如默认的<code>ib_logﬁle0</code>和<code>ib_logﬁle1</code></p>
+<p>在日志组中每个重做日志文件的大小一致，并以循环写入的方式运行</p>
+<p>InnoDB存储引擎先写入重做日志文件1，当文件被写满时，会切换到重做日志文件2，再当重做日志文件2也被写满时，再切换到重做日志文件1</p>
+<h4 id="如何设置重做日志文件大小"><a href="#如何设置重做日志文件大小" class="headerlink" title="如何设置重做日志文件大小"></a>如何设置重做日志文件大小</h4><p>用户可以使用<code>innodb_log_ﬁle_size</code>来设置重做日志文件的大小，这对InnoDB存储引擎的性能有着非常大的影响</p>
+<p>如果重做日志文件设置的太大，数据丢失时，恢复时可能需要很长的时间</p>
+<p>另一方面，如果设置的太小，重做日志文件太小会导致依据checkpoint的检查需要频繁刷新脏页到磁盘中，导致性能的抖动</p>
+<h1 id="InnoDB的事务分析"><a href="#InnoDB的事务分析" class="headerlink" title="InnoDB的事务分析"></a>InnoDB的事务分析</h1><p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324191044587.png" alt="image-20200324191044587"></p>
+<p>数据库事务具有ACID四大特性。ACID是以下4个词的缩写：</p>
+<ul>
+<li>原子性(atomicity) ：事务最小工作单元，要么全成功，要么全失败</li>
+<li>一致性(consistency)：事务开始和结束后，数据库的完整性不会被破坏</li>
+<li>隔离性(isolation) ：不同事务之间互不影响，四种隔离级别为RU（读未提交）、RC（读已提交）、RR（可重复读）、SERIALIZABLE （串行化）</li>
+<li>持久性(durability) ：事务提交后，对数据的修改是永久性的，即使系统故障也不会丢失</li>
+</ul>
+<p>下面我们就来详细讲解一下上述示例涉及的事务的ACID特性的具体实现原理。总结来说，事务的隔离性由多版本控制机制和锁实现，而原子性、一致性和持久性通过InnoDB的redo log、undo log和Force Log at Commit机制来实现</p>
+<h2 id="原子性，持久性和一致性"><a href="#原子性，持久性和一致性" class="headerlink" title="原子性，持久性和一致性"></a>原子性，持久性和一致性</h2><p>原子性，持久性和一致性主要是通过<code>redo log</code>、<code>undo log</code>和<code>Force Log at Commit</code>机制机制来完成的。redo log用于在崩溃时恢复数据，undo log用于对事务的影响进行撤销，也可以用于多版本控制。而Force Log at Commit机制保证事务提交后redo log日志都已经持久化</p>
+<h3 id="RedoLog"><a href="#RedoLog" class="headerlink" title="RedoLog"></a>RedoLog</h3><p>数据库日志和数据落盘机制，如下图所示</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324191302065.png" alt="image-20200324191302065"></p>
+<p>redo log写入磁盘时，必须进行一次操作系统的fsync操作，防止redo log只是写入了操作系统的磁盘缓存中。参数innodb_ﬂush_log_at_trx_commit可以控制redo log日志刷新到磁盘的策略</p>
+<h3 id="UndoLog"><a href="#UndoLog" class="headerlink" title="UndoLog"></a>UndoLog</h3><p>UndoLog没有专门存储成一个文件，它存储到系统表空间里，UndoLog有两个作用，一个是用来做事务回滚，一个是用来做MVCC的版本记录</p>
+<p>UndoLog中分为两类进行存储</p>
+<p>insert undolog：做insert插入操作时，产生的回滚日志</p>
+<p>update undolog：做delete和update操作时，产生的回滚日志</p>
+<p>undolog没有单独的文件，而是存储到系统表空间中的（ibdata1）</p>
+<p>数据库崩溃重启后需要从redo log中把未落盘的脏页数据恢复出来，重新写入磁盘，保证用户的数据不丢失。当然，在崩溃恢复中还需要回滚没有提交的事务。由于回滚操作需要undo日志的支持，undo日志的完整性和可靠性需要redo日志来保证，所以崩溃恢复先做redo恢复数据，然后做undo回滚</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324191417286.png" alt="image-20200324191417286"></p>
+<p>在事务执行的过程中，除了记录redo log，还会记录一定量的undo log。undo log记录了数据在每个操作前的状态，如果事务执行过程中需要回滚，就可以根据undo log进行回滚操作</p>
+<p><img src="/2020/03/24/8MySQL/3MySQL/image-20200324191431981.png" alt="image-20200324191431981"></p>
+<p>事前准备</p>
+<p>第一种其实没有加锁，串行化就是读写都加锁，中间两种是mvcc，即 读不加锁写加锁</p>
+<p>聚集索引和非聚集索引</p>
+<p>主键索引是聚集索引，辅助索引是非聚集索引</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/24/8MySQL/3MySQL/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-24, 10:32:20</p>
+        <p><span>最后更新:</span>2020-03-26, 10:01:37</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/24/8MySQL/3MySQL/" title="">http://yoursite.com/2020/03/24/8MySQL/3MySQL/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/24/8MySQL/3MySQL/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/26/8MySQL/4MySQL/">
+                    
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/21/8MySQL/2MySQL/">
+                    
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL锁篇"><span class="toc-number">1.</span> <span class="toc-text">MySQL锁篇</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL锁介绍"><span class="toc-number">1.1.</span> <span class="toc-text">MySQL锁介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#乐观锁"><span class="toc-number">1.1.1.</span> <span class="toc-text">乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#锁的分类"><span class="toc-number">1.1.2.</span> <span class="toc-text">锁的分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#按照锁的粒度"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">按照锁的粒度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按照锁的功能"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">按照锁的功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#按照锁的实现方式"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">按照锁的实现方式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL表级锁"><span class="toc-number">1.2.</span> <span class="toc-text">MySQL表级锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#表级锁介绍"><span class="toc-number">1.2.1.</span> <span class="toc-text">表级锁介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL的表级锁有两种"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">MySQL的表级锁有两种</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MySQL-实现的表级锁定的争用状态变量"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">MySQL 实现的表级锁定的争用状态变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表锁介绍"><span class="toc-number">1.2.2.</span> <span class="toc-text">表锁介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#表锁有两种表现形式"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">表锁有两种表现形式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手动增加表锁"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">手动增加表锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看表锁情况"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">查看表锁情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#删除表锁"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">删除表锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表锁演示"><span class="toc-number">1.2.3.</span> <span class="toc-text">表锁演示</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境准备"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#读锁演示"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">读锁演示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#写锁演示"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">写锁演示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#元数据锁介绍"><span class="toc-number">1.2.4.</span> <span class="toc-text">元数据锁介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#元数据锁演示"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">元数据锁演示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#补充"><span class="toc-number">1.2.5.</span> <span class="toc-text">补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#表读锁"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">表读锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#表写锁"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">表写锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL行锁"><span class="toc-number">1.3.</span> <span class="toc-text">MySQL行锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#行锁介绍"><span class="toc-number">1.3.1.</span> <span class="toc-text">行锁介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看行锁状态"><span class="toc-number">1.3.2.</span> <span class="toc-text">查看行锁状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行读锁"><span class="toc-number">1.3.3.</span> <span class="toc-text">行读锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行读锁升级为表锁"><span class="toc-number">1.3.4.</span> <span class="toc-text">行读锁升级为表锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行写锁"><span class="toc-number">1.3.5.</span> <span class="toc-text">行写锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#间隙锁"><span class="toc-number">1.3.6.</span> <span class="toc-text">间隙锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#死锁"><span class="toc-number">1.3.7.</span> <span class="toc-text">死锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#InnoDB架构分析"><span class="toc-number">2.</span> <span class="toc-text">InnoDB架构分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB架构图"><span class="toc-number">2.1.</span> <span class="toc-text">InnoDB架构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB内存结构"><span class="toc-number">2.2.</span> <span class="toc-text">InnoDB内存结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Buﬀer-Pool缓冲池"><span class="toc-number">2.2.1.</span> <span class="toc-text">Buﬀer Pool缓冲池</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#概述"><span class="toc-number">2.2.1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据页和索引页"><span class="toc-number">2.2.1.2.</span> <span class="toc-text">数据页和索引页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#插入缓冲（Insert-Buﬀer）"><span class="toc-number">2.2.1.3.</span> <span class="toc-text">插入缓冲（Insert Buﬀer）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自适应哈希索引（Adaptive-Hash-Index）"><span class="toc-number">2.2.1.4.</span> <span class="toc-text">自适应哈希索引（Adaptive Hash Index）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#锁信息（Lock-Info）"><span class="toc-number">2.2.1.5.</span> <span class="toc-text">锁信息（Lock Info）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据字典信息（Data-Dictionary）"><span class="toc-number">2.2.1.6.</span> <span class="toc-text">数据字典信息（Data Dictionary）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存数据落盘分析"><span class="toc-number">2.2.2.</span> <span class="toc-text">内存数据落盘分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#整体思路分析"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">整体思路分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#脏页落盘"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">脏页落盘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重做日志落盘"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">重做日志落盘</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CheckPoint检查点机制"><span class="toc-number">2.2.3.</span> <span class="toc-text">CheckPoint检查点机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简介"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Checkpoint分类"><span class="toc-number">2.2.3.2.</span> <span class="toc-text">Checkpoint分类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Double-Write双写"><span class="toc-number">2.2.4.</span> <span class="toc-text">Double Write双写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redo-log-Buﬀer重做日志缓冲"><span class="toc-number">2.2.5.</span> <span class="toc-text">Redo log Buﬀer重做日志缓冲</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InnoDB磁盘文件"><span class="toc-number">2.3.</span> <span class="toc-text">InnoDB磁盘文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#系统表空间和用户表空间"><span class="toc-number">2.3.1.</span> <span class="toc-text">系统表空间和用户表空间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#系统表空间存储哪些数据"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">系统表空间存储哪些数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#系统表空间配置解析"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">系统表空间配置解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#注"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何使用用户表空间"><span class="toc-number">2.3.1.4.</span> <span class="toc-text">如何使用用户表空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用户表空间存储哪些数据"><span class="toc-number">2.3.1.5.</span> <span class="toc-text">用户表空间存储哪些数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重做日志文件和归档文件"><span class="toc-number">2.3.2.</span> <span class="toc-text">重做日志文件和归档文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#哪些文件是重做日志文件"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">哪些文件是重做日志文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重做日志文件的作用是什么"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">重做日志文件的作用是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重做日志文件组是如何写入数据的"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">重做日志文件组是如何写入数据的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何设置重做日志文件大小"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">如何设置重做日志文件大小</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#InnoDB的事务分析"><span class="toc-number">3.</span> <span class="toc-text">InnoDB的事务分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原子性，持久性和一致性"><span class="toc-number">3.1.</span> <span class="toc-text">原子性，持久性和一致性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RedoLog"><span class="toc-number">3.1.1.</span> <span class="toc-text">RedoLog</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UndoLog"><span class="toc-number">3.1.2.</span> <span class="toc-text">UndoLog</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/26/8MySQL/4MySQL/" title="上一篇: ">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/21/8MySQL/2MySQL/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

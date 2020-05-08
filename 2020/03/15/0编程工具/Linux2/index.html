@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="Linux数据处理grep命令筛选数据（Globally search a Regular Expression and Print）的缩写，全局搜索一个正则表达式并打印，就是在文件中查找关键字，并显示关键字所在的行 grep命令的最基本用法grep text file，text代表要搜索的文本，file代表供搜索的文件 -i参数：ignore，忽略大小写，默认情况下，grep命令是区分大小写的">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux2">
+<meta property="og:url" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="Linux数据处理grep命令筛选数据（Globally search a Regular Expression and Print）的缩写，全局搜索一个正则表达式并打印，就是在文件中查找关键字，并显示关键字所在的行 grep命令的最基本用法grep text file，text代表要搜索的文本，file代表供搜索的文件 -i参数：ignore，忽略大小写，默认情况下，grep命令是区分大小写的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200315203228206.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200315211922870.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200315213121200.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316094647371.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316104632482.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316105355028.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316105716061.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316110414705.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316130815856.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316131221412.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316161657028.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316163055812.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316163600282.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316171959989.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316193304732.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316201149061.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316203843514.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316223030923.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200316223324273.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200317081053233.png">
+<meta property="og:updated_time" content="2020-03-18T02:36:16.965Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux2">
+<meta name="twitter:description" content="Linux数据处理grep命令筛选数据（Globally search a Regular Expression and Print）的缩写，全局搜索一个正则表达式并打印，就是在文件中查找关键字，并显示关键字所在的行 grep命令的最基本用法grep text file，text代表要搜索的文本，file代表供搜索的文件 -i参数：ignore，忽略大小写，默认情况下，grep命令是区分大小写的">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/15/0编程工具/Linux2/image-20200315203228206.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux2 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-0编程工具/Linux2" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/15/0编程工具/Linux2/" class="article-date">
+      <time datetime="2020-03-15T11:53:37.521Z" itemprop="datePublished">2020-03-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux2
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><h3 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h3><p>筛选数据（Globally search a Regular Expression and Print）的缩写，全局搜索一个正则表达式并打印，就是在文件中查找关键字，并显示关键字所在的行</p>
+<h3 id="grep命令的最基本用法"><a href="#grep命令的最基本用法" class="headerlink" title="grep命令的最基本用法"></a>grep命令的最基本用法</h3><p><code>grep text file</code>，text代表要搜索的文本，file代表供搜索的文件</p>
+<p><code>-i</code>参数：ignore，忽略大小写，默认情况下，grep命令是区分大小写的</p>
+<img src="/2020/03/15/0编程工具/Linux2/image-20200315203228206.png" alt="image-20200315203228206" style="zoom: 80%;">
+
+<p><code>-n</code>参数：number，显示搜索到的文本所在的行号，<code>grep -n path /etc/profile</code></p>
+<p><code>-v</code>参数：invert，只显示文本不在的行，<code>grep -v path /etc/profile</code></p>
+<p><code>-r</code>参数：recursive，递归，<code>grep -r &quot;Hello World&quot; folder/</code></p>
+<p> 注：rgrep命令，作用相当于grep -r</p>
+<a id="more"></a>
+
+<h3 id="grep的高级用法"><a href="#grep的高级用法" class="headerlink" title="grep的高级用法"></a>grep的高级用法</h3><p>配合正则表达式</p>
+<p>正则表达式使用单个字符串来描述、匹配一系列符合某个句法规则的字符串</p>
+<img src="/2020/03/15/0编程工具/Linux2/image-20200315211922870.png" alt="image-20200315211922870" style="zoom:50%;">
+
+<p> <code>-E</code>：<code>extended regular expression</code>第一个字母，表示“扩展的正则表达式”</p>
+<p><code>grep -E Path /etc/profile</code></p>
+<img src="/2020/03/15/0编程工具/Linux2/image-20200315213121200.png" alt="image-20200315213121200" style="zoom: 67%;">
+
+<p><code>grep -E [Pp]ath /etc/profile</code>，[Pp]ath就是既可以是Path，也可以是path</p>
+<h3 id="Sort命令"><a href="#Sort命令" class="headerlink" title="Sort命令"></a>Sort命令</h3><p>为文件排序</p>
+<p><code>r</code>参数：reverse，是相反</p>
+<p><code>-R</code>参数：随机排序，</p>
+<p><code>-n</code>参数：默认仅用sort命令，是不区分 字符是否是数字，会把这些看成字符串，按照1-9的顺序来排序</p>
+<p><code>-n</code>参数用于对数字进行排序，按从小到大排序</p>
+<h3 id="uniq命令"><a href="#uniq命令" class="headerlink" title="uniq命令"></a>uniq命令</h3><p>unique，  删除文件中的重复内容</p>
+<p><code>-c</code>参数用于显示重复的行数count</p>
+<p><code>-d</code>参数只显示重复的行的值，duplicated，重复的</p>
+<h3 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h3><p>剪切文件的一部分内容</p>
+<p>cut命令用于对文件的每一行进行剪切处理</p>
+<p><code>-c</code>参数：根据字符数来剪切，c是字符</p>
+<p><code>cut -c 2-4 name.txt</code>剪切第二个到第四个字符</p>
+<h2 id="流、管道、重定向"><a href="#流、管道、重定向" class="headerlink" title="流、管道、重定向"></a>流、管道、重定向</h2><h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>把本来要显示在终端的命令结果，输送到别的地方，例如输送到文件中或者作为其他命令的输入（命令的连接，或者叫命令的管道）</p>
+<p>文件或者另一个命令的输入，通过在命令间插入特定的符号，这些符号可以称为“重定向流”符号</p>
+<p>重定向流从Unix时代就已经是很重要的概念，后来Linux出现，重定向流的原理依旧被沿用，重定向流将会改变我们看待终端命令行的方式</p>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>把两个命令连接起来使用，一个命令的输出作为另一个命令的输入，pipeline</p>
+<h3 id="流"><a href="#流" class="headerlink" title="流"></a>流</h3><p>在计算机学科中，流是时间上可用的一系列数据元素。我们可以把流比喻成传送带上的物件，每个时间点传输一个，而不是多个打包传输</p>
+<h3 id="gt-和-gt-gt"><a href="#gt-和-gt-gt" class="headerlink" title="&gt;和&gt;&gt;"></a>&gt;和&gt;&gt;</h3><p>重定向到文件</p>
+<p>最简单的操作就是把命令的输出结果重定向到文件中，就不会在终端显示命令运行结果了</p>
+<h3 id="cut命令进阶"><a href="#cut命令进阶" class="headerlink" title="cut命令进阶"></a>cut命令进阶</h3><p>根据分隔符来剪切 </p>
+<p>CSV是Comma Separated Values的缩写，逗号分隔值，CSV文件的后缀名是<code>.csv</code>，通常可以被Excel等软件打开</p>
+<p><code>-d</code>参数：d是delimiter的缩写，分隔符，用于指定用什么分隔符（比如逗号，分号，双引号等等）</p>
+<p><code>-f</code>参数：表示剪切下用分隔符分隔的哪一块或那几块区域</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316094647371.png" alt="image-20200316094647371"></p>
+<h3 id="gt"><a href="#gt" class="headerlink" title="&gt;"></a>&gt;</h3><p>重定向到新的文件</p>
+<p>&gt;可以将命令的输出结果重定向到你选择的文件中</p>
+<p><code>cut -d , -f 1 notes.csv &gt; student.txt</code></p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316104632482.png" alt="image-20200316104632482"></p>
+<p>使用&gt;符号要小心，如果此文件不存在，则新建一个文件，如果此文件已经存在，那么就会把文件内容覆盖掉</p>
+<h3 id="gt-gt"><a href="#gt-gt" class="headerlink" title="&gt;&gt;"></a>&gt;&gt;</h3><p>重定向到文件末尾</p>
+<p>&gt;&gt;的作用和&gt;的作用类似，不过它不像&gt;那么危险，而是将重定向的内容写入到文件末尾，起到追加的作用，如果文件不存在，也会被创建</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316105355028.png" alt="image-20200316105355028"></p>
+<img src="/2020/03/15/0编程工具/Linux2/image-20200316105716061.png" alt="image-20200316105716061" style="zoom: 50%;">
+
+<h3 id="stdin、stdout、stderr"><a href="#stdin、stdout、stderr" class="headerlink" title="stdin、stdout、stderr"></a>stdin、stdout、stderr</h3><p>stdinh：标准输入</p>
+<p>stdout：标准输出，不包括错误信息</p>
+<p>stderr：标准错误输出，指终端输出的错误信息</p>
+<img src="/2020/03/15/0编程工具/Linux2/image-20200316110414705.png" alt="image-20200316110414705" style="zoom:50%;">
+
+<p>文件描述符</p>
+<p>File Descriptor，简称fd</p>
+<p><code>cat not_exist_file.csv &gt; results.txt 2&gt; error.log</code></p>
+<p>&gt; result.txt：将标准输出重定向到result.txt文件中</p>
+<p>2&gt;errors.log：将标准错误输出重定向到errors.log文件中</p>
+<p>2&gt;&gt;：用于将标准错误输出重定向到文件末尾</p>
+<p>2&gt;&amp;1：组合符号，将标准错误输出重定向到与标准输出相同的地方</p>
+<p><code>cat not_exist_file.csv &gt; results.txt 2&gt;&amp;1</code></p>
+<p><code>cat not_exist_file.csv &gt;&gt; results.txt 2&gt;&amp;1</code></p>
+<h2 id="lt-lt-lt"><a href="#lt-lt-lt" class="headerlink" title="&lt;,&lt;&lt;"></a>&lt;,&lt;&lt;</h2><p>从文件或键盘读取</p>
+<p>不是所有的命令都有输入，也不是所有的命令都有输出</p>
+<h3 id="lt"><a href="#lt" class="headerlink" title="&lt;"></a>&lt;</h3><p>用于指定命令的输入</p>
+<p><code>cat &lt; notes.csv</code>，它的运行结果和<code>cat notes.csv</code>一模一样</p>
+<h3 id="lt-lt"><a href="#lt-lt" class="headerlink" title="&lt;&lt;"></a>&lt;&lt;</h3><p>将命令的输入重定向为键盘输入，以逐行输入的模式（回车键换行），所有输入的行都将在输入结果字符串之后发送给命令</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316130815856.png" alt="image-20200316130815856"></p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316131221412.png" alt="image-20200316131221412"></p>
+<h3 id="：管道"><a href="#：管道" class="headerlink" title="|：管道"></a>|：管道</h3><p>|符号被称为管道符，其作用就是建立命令管道，管道也算是重定向流的一种</p>
+<h4 id="管道的原理"><a href="#管道的原理" class="headerlink" title="管道的原理"></a>管道的原理</h4><p>将两个命令连接成管道，简单地说就是将一个命令的输出作为另一个命令的输入</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316161657028.png" alt="image-20200316161657028"></p>
+<p>Linux中的命令，每一个的功能虽然有限，但是一旦使用管道，那就会结合各个命令的功能</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>按学生名字排序</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316163055812.png" alt="image-20200316163055812"></p>
+<p>根据大小排序目录</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316163600282.png" alt="image-20200316163600282"></p>
+<h2 id="监视系统活动和查看进程"><a href="#监视系统活动和查看进程" class="headerlink" title="监视系统活动和查看进程"></a>监视系统活动和查看进程</h2><p>Linux可以管理多个同时运行的程序，是多任务系统，Linux也是一个多用户的系统，多个用户可以在不同地方通过网络连接到同一个Linux系统</p>
+<h3 id="多用户多任务的隐患"><a href="#多用户多任务的隐患" class="headerlink" title="多用户多任务的隐患"></a>多用户多任务的隐患</h3><p>可能某个用户或者某个任务（其实就是运行的程序），在某时让Linux过载了</p>
+<h3 id="w命令"><a href="#w命令" class="headerlink" title="w命令"></a>w命令</h3><p>可以快速了解系统中目前有哪些用户登录着以及它们在干什么</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316171959989.png" alt="image-20200316171959989"></p>
+<p>负载的三个数值</p>
+<p>1分钟之内的平均负载，5分钟之内的平均负载， 15分钟之内的平均负载</p>
+<p>USER：用户名（登录名）</p>
+<p>TTY：登录的终端名称 ，<code>:0</code>意思是本地，就是目前所在的这个图形终端，pts是<code>pseudo terminal slave</code>，表示伪终端从属</p>
+<p>FROM：用户连接到的服务器的IP地址（或者主机名）</p>
+<p>LOGIN@：用户连接系统的时间</p>
+<p>IDLE：用户有多久没活跃（没运行任何命令）</p>
+<p>JCPU：该终端所有相关的进程使用的CPU（处理器）时间，每当进程结束就停止计时，开始新的进程则会重新计时</p>
+<p>PCPU：表示CPU（处理器）执行当前程序所消耗的时间，当前进程就是在WHAT列里显示的程序</p>
+<p>WHAT：当下用户正运行的程序</p>
+<h3 id="ps命令和top命令"><a href="#ps命令和top命令" class="headerlink" title="ps命令和top命令"></a>ps命令和top命令</h3><p>列出运行的程序</p>
+<p>简单来说，进程就是加载到内存中运行的程序，大多数程序运行时都只在内存中启动一个进程</p>
+<h4 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h4><p>进程的静态列表，Process Status，用于显示当前系统中的进程，ps命令显示的进程列表不会随时间而更新，是静态的</p>
+<p>PID：进程号，每个进程有唯一的进程号</p>
+<p>TTY：进程运行所在的终端</p>
+<p>Time：进程运行了多久</p>
+<p>CMD：产生这个进程的程序名，如果在进程列表中看到有好几行都是同样的程序名，那么就是同样的程序产生了不止一个进程</p>
+<p><code>ps -ef</code>：列出所有用户在所有终端的所有进程，其中</p>
+<p>UID：表示用户名，也就是运行进程的用户</p>
+<p>PID：进程号</p>
+<p>PPID：程序的父进程号</p>
+<h3 id="linux命令ps-ef-grep-httpd"><a href="#linux命令ps-ef-grep-httpd" class="headerlink" title="linux命令ps -ef | grep httpd"></a>linux命令ps -ef | grep httpd</h3><p>PS是LINUX下最常用的也是非常强大的进程查看命令<br>//以下这条命令是检查java 进程是否存在.<br>ps -ef |grep java</p>
+<p>下面对命令选项进行说明：<br>-e 显示所有进程。<br>-f 全格式。</p>
+<p>ps e 列出程序时，显示每个程序所使用的环境变量。<br>ps f 用ASCII字符显示树状结构，表达程序间的相互关系</p>
+<p>grep命令是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹 配的行打印出来。grep全称是Global Regular</p>
+<p>Expression Print，表示全局正则表达式版本，它的使用权限是所有用户。<br>ps -ef | grep httpd ：<br>检查httpd进程是否存在  ps -ef | grep httpd ：检查httpd进程的命令！</p>
+<h4 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h4><p>直接输入top就可以，进程的动态列表</p>
+<h3 id="Ctrl-c"><a href="#Ctrl-c" class="headerlink" title="Ctrl+c"></a>Ctrl+c</h3><p>停止终端中正在运行的进程</p>
+<p>Ctrl+c可以比较友好的终止终端中正在运行的程序（进程），这个组合键也只有在终端中会这这样执行，如果在普通的图形界面中，它就是拷贝的快捷键</p>
+<p>而在终端中拷贝和复制，需要用<code>Ctrl+Shift+C</code>和<code>Ctrl+Shift+V</code>来执行</p>
+<h2 id="前台进程和后台进程"><a href="#前台进程和后台进程" class="headerlink" title="前台进程和后台进程"></a>前台进程和后台进程</h2><p>可以在同一个终端中同时运行好几个命令，需要用到后端进程的概念</p>
+<p>默认情况下，用户创建的进程都是前台进程，前台进程从键盘读取数据，并把处理结果输出到显示器</p>
+<p>后台进程与键盘没有必然的关系，当然，后台进程也可能等待键盘输入，后台进程的优点是不必等待程序运行结束，就可以输入其他命令</p>
+<h3 id="amp-符号"><a href="#amp-符号" class="headerlink" title="&amp;符号"></a>&amp;符号</h3><p>在后台运行进程</p>
+<p><code>cp file.txt file-copy.txt &amp;</code></p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316193304732.png" alt="image-20200316193304732"></p>
+<h2 id="调节时间"><a href="#调节时间" class="headerlink" title="调节时间"></a>调节时间</h2><h3 id="定制date的输出"><a href="#定制date的输出" class="headerlink" title="定制date的输出"></a>定制date的输出</h3><p><code>date &quot;+%H&quot;</code> H是hour的首字母，表示”小时“</p>
+<p><code>date &quot;+$H:%M:%S&quot;</code></p>
+<p><code>date &quot;+%H时 %M分 %S秒&quot;</code></p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316201149061.png" alt="image-20200316201149061"></p>
+<h2 id="压缩解压"><a href="#压缩解压" class="headerlink" title="压缩解压"></a>压缩解压</h2><h3 id="tar命令"><a href="#tar命令" class="headerlink" title="tar命令"></a>tar命令</h3><p>同时压缩多个文件</p>
+<p>打包：是将多个文件变成一个总的文件，这个文件通常称为archive，归档存档</p>
+<p>压缩：是将一个大文件通过某种压缩算法变成一个小文件</p>
+<p>首先用tar将多个文件归档为一个总的文件，称为archive，然后，用gzip或bzip2命令将archive压缩为更小的文件</p>
+<img src="/2020/03/15/0编程工具/Linux2/image-20200316203843514.png" alt="image-20200316203843514" style="zoom:50%;">
+
+<h3 id="将多个文件合并为一个文件"><a href="#将多个文件合并为一个文件" class="headerlink" title="将多个文件合并为一个文件"></a>将多个文件合并为一个文件</h3><h4 id="cvf"><a href="#cvf" class="headerlink" title="-cvf"></a>-cvf</h4><p>创建一个tar归档</p>
+<p>c：create</p>
+<p>v：verbose，表示冗余，会显示操作的细节</p>
+<p>f：file，表示文件，指定归档文件</p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316223030923.png" alt="image-20200316223030923"></p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200316223324273.png" alt="image-20200316223324273"></p>
+<p>可以直接对文件进行归档操作，不需要先把所有文件放到一个目录中</p>
+<p><code>tar -cvf archive.tar file1.txt file2.txt file3.txt</code>，把file1.txt，file2.txt，file3.txt归档为archive,tar</p>
+<h4 id="tf"><a href="#tf" class="headerlink" title="-tf"></a>-tf</h4><p>显示归档里的内容，并不解开归档</p>
+<p><code>tar -tf sorting.tar</code></p>
+<p><img src="/2020/03/15/0编程工具/Linux2/image-20200317081053233.png" alt="image-20200317081053233"></p>
+<h4 id="rvf"><a href="#rvf" class="headerlink" title="-rvf"></a>-rvf</h4><p>追加文件到归档</p>
+<p><code>tar -rvf archive.tar file_erxtra.txt</code>，将file_erxtra.txt这个文件添加到archive.tar归档中</p>
+<h4 id="xvf"><a href="#xvf" class="headerlink" title="-xvf"></a>-xvf</h4><p>解开归档</p>
+<p>是<code>-cvf</code>的反向操作，将生成的归档解开，x是extract，提取</p>
+<p><code>tar -xvf sorting.tar</code></p>
+<h4 id="gzip和bzip2命令"><a href="#gzip和bzip2命令" class="headerlink" title="gzip和bzip2命令"></a>gzip和bzip2命令</h4><p>压缩归档</p>
+<p> gzip：比较常用</p>
+<p>bzip2：不是那么常用，压缩率比gzip更大，但是更耗时</p>
+<p><code>.tar.gz</code>：用gzip命令压缩后的文件后缀名，<code>gzip sorting.tar</code></p>
+<p><code>.tar.bz2</code>：用bzip2命令压缩后的文件后缀名，<code>bzip2 sorting.tar</code></p>
+<h4 id="gunzip和bunzip2命令"><a href="#gunzip和bunzip2命令" class="headerlink" title="gunzip和bunzip2命令"></a>gunzip和bunzip2命令</h4><p>解压</p>
+<p><code>gunzip sorting.tar.gz</code></p>
+<p><code>bunzip2 sorting tar.bz2</code></p>
+<h4 id="用tar命令同时归档和压缩"><a href="#用tar命令同时归档和压缩" class="headerlink" title="用tar命令同时归档和压缩"></a>用tar命令同时归档和压缩</h4><p>可以用tar命令同时完成归档和压缩的操作，一气呵成，就是给tar命令多加一个选项参数，使之完成归档操作之后还是调用gzip和bzip2命令来完成压缩操作</p>
+<p><code>-zcvf</code>：归档，然后用gzip来压缩归档</p>
+<p><code>tar -zcvf sorting.tar.gz sorting</code></p>
+<h4 id="用tar命令同时解压"><a href="#用tar命令同时解压" class="headerlink" title="用tar命令同时解压"></a>用tar命令同时解压</h4><p><code>tar -zxcf sorting.tar.gz</code></p>
+<h4 id="jcvf"><a href="#jcvf" class="headerlink" title="jcvf"></a>jcvf</h4><p>归档，然后用bzip2来压缩归档</p>
+<p><code>tar -jcvf sorting.tar.bz2 sorting/</code></p>
+<h4 id="jxvf"><a href="#jxvf" class="headerlink" title="jxvf"></a>jxvf</h4><p>解压</p>
+<p><code>tar -jxvf sorting.tar.bz2</code></p>
+<h4 id="zcat-bzcat，zmore-bzmore，zless-bzless"><a href="#zcat-bzcat，zmore-bzmore，zless-bzless" class="headerlink" title="zcat/bzcat，zmore/bzmore，zless/bzless"></a>zcat/bzcat，zmore/bzmore，zless/bzless</h4><p>显示用gzip/bzip2压缩的文件的内容</p>
+<p><code>zcat sorting.tar.gz</code></p>
+<p><code>bazcat sorting.tar.bz2</code></p>
+<h4 id="zip-unzip"><a href="#zip-unzip" class="headerlink" title="zip/unzip"></a>zip/unzip</h4><p>压缩/解压zip文件</p>
+<p>RedHat一族中的安装方式：<code>sudo yum install unzip</code></p>
+<p>解压<code>.zip</code>文件：<code>unzip zrchive.zip</code></p>
+<p>不解压<code>.zip</code>文件，只看其中的内容：<code>unzip -l archive.zip</code></p>
+<hr>
+<p>RedHat一族中的安装方式：<code>sudo yum install zip</code></p>
+<p><code>压缩为.zip</code>文件：<code>zip -r sorting.zip sorting</code>，<code>-r</code>是recursively，表示递归</p>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><p>yum可以下载安装大部分的软件</p>
+<p>1 安装<br>yum install 全部安装<br>yum install package1 安装指定的安装包package1<br>yum groupinsall group1 安装程序组group1</p>
+<p>2 更新和升级<br>yum update 全部更新<br>yum update package1 更新指定程序包package1<br>yum check-update 检查可更新的程序<br>yum upgrade package1 升级指定程序包package1<br>yum groupupdate group1 升级程序组group1</p>
+<p>3 查找和显示<br>yum info package1 显示安装包信息package1<br>yum list 显示所有已经安装和可以安装的程序包<br>yum list package1 显示指定程序包安装情况package1<br>yum groupinfo group1 显示程序组group1信息yum search string 根据关键字string查找安装包</p>
+<p>4 删除程序<br>yum remove &#124; erase package1 删除程序包package1<br>yum groupremove group1 删除程序组group1<br>yum deplist package1 查看程序package1依赖情况</p>
+<p>5 清除缓存<br>yum clean packages 清除缓存目录下的软件包<br>yum clean headers 清除缓存目录下的 headers<br>yum clean oldheaders 清除缓存目录下旧的 headers<br>yum clean, yum clean all (= yum clean packages; yum clean oldheaders) 清除缓存目录下的软件包及旧的header</p>
+<h3 id="编译安装的大致步骤"><a href="#编译安装的大致步骤" class="headerlink" title="编译安装的大致步骤"></a>编译安装的大致步骤</h3><p>下载源代码–&gt;解压压缩包–&gt;配置–&gt;编译–&gt;安装</p>
+<h3 id="首先尝试找安装包"><a href="#首先尝试找安装包" class="headerlink" title="首先尝试找安装包"></a>首先尝试找安装包</h3><p>这一部分涉及到的软件包安装等，是基于RedHat一族的Linux发行版，包括CentOS，其他不是RedHat一族的Linux发行版，安装软件的方式大同小异</p>
+<p>当要找的软件不在CentOS的软件仓库中时，可以试试去软件的官方网站找后缀是<code>.rpm</code>的安装包</p>
+<p><code>.rpm</code>的安装包用于RedHat一族的操作系统，包括CentOS</p>
+<p>Debian一族（包括Ubuntu和Debian）用后缀为<code>.deb</code>的安装包，deb就是Debian的缩写</p>
+<h4 id="alien软件"><a href="#alien软件" class="headerlink" title="alien软件"></a>alien软件</h4><p>有个软件可以将deb安装包和rpm安装包互相转换，这个软件是alien，alien默认没有安装，所以首先要安装它</p>
+<p><code>sudo yum install alien</code></p>
+<h4 id="将deb转换为rpm"><a href="#将deb转换为rpm" class="headerlink" title="将deb转换为rpm"></a>将deb转换为rpm</h4><p><code>sudo alien -r xxx.deb</code></p>
+<p>用alien转换成rpm包不能保证100%顺利安装，所以能找到rpm安装包的话，最好使用rpm</p>
+<h3 id="安装rpm安装包"><a href="#安装rpm安装包" class="headerlink" title="安装rpm安装包"></a>安装rpm安装包</h3><p><code>sudo rpm -i xxx.rpm</code></p>
+<h3 id="实在找不到rpm安装包"><a href="#实在找不到rpm安装包" class="headerlink" title="实在找不到rpm安装包"></a>实在找不到rpm安装包</h3><p>就需要获取软件源代码，并自行编译，编译就是将程序源代码转换成可执行文件的过程</p>
+<p>大多数Linux的程序都是开放源代码的，可以编译成合适我们的电脑和操作系统属性的可执行文件</p>
+<h3 id="rar-unrar"><a href="#rar-unrar" class="headerlink" title="rar/unrar"></a>rar/unrar</h3><p>压缩和解压rar文件</p>
+<p>安装rar和unrar</p>
+<h2 id="安装CentOS服务器"><a href="#安装CentOS服务器" class="headerlink" title="安装CentOS服务器"></a>安装CentOS服务器</h2><h2 id="Servlet-Tomcat和Jenkins"><a href="#Servlet-Tomcat和Jenkins" class="headerlink" title="Servlet,Tomcat和Jenkins"></a>Servlet,Tomcat和Jenkins</h2><h3 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h3><p>用Java语言开发的一种持续集成（CI）工具</p>
+<p>CI表示<code>Continuous Integration</code>，表示持续集成，能让软件的测试、编译和部署自动化</p>
+<p>通常与版本管理工具、构建工具结合使用</p>
+<p>常用的版本管理工具有SVN、GIT</p>
+<p>常用的构建工具有Maven、Gradle</p>
+<p>Jenkins是以Sevlet形式提供的，它采用扩展名为<code>.war</code>的二进制文件的形式</p>
+<p>为了使用Jenkins应用程序，需要安装Tomcat服务器，jenkins也可以独立运行，因为它自身也包含了名为“Winstone”的Servlet微型容器</p>
+<h3 id="配置Java环境并安装Tomcat"><a href="#配置Java环境并安装Tomcat" class="headerlink" title="配置Java环境并安装Tomcat"></a>配置Java环境并安装Tomcat</h3>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/15/0编程工具/Linux2/">Linux2</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-15, 19:53:37</p>
+        <p><span>最后更新:</span>2020-03-18, 10:36:16</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/15/0编程工具/Linux2/" title="Linux2">http://yoursite.com/2020/03/15/0编程工具/Linux2/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/15/0编程工具/Linux2/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/17/0编程工具/Linux3/">
+                    Linux3
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/15/数据结构/2栈和队列/">
+                    栈和队列
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据处理"><span class="toc-number">1.1.</span> <span class="toc-text">数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#grep命令"><span class="toc-number">1.1.1.</span> <span class="toc-text">grep命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep命令的最基本用法"><span class="toc-number">1.1.2.</span> <span class="toc-text">grep命令的最基本用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep的高级用法"><span class="toc-number">1.1.3.</span> <span class="toc-text">grep的高级用法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sort命令"><span class="toc-number">1.1.4.</span> <span class="toc-text">Sort命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uniq命令"><span class="toc-number">1.1.5.</span> <span class="toc-text">uniq命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cut命令"><span class="toc-number">1.1.6.</span> <span class="toc-text">cut命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流、管道、重定向"><span class="toc-number">1.2.</span> <span class="toc-text">流、管道、重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向"><span class="toc-number">1.2.1.</span> <span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#管道"><span class="toc-number">1.2.2.</span> <span class="toc-text">管道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流"><span class="toc-number">1.2.3.</span> <span class="toc-text">流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gt-和-gt-gt"><span class="toc-number">1.2.4.</span> <span class="toc-text">&gt;和&gt;&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cut命令进阶"><span class="toc-number">1.2.5.</span> <span class="toc-text">cut命令进阶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gt"><span class="toc-number">1.2.6.</span> <span class="toc-text">&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gt-gt"><span class="toc-number">1.2.7.</span> <span class="toc-text">&gt;&gt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stdin、stdout、stderr"><span class="toc-number">1.2.8.</span> <span class="toc-text">stdin、stdout、stderr</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-lt-lt"><span class="toc-number">1.3.</span> <span class="toc-text">&lt;,&lt;&lt;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lt"><span class="toc-number">1.3.1.</span> <span class="toc-text">&lt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-lt"><span class="toc-number">1.3.2.</span> <span class="toc-text">&lt;&lt;</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#：管道"><span class="toc-number">1.3.3.</span> <span class="toc-text">|：管道</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#管道的原理"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">管道的原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#示例"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#监视系统活动和查看进程"><span class="toc-number">1.4.</span> <span class="toc-text">监视系统活动和查看进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多用户多任务的隐患"><span class="toc-number">1.4.1.</span> <span class="toc-text">多用户多任务的隐患</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#w命令"><span class="toc-number">1.4.2.</span> <span class="toc-text">w命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ps命令和top命令"><span class="toc-number">1.4.3.</span> <span class="toc-text">ps命令和top命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ps命令"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">ps命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux命令ps-ef-grep-httpd"><span class="toc-number">1.4.4.</span> <span class="toc-text">linux命令ps -ef | grep httpd</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#top命令"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">top命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ctrl-c"><span class="toc-number">1.4.5.</span> <span class="toc-text">Ctrl+c</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前台进程和后台进程"><span class="toc-number">1.5.</span> <span class="toc-text">前台进程和后台进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#amp-符号"><span class="toc-number">1.5.1.</span> <span class="toc-text">&amp;符号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调节时间"><span class="toc-number">1.6.</span> <span class="toc-text">调节时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定制date的输出"><span class="toc-number">1.6.1.</span> <span class="toc-text">定制date的输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#压缩解压"><span class="toc-number">1.7.</span> <span class="toc-text">压缩解压</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tar命令"><span class="toc-number">1.7.1.</span> <span class="toc-text">tar命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将多个文件合并为一个文件"><span class="toc-number">1.7.2.</span> <span class="toc-text">将多个文件合并为一个文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cvf"><span class="toc-number">1.7.2.1.</span> <span class="toc-text">-cvf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tf"><span class="toc-number">1.7.2.2.</span> <span class="toc-text">-tf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rvf"><span class="toc-number">1.7.2.3.</span> <span class="toc-text">-rvf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xvf"><span class="toc-number">1.7.2.4.</span> <span class="toc-text">-xvf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gzip和bzip2命令"><span class="toc-number">1.7.2.5.</span> <span class="toc-text">gzip和bzip2命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gunzip和bunzip2命令"><span class="toc-number">1.7.2.6.</span> <span class="toc-text">gunzip和bunzip2命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用tar命令同时归档和压缩"><span class="toc-number">1.7.2.7.</span> <span class="toc-text">用tar命令同时归档和压缩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用tar命令同时解压"><span class="toc-number">1.7.2.8.</span> <span class="toc-text">用tar命令同时解压</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jcvf"><span class="toc-number">1.7.2.9.</span> <span class="toc-text">jcvf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#jxvf"><span class="toc-number">1.7.2.10.</span> <span class="toc-text">jxvf</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zcat-bzcat，zmore-bzmore，zless-bzless"><span class="toc-number">1.7.2.11.</span> <span class="toc-text">zcat/bzcat，zmore/bzmore，zless/bzless</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zip-unzip"><span class="toc-number">1.7.2.12.</span> <span class="toc-text">zip/unzip</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译安装"><span class="toc-number">1.8.</span> <span class="toc-text">编译安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译安装的大致步骤"><span class="toc-number">1.8.1.</span> <span class="toc-text">编译安装的大致步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首先尝试找安装包"><span class="toc-number">1.8.2.</span> <span class="toc-text">首先尝试找安装包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#alien软件"><span class="toc-number">1.8.2.1.</span> <span class="toc-text">alien软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#将deb转换为rpm"><span class="toc-number">1.8.2.2.</span> <span class="toc-text">将deb转换为rpm</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装rpm安装包"><span class="toc-number">1.8.3.</span> <span class="toc-text">安装rpm安装包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实在找不到rpm安装包"><span class="toc-number">1.8.4.</span> <span class="toc-text">实在找不到rpm安装包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rar-unrar"><span class="toc-number">1.8.5.</span> <span class="toc-text">rar/unrar</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装CentOS服务器"><span class="toc-number">1.9.</span> <span class="toc-text">安装CentOS服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Servlet-Tomcat和Jenkins"><span class="toc-number">1.10.</span> <span class="toc-text">Servlet,Tomcat和Jenkins</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jenkins"><span class="toc-number">1.10.1.</span> <span class="toc-text">Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置Java环境并安装Tomcat"><span class="toc-number">1.10.2.</span> <span class="toc-text">配置Java环境并安装Tomcat</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Linux2　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/17/0编程工具/Linux3/" title="上一篇: Linux3">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/15/数据结构/2栈和队列/" title="下一篇: 栈和队列">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

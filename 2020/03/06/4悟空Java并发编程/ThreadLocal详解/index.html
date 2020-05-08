@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="ThreadLocal详解两大使用场景典型场景1每个线程需要一个独享的对象的时候 即每个Thread类中有自己的实例副本，而各个线程之间的实例之间是不共享的，如同教材只有一本，一起做笔记就会有线程安全问题，使并发读写带来数据的不一致，而使用ThreadLocal相当于把书本复印多份，这样每个用户使用自己的教材，就不会出问题了。而每一本书（每一个实例）都是由当前的线程访问并使用，其他线程是无法访问，">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThreadLocal详解">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="ThreadLocal详解两大使用场景典型场景1每个线程需要一个独享的对象的时候 即每个Thread类中有自己的实例副本，而各个线程之间的实例之间是不共享的，如同教材只有一本，一起做笔记就会有线程安全问题，使并发读写带来数据的不一致，而使用ThreadLocal相当于把书本复印多份，这样每个用户使用自己的教材，就不会出问题了。而每一本书（每一个实例）都是由当前的线程访问并使用，其他线程是无法访问，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200203115545035.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200203120051499.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215161137705.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215210538040.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215212832502.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215221341767.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215221653468.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216073424422.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216083133140.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216093707098.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216101531959.png">
+<meta property="og:updated_time" content="2020-02-22T13:17:18.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ThreadLocal详解">
+<meta name="twitter:description" content="ThreadLocal详解两大使用场景典型场景1每个线程需要一个独享的对象的时候 即每个Thread类中有自己的实例副本，而各个线程之间的实例之间是不共享的，如同教材只有一本，一起做笔记就会有线程安全问题，使并发读写带来数据的不一致，而使用ThreadLocal相当于把书本复印多份，这样每个用户使用自己的教材，就不会出问题了。而每一本书（每一个实例）都是由当前的线程访问并使用，其他线程是无法访问，">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200203115545035.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>ThreadLocal详解 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-4悟空Java并发编程/ThreadLocal详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/" class="article-date">
+      <time datetime="2020-03-06T09:41:28.608Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ThreadLocal详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Java多线程/">Java多线程</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="ThreadLocal详解"><a href="#ThreadLocal详解" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h1><h2 id="两大使用场景"><a href="#两大使用场景" class="headerlink" title="两大使用场景"></a>两大使用场景</h2><h3 id="典型场景1"><a href="#典型场景1" class="headerlink" title="典型场景1"></a>典型场景1</h3><p>每个线程需要一个独享的对象的时候</p>
+<p>即每个Thread类中有自己的实例副本，而各个线程之间的实例之间是不共享的，如同教材只有一本，一起做笔记就会有线程安全问题，使并发读写带来数据的不一致，而使用ThreadLocal相当于把书本复印多份，这样每个用户使用自己的教材，就不会出问题了。而每一本书（每一个实例）都是由当前的线程访问并使用，其他线程是无法访问，不是共用的，这样就解决了线程问题</p>
+<p>通常是工具类，典型需要使用的类有SimpleDateFormat和Random，这两个类都是线程不安全的</p>
+<a id="more"></a>
+
+<h4 id="SimpleDateFormat的进化之路"><a href="#SimpleDateFormat的进化之路" class="headerlink" title="SimpleDateFormat的进化之路"></a>SimpleDateFormat的进化之路</h4><p>用SimpleDateFormat的进化之路来说明ThreadLocal的好处</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200203115545035.png" alt="image-20200203115545035"></p>
+<p><strong>2个线程分别用自己的SimpleDateFormat</strong></p>
+<p>注</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200203120051499.png" alt="image-20200203120051499" style="zoom: 80%;">
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：两个线程打印日期</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalNormalUsage00</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                String date = <span class="keyword">new</span> ThreadLocalNormalUsage00().date(<span class="number">10</span>);</span><br><span class="line">                System.out.println(date);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                String date = <span class="keyword">new</span> ThreadLocalNormalUsage00().date(<span class="number">104707</span>);</span><br><span class="line">                System.out.println(date);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">date</span><span class="params">(<span class="keyword">int</span> seconds)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//参数的单位是毫秒，乘以1000变成秒，从1970.1.1 00:00:00 GMT计时</span></span><br><span class="line">        Date date = <span class="keyword">new</span> Date(<span class="number">1000</span> * seconds);</span><br><span class="line">        SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">        <span class="keyword">return</span> dateFormat.format(date);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1970-01-01 08:00:10</span><br><span class="line">1970-01-02 13:05:07</span><br></pre></td></tr></table></figure>
+
+<p>为什么是08不是00，00是标准时区，08是东八区</p>
+<p><strong>10个线程分别用自己的SimpleDateFormat</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：10个线程打印日期</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalNormalUsage01</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> finalI = i;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    String date = <span class="keyword">new</span> ThreadLocalNormalUsage01().date(finalI);</span><br><span class="line">                    System.out.println(date);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">date</span><span class="params">(<span class="keyword">int</span> seconds)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//参数的单位是毫秒，从1970.1.1 00:00:00 GMT计时</span></span><br><span class="line">        Date date = <span class="keyword">new</span> Date(<span class="number">1000</span> * seconds);</span><br><span class="line">        SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">        <span class="keyword">return</span> dateFormat.format(date);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">00</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">01</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">02</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">03</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">04</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">05</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">06</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">07</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">08</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">09</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">10</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">11</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">12</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">13</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">14</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">15</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">16</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">17</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">18</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">19</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">20</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">21</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">22</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">23</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">24</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">25</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">26</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">27</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">28</span></span><br><span class="line"><span class="number">1970</span>-<span class="number">01</span>-<span class="number">01</span> <span class="number">08</span>:<span class="number">00</span>:<span class="number">29</span></span><br></pre></td></tr></table></figure>
+
+<p>以上的结果可能会出现相同时间，与预期不符</p>
+<p>因为所有的线程都共有一个SimpleDateFormat对象</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215161137705.png" alt="image-20200215161137705" style="zoom:67%;">
+
+<p><strong>SimpleDateFormat的进化之路总结</strong></p>
+<ol>
+<li>2个线程分别用自己的SimpleDateFormat，此时是没有问题的</li>
+<li>后来延伸10个，就有10个线程和10个SimpleDateFormat，这虽然写法不优雅，但可以接受</li>
+<li>但是当需求变成1000个，那么必须要使用线程池，否则消耗内存太多</li>
+<li>让所有的线程都共用一个SimpleDateFormat对象</li>
+<li>更好的解决方案是用ThreadLocal</li>
+</ol>
+<p>使用ThreadLocal来解决</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215210538040.png" alt="image-20200215210538040" style="zoom:67%;">
+
+<h3 id="典型场景2"><a href="#典型场景2" class="headerlink" title="典型场景2"></a>典型场景2</h3><p>每个线程内需要保存全局变量的时候</p>
+<p>例如在拦截器中获取用户信息，可以让不同方法直接使用，避免参数传递的麻烦</p>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p><strong>当前用户信息需要被线程内所有方法共享</strong></p>
+<p>一个比较繁琐的解决方案是把user作为参数层层传递，从service-1()传到service-2()传到service-3()，以此类推，但是这样会导致代码冗余且不易维护</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215212832502.png" alt="image-20200215212832502" style="zoom:80%;">
+
+<p>希望每个线程内需要保存全局变量，可以让不同方法直接使用，避免参数传递的麻烦</p>
+<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><ol>
+<li><p>定义 一个全局变量<code>static user</code>保存一些业务内容（用户权限信息、从用户系统中获取到的用户名、user ID等），每次取得时候去拿，但是这些信息在同一个线程内相同，但是不同的线程使用的业务内容是不同的</p>
+</li>
+<li><p>在此基础上可以演进，使用UserMap</p>
+</li>
+</ol>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215221341767.png" alt="image-20200215221341767" style="zoom:80%;">
+
+<p>此时的UserMap，可能被多个线程同时调用，必须要保证线程安全</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200215221653468.png" alt="image-20200215221653468" style="zoom:80%;">
+
+<p>当多线程同时工作的时候，需要保证线程安全，可以使用synchronized，也可以使用ConcurrentHashMap，把当前线程的ID作为key，把user作为value来保存，这样可以做到线程间的隔离，但无论使用什么，都会对性能产生影响</p>
+<ol start="3">
+<li>更好的方法是使用ThreadLocal，这样无需synchronized，可以在不影响性能的情况下，也无须层层传递参数，就可以达到保存当前线程对应的用户信息的目的</li>
+</ol>
+<h4 id="方法总结"><a href="#方法总结" class="headerlink" title="方法总结"></a>方法总结</h4><p>用ThreadLocal保存一些业务内容（用户权限信息、从用户系统获取用户的用户名、userID等）</p>
+<p>这些信息在同一个线程内相同，但是不同的线程使用的业务内容是不同的</p>
+<p>在线程生命周期内，都通过这个静态ThreadLocal实例的get()方法取得自己set过的那个对象，避免了将这个对象（例如User）作为参数传递的麻烦</p>
+<p>ThreadLocal强调的是同一个请求内（同一个线程内）不同方法间的共享</p>
+<p>不需要重写initialValue()方法，但是必须手动调用set()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     演示ThreadLocal用法2：避免传递参数的麻烦</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalNormalUsage06</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Service1().process(<span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Service1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User(<span class="string">"超哥"</span>);</span><br><span class="line">        UserContextHolder.holder.set(user);</span><br><span class="line">        <span class="keyword">new</span> Service2().process();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Service2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        User user = UserContextHolder.holder.get();</span><br><span class="line">        ThreadSafeFormatter.dateFormatThreadLocal.get();</span><br><span class="line">        System.out.println(<span class="string">"Service2拿到用户名："</span> + user.name);</span><br><span class="line">        <span class="keyword">new</span> Service3().process();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Service3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        User user = UserContextHolder.holder.get();</span><br><span class="line">        System.out.println(<span class="string">"Service3拿到用户名："</span> + user.name);</span><br><span class="line">        UserContextHolder.holder.remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserContextHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;User&gt; holder = <span class="keyword">new</span> ThreadLocal&lt;&gt;();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用ThreadLocal，这样无需synchronized，可以在不影响性能的情况下，也无须层层传递参数，就可以达到保存当前线程对应的用户信息的目的</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216073424422.png" alt="image-20200216073424422" style="zoom:80%;">
+
+<h3 id="ThreadLocal的两个作用"><a href="#ThreadLocal的两个作用" class="headerlink" title="ThreadLocal的两个作用"></a>ThreadLocal的两个作用</h3><ol>
+<li>让某个需要用到的独立对象在线程间隔离（每个线程都有自己的独立的对象）</li>
+<li>在任何方法中都可以轻松获取到该对象</li>
+</ol>
+<p>根据共享对象的生成时机不同，选择initialValue或set来保存对象</p>
+<p>场景一：initialValue</p>
+<p>在ThreadLocal第一次get的时候把对象给初始化出来，对象的初始化时机可以由我们自己控制</p>
+<p>场景二：set</p>
+<p>如果需要保存到ThreadLocal里的对象的生成时机不由我们随意控制，例如拦截器生成的用户信息，用ThreadLocal.set直接放到我们的ThreadLocal中去，以便后续使用</p>
+<h2 id="使用ThreadLocal带来的好处"><a href="#使用ThreadLocal带来的好处" class="headerlink" title="使用ThreadLocal带来的好处"></a>使用ThreadLocal带来的好处</h2><p>达到线程安全</p>
+<p>不需要加锁，提高执行效率</p>
+<p>更高效地利用内存、节省开销：相比于每个任务都新建一个SimpleDateFormat，显然用ThreadLocal可以节省内存和开销</p>
+<p>免去传参的繁琐：无论是场景一的工具类，还是场景二的用户名，都可以在任何地方直接通过ThradLocal拿到，再也不需要每次传同样的参数，ThreadLocal使得代码耦合度更低，更优雅</p>
+<h2 id="ThreadLocal详解-1"><a href="#ThreadLocal详解-1" class="headerlink" title="ThreadLocal详解"></a>ThreadLocal详解</h2><p>原理、源码分析</p>
+<p>搞清楚Thread，ThreadLocal以及ThreadLocalMap三者之间的关系</p>
+<p>每个Thread对象中都持有一个ThreadLocalMap成员变量</p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216083133140.png" alt="image-20200216083133140" style="zoom:80%;">
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="主要方法介绍"><a href="#主要方法介绍" class="headerlink" title="主要方法介绍"></a>主要方法介绍</h2><h3 id="T-initialValue"><a href="#T-initialValue" class="headerlink" title="T initialValue()"></a>T initialValue()</h3><p>初始化</p>
+<p>该方法会返回当前线程对应的“初始值”，这是一个延迟加载的方法，只有在调用get的时候才会触发</p>
+<p>当线程第一次使用get方法访问变量时，将调用此方法，除非线程先前调用了set方法，在这种情况下，不会为线程调用本initialValue方法</p>
+<p>通常，每个线程最多调用一次此方法，但如果已经调用了remove()后，在调用get()，则可以再次调用次方法</p>
+<p>如果不重写本方法，这个方法会返回null，一般使用匿名内部类的方法来重写initialValue()方法，以便在后续使用中可以初始化副本对象</p>
+<p>initialValue方法是没有默认实现的，如果要使用initialValue方法，需要自己实现，通常是匿名内部类的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> T <span class="title">initialValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="void-set-T-t"><a href="#void-set-T-t" class="headerlink" title="void set(T  t)"></a>void set(T  t)</h3><p>为这个线程设置一个新值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="T-get"><a href="#T-get" class="headerlink" title="T get()"></a>T get()</h3><p>得到这个线程对应的value，如果是首次调用get()，则会调用initialize来得到这个值</p>
+<p>get方法先取出当前线程的ThreadLocalMap，然后调用map.getEntry方法，把ThreadLocal的引用作为参数传入，取出map中属于ThreadLocal的value</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="void-remove"><a href="#void-remove" class="headerlink" title="void remove()"></a>void remove()</h3><p>删除对应这个线程的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ThreadLocalMap m = getMap(Thread.currentThread());</span><br><span class="line">    <span class="keyword">if</span> (m != <span class="keyword">null</span>)</span><br><span class="line">        m.remove(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ThreadLocalMap类"><a href="#ThreadLocalMap类" class="headerlink" title="ThreadLocalMap类"></a>ThreadLocalMap类</h2><p>ThreadLocalMap类，也就是Thread.threadLocals</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ThreadLocal values pertaining to this thread. This map is maintained</span></span><br><span class="line"><span class="comment">     * by the ThreadLocal class. */</span></span><br><span class="line">ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>ThreadLocalMap类是每个线程Thread类里面的变量，里面最重要的是一个键值对数组<code>Entry[] table</code>，可以认为是一个map键值对，键是这个ThreadLocal，值是实际需要的成员变量，比如user或者SimpleDateFormat对象</p>
+<h3 id="在发生冲突的时候"><a href="#在发生冲突的时候" class="headerlink" title="在发生冲突的时候"></a>在发生冲突的时候</h3><p><strong>普通的HashMap</strong></p>
+<img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216093707098.png" alt="image-20200216093707098" style="zoom:80%;">
+
+<p><strong>ThreadLocalMap</strong></p>
+<p>ThreadLocalMap采用的是线程探测法，就是如果发生冲突，就继续找下一个空位置，而不是用链表拉链法 </p>
+<p>通过源码分析，setInitialValue和直接set最后都是利用map.set()方法来设置值</p>
+<p>也就是最后都会对应到ThreadLocalMap的一个Entry,只不过是起点和入口不一样</p>
+<h2 id="ThreadLocal注意点"><a href="#ThreadLocal注意点" class="headerlink" title="ThreadLocal注意点"></a>ThreadLocal注意点</h2><h3 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h3><h4 id="什么是内存泄露"><a href="#什么是内存泄露" class="headerlink" title="什么是内存泄露"></a>什么是内存泄露</h4><p>某个对象不再有用，但是占用的内存却不能被回收</p>
+<p>弱引用的特点，如果这个对象只被弱引用关联（没有任何引用关联），那么这个对象就可以被回收</p>
+<p>所以弱引用不会阻止GC，这个是弱引用的机制</p>
+<p>ThreadLocalMap的每个Entry都是一个对key的弱引用，同时，每个Entry都包含一个对value的强引用</p>
+<p>正常情况下，当线程终止，保存在ThreadLocal里的value会被垃圾回收，因为没有任何强引用了</p>
+<p>但是，如果线程不终止（比如线程需要保持很久），那么key对应的value就不能被回收，因为有以下的调用链</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/image-20200216101531959.png" alt="image-20200216101531959"></p>
+<p>因为value和Thread之间还存在这个强引用链路，所以导致value无法回收，就可能会出现OOM</p>
+<p>JDK已经考虑到了这个问题，所以set、remove、rehash方法中会扫描key为null的Entry，并发对应的value设置为null，这样对象就会可以被回收</p>
+<p>但是如果一个ThreadLocal不被使用，那么实际上set、remove、rehash方法也不会被调用，如果同时线程又不停止，那么调用链就一直存在，就会导致value的内存泄露</p>
+<h4 id="如何避免内存泄漏（阿里规范）"><a href="#如何避免内存泄漏（阿里规范）" class="headerlink" title="如何避免内存泄漏（阿里规范）"></a>如何避免内存泄漏（阿里规范）</h4><p>调用remove方法，就会删除对应的Entry对象，可以避免内存泄露，所以使用完ThreadLocal之后，应该调用remove方法</p>
+<h3 id="空指针异常"><a href="#空指针异常" class="headerlink" title="空指针异常"></a>空指针异常</h3><h3 id="共享对象"><a href="#共享对象" class="headerlink" title="共享对象"></a>共享对象</h3><p>如果在每个线程中ThreadLocal.set()中的对象本来就是多线程共享同一个对象，比如static对象，那么多线程的ThreadLocal.get()取得的还是这个共享对象本身，还是存在并发访问问题，所以静态对象直接使用即可</p>
+<p>如果可以不使用ThreadLocal就解决问题，那么不要强行使用</p>
+<p>例如在任务数很少的时候，在局部变量中可以新建对象就可以解决问题，那么就不需要使用ThreadLocal</p>
+<p>优先使用框架的支持，而不是自己创造</p>
+<p>例如Spring中，如果可以使用RequestContextHolder，那么就不需要自己维护ThreadLocal，因为自己可能会忘记调用remove()方法等，造成内存泄露</p>
+<h3 id="实际应用场景"><a href="#实际应用场景" class="headerlink" title="实际应用场景"></a>实际应用场景</h3><p>在Spring中的事例分析</p>
+<p>DateTimeContextHolder类，看到里面用了ThreadLocal</p>
+<p>每次Http请求都对应一个线程，线程之间相互隔离，这就是ThreadLocal的典型应用场景</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:41:28</p>
+        <p><span>最后更新:</span>2020-02-22, 21:17:18</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/" title="ThreadLocal详解">http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/4悟空Java并发编程/ThreadLocal详解/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/原子类/">
+                    原子类
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">
+                    Java内存模型之底层原理
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ThreadLocal详解"><span class="toc-number">1.</span> <span class="toc-text">ThreadLocal详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#两大使用场景"><span class="toc-number">1.1.</span> <span class="toc-text">两大使用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#典型场景1"><span class="toc-number">1.1.1.</span> <span class="toc-text">典型场景1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SimpleDateFormat的进化之路"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">SimpleDateFormat的进化之路</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#典型场景2"><span class="toc-number">1.1.2.</span> <span class="toc-text">典型场景2</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实例"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法总结"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">方法总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadLocal的两个作用"><span class="toc-number">1.1.3.</span> <span class="toc-text">ThreadLocal的两个作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用ThreadLocal带来的好处"><span class="toc-number">1.2.</span> <span class="toc-text">使用ThreadLocal带来的好处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocal详解-1"><span class="toc-number">1.3.</span> <span class="toc-text">ThreadLocal详解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要方法介绍"><span class="toc-number">1.4.</span> <span class="toc-text">主要方法介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#T-initialValue"><span class="toc-number">1.4.1.</span> <span class="toc-text">T initialValue()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-set-T-t"><span class="toc-number">1.4.2.</span> <span class="toc-text">void set(T  t)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#T-get"><span class="toc-number">1.4.3.</span> <span class="toc-text">T get()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-remove"><span class="toc-number">1.4.4.</span> <span class="toc-text">void remove()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocalMap类"><span class="toc-number">1.5.</span> <span class="toc-text">ThreadLocalMap类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在发生冲突的时候"><span class="toc-number">1.5.1.</span> <span class="toc-text">在发生冲突的时候</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocal注意点"><span class="toc-number">1.6.</span> <span class="toc-text">ThreadLocal注意点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#内存泄露"><span class="toc-number">1.6.1.</span> <span class="toc-text">内存泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是内存泄露"><span class="toc-number">1.6.1.1.</span> <span class="toc-text">什么是内存泄露</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何避免内存泄漏（阿里规范）"><span class="toc-number">1.6.1.2.</span> <span class="toc-text">如何避免内存泄漏（阿里规范）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#空指针异常"><span class="toc-number">1.6.2.</span> <span class="toc-text">空指针异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享对象"><span class="toc-number">1.6.3.</span> <span class="toc-text">共享对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实际应用场景"><span class="toc-number">1.6.4.</span> <span class="toc-text">实际应用场景</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"ThreadLocal详解　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/4悟空Java并发编程/原子类/" title="上一篇: 原子类">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/" title="下一篇: Java内存模型之底层原理">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

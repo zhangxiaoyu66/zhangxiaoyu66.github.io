@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="并发编程的基石之多线程概念建立 什么是线程、进程操作系统、进程、线程的包含关系操作系统是包含多个进程的容器，而每个进程又都是容纳多个线程的容器 单核CPU可以执行多个进程，是因为操作系统的调度 cpu里的一个核，在某一个时间点只能处理一个进程中的一个线程，正是因为这样，所以单核处理器无法并行执行，而多核处理器可以并行 并行并发串行针对进程里的线程之间的运行状态来说的，而同步异步阻塞非阻塞是针对执行">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多线程一之并发编程的基石">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="并发编程的基石之多线程概念建立 什么是线程、进程操作系统、进程、线程的包含关系操作系统是包含多个进程的容器，而每个进程又都是容纳多个线程的容器 单核CPU可以执行多个进程，是因为操作系统的调度 cpu里的一个核，在某一个时间点只能处理一个进程中的一个线程，正是因为这样，所以单核处理器无法并行执行，而多核处理器可以并行 并行并发串行针对进程里的线程之间的运行状态来说的，而同步异步阻塞非阻塞是针对执行">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131110622023.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124010930922.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124094141560.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131115001187.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131115043885.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124232016044.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124232206872.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124232225617.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131130257472.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125222804247.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125231734355.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125232505350.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125232530479.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126003310661.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126003340098.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126005930100.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126011741341.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126013844980.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131153501670.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131153958529.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211235549.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211858795.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211325138.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211954710.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131212413006.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131220604116.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131221906268.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/20190314231658746.png">
+<meta property="og:updated_time" content="2020-03-06T00:43:47.558Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多线程一之并发编程的基石">
+<meta name="twitter:description" content="并发编程的基石之多线程概念建立 什么是线程、进程操作系统、进程、线程的包含关系操作系统是包含多个进程的容器，而每个进程又都是容纳多个线程的容器 单核CPU可以执行多个进程，是因为操作系统的调度 cpu里的一个核，在某一个时间点只能处理一个进程中的一个线程，正是因为这样，所以单核处理器无法并行执行，而多核处理器可以并行 并行并发串行针对进程里的线程之间的运行状态来说的，而同步异步阻塞非阻塞是针对执行">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131110622023.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>多线程一之并发编程的基石 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-4悟空Java并发编程/并发编程的基石" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/4悟空Java并发编程/并发编程的基石/" class="article-date">
+      <time datetime="2020-03-06T09:41:28.638Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      多线程一之并发编程的基石
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Java多线程/">Java多线程</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="并发编程的基石之多线程概念建立"><a href="#并发编程的基石之多线程概念建立" class="headerlink" title="并发编程的基石之多线程概念建立"></a>并发编程的基石之多线程概念建立</h1><p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131110622023.png" alt="image-20200131110622023"></p>
+<h2 id="什么是线程、进程"><a href="#什么是线程、进程" class="headerlink" title="什么是线程、进程"></a>什么是线程、进程</h2><h3 id="操作系统、进程、线程的包含关系"><a href="#操作系统、进程、线程的包含关系" class="headerlink" title="操作系统、进程、线程的包含关系"></a>操作系统、进程、线程的包含关系</h3><p>操作系统是包含多个进程的容器，而每个进程又都是容纳多个线程的容器</p>
+<p>单核CPU可以执行多个进程，是因为操作系统的调度</p>
+<p>cpu里的一个核，在某一个时间点只能处理一个进程中的一个线程，正是因为这样，所以单核处理器无法并行执行，而多核处理器可以并行</p>
+<p>并行并发串行针对进程里的线程之间的运行状态来说的，而同步异步阻塞非阻塞是针对执行线程的被调用者和调用者来说的，两者没有联系</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124010930922.png" alt></p>
+<h3 id="Oracle文档的官方定义"><a href="#Oracle文档的官方定义" class="headerlink" title="Oracle文档的官方定义"></a>Oracle文档的官方定义</h3><p>进程：使用fork(2)系统调用创建的UNIX环境（例如文件描述符、用户ID等），它被设置为运行程序</p>
+<p>线程：在进程上下文中执行的一系列指令</p>
+<a id="more"></a>
+
+<h3 id="什么是进程"><a href="#什么是进程" class="headerlink" title="什么是进程"></a>什么是进程</h3><p>进程的英文是Process，指的是程序的一次执行。在用户下达运行程序的命令后，就会产生进程</p>
+<p>任务管理器</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124094141560.png" alt="image-20200124094141560"></p>
+<p>总结：</p>
+<p>进程是程序（这里可以理解为我们写的代码）的真正运行实例了，是资源分配的基本单位</p>
+<h3 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h3><p>定义：线程是CPU的基本调度单位，每个线程执行的都是进程代码的某个片段</p>
+<p>实例演示：用活动监视器的CPU栏目看java进程的线程数的变化</p>
+<p>创建100个线程，用活动监视器的CPU栏目看java进程的线程数的变化，可以看到一个java进程的线程数有120+，10秒后消失</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：创建100个线程，用活动监视器的CPU栏目看Java线程数量的变化，10秒后线程消失</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Create100Threads</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(Thread.currentThread().getName());</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                        System.out.println(<span class="string">"------"</span>);</span><br><span class="line">                        System.out.println(Thread.currentThread().getName());</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">                        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(<span class="string">"------"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131115001187.png" alt="image-20200131115001187"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131115043885.png" alt="image-20200131115043885"></p>
+<p>用房子作比喻</p>
+<p>房子是一个容器（比喻进程），拥有某些属性（例如建筑面积，卧室数量等），但是房子本身并没有主动做任何事。</p>
+<p>做事情的是住在里面的人（比喻线程）。</p>
+<p>人在房子里工作、睡觉、看电视，这些比喻线程在执行各种功能的代码。</p>
+<p>进程是线程的容器，包含存储器等资源，而线程利用这些资源来执行代码，最终产生结果。</p>
+<h3 id="进程和线程的关系和区别"><a href="#进程和线程的关系和区别" class="headerlink" title="进程和线程的关系和区别"></a>进程和线程的关系和区别</h3><p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124232016044.png" alt="image-20200124232016044"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124232206872.png" alt="image-20200124232206872"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200124232225617.png" alt="image-20200124232225617"></p>
+<h4 id="1起源不同"><a href="#1起源不同" class="headerlink" title="1起源不同"></a>1起源不同</h4><p>先有进程 ，因为CPU的执行速度比外设快，为了提高CPU的利用率，后有线程</p>
+<h4 id="2概念不同"><a href="#2概念不同" class="headerlink" title="2概念不同"></a>2概念不同</h4><p>进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动，进程是系统进行资源分配和调度的一个独立单位</p>
+<p>线程是CPU调度单位</p>
+<h4 id="3内存共享方式不同"><a href="#3内存共享方式不同" class="headerlink" title="3内存共享方式不同"></a>3内存共享方式不同</h4><p>默认情况下，内存无法与其他进程共享</p>
+<p>线程共享由操作系统分配给其父进程的相同内存块</p>
+<h4 id="4拥有资源不同"><a href="#4拥有资源不同" class="headerlink" title="4拥有资源不同"></a>4拥有资源不同</h4><p>进程拥有独立内存，而线程自己基本不拥有系统资源，只拥有一点在运行中必不可少的资源（如程序计数器、一组寄存器和栈），但是它可与同属性一个进程的其他的线程共享进程所拥有的全部资源</p>
+<h5 id="线程共享的内容"><a href="#线程共享的内容" class="headerlink" title="线程共享的内容"></a>线程共享的内容</h5><ol>
+<li>进程代码段</li>
+<li>进程的公有数据（利用这些共享数据，线程很容易实现相互之间的通讯</li>
+<li>进程打开的文件描述符</li>
+<li>信号的处理器</li>
+<li>进程的当前目录</li>
+<li>进程用户ID与进程组ID</li>
+</ol>
+<h5 id="线程独有的内容"><a href="#线程独有的内容" class="headerlink" title="线程独有的内容"></a>线程独有的内容</h5><ol>
+<li>线程ID</li>
+<li>寄存器组的值</li>
+<li>线程的堆栈</li>
+<li>错误返回码</li>
+<li>线程的信号屏蔽码</li>
+</ol>
+<h4 id="数量不同"><a href="#数量不同" class="headerlink" title="数量不同"></a>数量不同</h4><p>一个程序至少有一个进程，一个进程至少有一个线程</p>
+<h4 id="开销不同"><a href="#开销不同" class="headerlink" title="开销不同"></a>开销不同</h4><p>线程的创建终止时间比进程短</p>
+<p>同一进程内的线程切换时间比进程切换短</p>
+<p>同一进程的各个线程间共享内存和文件资源，可以不通过内核进行通信</p>
+<h4 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h4><p>就绪、等待、运行等生命周期</p>
+<h3 id="Java和多线程的关系"><a href="#Java和多线程的关系" class="headerlink" title="Java和多线程的关系"></a>Java和多线程的关系</h3><p>Java天生支持多线程、语言排名高</p>
+<p>Java线程会一对一映射到操作系统的内核线程，有些语言创建的是虚拟线程，不是实际存在的，而java创建的线程是实实在在存在的，并在操作系统中看到</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131130257472.png" alt="image-20200131130257472"></p>
+<p>注：</p>
+<p>JNI是Java Native Interface的缩写，它提供了若干的API实现了Java和其他语言的通信（主要是C&amp;C++）。从Java1.1开始，JNI标准成为java平台的一部分，它允许Java代码和其他语言写的代码进行交互。JNI一开始是为了本地已编译语言，尤其是C和C++而设计的，但是它并不妨碍你使用其他编程语言，只要调用约定受支持就可以了。使用java与本地已编译的代码交互，通常会丧失平台可移植性。但是，有些情况下这样做是可以接受的，甚至是必须的。例如，使用一些旧的库，与硬件、操作系统进行交互，或者为了提高程序的性能。JNI标准至少要保证本地代码能工作在任何Java虚拟机环境。</p>
+<p>JVM会自动启动一些线程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：即使代码中不显示创建线程，在运行main时，JVM也会自动启动其他的线程</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaAndThreads</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Hello Threads!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125222804247.png" alt="image-20200125222804247"></p>
+<p><strong>Signal Dispatcher</strong></p>
+<p>把操作系统发来的信号分发给适当的处理程序，是用来连接操作系统和应用程序的</p>
+<p><strong>Finalizer</strong></p>
+<p>负责对象的finalize()方法，每个对象在结束的时候可能实现finalize()这个方法，但是随着java语言的发展，finalize()方法已经不推荐使用</p>
+<p><strong>Reference Handler</strong></p>
+<p>和GC息息相关，会把每一个对象的引用记录在案，并配合GC进行垃圾回收</p>
+<p><strong>main</strong></p>
+<p>主线程，用户程序入口</p>
+<p>以上线程都不是自己创建的，而是JVM帮我们创建的，从以上可以看出，Java语言和多线程息息相关</p>
+<p>##　多线程</p>
+<h3 id="什么是多线程"><a href="#什么是多线程" class="headerlink" title="什么是多线程"></a>什么是多线程</h3><p>多线程的概念</p>
+<p>如果一个程序允许两个或以上的线程，那么它就是多线程程序。多线程是指在单个进程中运行多个线程</p>
+<h4 id="比喻"><a href="#比喻" class="headerlink" title="比喻"></a>比喻</h4><h5 id="客厅比喻"><a href="#客厅比喻" class="headerlink" title="客厅比喻"></a>客厅比喻</h5><p>客厅：公共空间（进程）</p>
+<p>厕所：锁</p>
+<p>独立房间：线程独享空间</p>
+<p>花园浇水：线程合作</p>
+<h5 id="火锅的比喻"><a href="#火锅的比喻" class="headerlink" title="火锅的比喻"></a>火锅的比喻</h5><p>大火锅一个人吃，就是单进程单线程</p>
+<p>大火锅多人吃，就是单进程多线程</p>
+<p>分开吃小火锅，就是多进程多线程</p>
+<p>我吃火锅，别人吃火锅底料，那时我就拥有锁，别人拿不到锁</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><h5 id="抢火车票"><a href="#抢火车票" class="headerlink" title="抢火车票"></a>抢火车票</h5><p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125231734355.png" alt="image-20200125231734355"></p>
+<p>####　独立任务和共享任务</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125232505350.png" alt="image-20200125232505350"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200125232530479.png" alt="image-20200125232530479"></p>
+<h3 id="为什么需要多线程"><a href="#为什么需要多线程" class="headerlink" title="为什么需要多线程"></a>为什么需要多线程</h3><p>最主要的目的就是提高CPU的利用率</p>
+<p>1.提高处理速度</p>
+<p>2.避免无效等待（IO的时候可以做别的事）</p>
+<p>3.提高用户体验，避免卡顿，缩短等待时间</p>
+<ul>
+<li>并行处理，提高性能，通常是服务器领域（例如Tomcat），用多个线程去接收进来的HTTP请求，而不是排队等待单一的线程处理</li>
+<li>在Android开发中，主线程的重要任务之一是绘制屏幕界面，该线程中不允许进行IO操作或网络请求，目的就是避免卡顿，影响用户的交互</li>
+</ul>
+<p>4.便于编程建模</p>
+<ul>
+<li>把大的任务A分解成几个小任务，任务B、任务C、任务D，分别建立程序模型，并通过多线程分别运行这几个任务，就简单多了</li>
+</ul>
+<h4 id="计算机性能定律"><a href="#计算机性能定律" class="headerlink" title="计算机性能定律"></a>计算机性能定律</h4><p>摩尔定律失败，阿姆达尔定律登上舞台</p>
+<p>摩尔定律</p>
+<p>当价格不变时，集成电路可容纳的元器件的数目，约每隔18-24个月便会增加一倍，性能也将提升一倍</p>
+<p>阿姆达尔定律</p>
+<p>处理器越多，执行程序就越快，但有上限，取决于程序中串行部分和并行部分的比例，而并行的比例越高，多处理器的效果就越明显 </p>
+<h3 id="什么场景会用到多线程"><a href="#什么场景会用到多线程" class="headerlink" title="什么场景会用到多线程"></a>什么场景会用到多线程</h3><p>什么时候需要新开线程</p>
+<p>通常在需要进行耗时任务的时候，例如执行磁盘IO读写，或者从网络获取信息的时候</p>
+<p>为了同时多件不同的事</p>
+<ul>
+<li>开网页同时听音乐</li>
+<li>后台定制任务</li>
+</ul>
+<p>为了提高工作效率、处理能力</p>
+<ul>
+<li>tomcat</li>
+<li>并行下载</li>
+<li>NIO、AIO</li>
+</ul>
+<p>需要同时有很大的并发量的时候</p>
+<ul>
+<li>压测</li>
+</ul>
+<h3 id="多线程的局限性"><a href="#多线程的局限性" class="headerlink" title="多线程的局限性"></a>多线程的局限性</h3><p>性能问题</p>
+<ul>
+<li>上下文切换带来的消耗</li>
+</ul>
+<p>异构化任务</p>
+<ul>
+<li>任务结构不一样导致很难高效并行</li>
+</ul>
+<p>带来线程安全问题</p>
+<ul>
+<li>包括数据安全问题（例如i++总数不一致）以及线程带来的活跃性问题（线程饥饿、死锁）</li>
+</ul>
+<h2 id="串行、并行、并发"><a href="#串行、并行、并发" class="headerlink" title="串行、并行、并发"></a>串行、并行、并发</h2><p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126003310661.png" alt="image-20200126003310661"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126003340098.png" alt="image-20200126003340098"></p>
+<h3 id="串行、并行"><a href="#串行、并行" class="headerlink" title="串行、并行"></a>串行、并行</h3><p>串行是大家排队一个一个来，并行是大家一起来</p>
+<h3 id="并行、并发"><a href="#并行、并发" class="headerlink" title="并行、并发"></a>并行、并发</h3><p>概念非常相似，从而难以区分</p>
+<p>本身对于并发和并行的概念就没有明确：并发可以对应到两个不同的概念</p>
+<h4 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h4><p> <img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126005930100.png" alt="image-20200126005930100">                                                         </p>
+<p>只有一个处理器（单核处理器），逻辑上的同时运行</p>
+<h4 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h4><p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126011741341.png" alt="image-20200126011741341"></p>
+<p>多处理器（或多核处理器），物理上的同时运行</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200126013844980.png" alt="image-20200126013844980"></p>
+<h4 id="并行的概念"><a href="#并行的概念" class="headerlink" title="并行的概念"></a>并行的概念</h4><p>真正的“同时”运行，在同一时刻，有多个任务同时执行</p>
+<p>例如，在多核处理器上，有两个线程同时执行同一段代码  </p>
+<p>单核处理器是无法实现并行的，因为单核处理器无法在同一时刻执行多个任务       </p>
+<h4 id="并发的2种概念"><a href="#并发的2种概念" class="headerlink" title="并发的2种概念"></a>并发的2种概念</h4><p>1.形容多个任务的执行状态</p>
+<p>两个或多个任务可以在重叠的时间段内启动、运行和完成，此时并行（两个线程同时执行）一定是并发，但不意味着并发一定要求是并行</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131153501670.png" alt="image-20200131153501670"></p>
+<img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131153958529.png" alt="image-20200131153958529" style="zoom: 67%;">
+
+<p>在物理层面上并发其实还是串行，不过是在多个程序上快速的来回切换而不是一个一个执行所以在用户看来就相当于多</p>
+<p>个程序同时执行所以叫做并发</p>
+<p>2.对“并发性”的简称           </p>
+<p>不同的部分可以无序或者同时执行，且不影响最终的执行结果  </p>
+<p>无论是单核还是多核，只要能相互切换并能得到最终结果，就都具有并发性</p>
+<p>并发性是并发执行和并行执行的前提条件和必要条件</p>
+<p>在不同核心数的计算机上的不同表现</p>
+<p>此时，并发和并行的概念不在同一个维度上  </p>
+<h4 id="用单核多核CPU来辨别概念"><a href="#用单核多核CPU来辨别概念" class="headerlink" title="用单核多核CPU来辨别概念"></a>用单核多核CPU来辨别概念</h4><p>程序具备并发性，但不并行执行–单核并行程序</p>
+<p>程序具备并发性，且并行执行–多核</p>
+<p>既不并行执行，也不具备并发执行–单核串行</p>
+<p>并行执行，但程序不具备并发性–不可能</p>
+<h4 id="是什么让并发和并行成为可能"><a href="#是什么让并发和并行成为可能" class="headerlink" title="是什么让并发和并行成为可能"></a>是什么让并发和并行成为可能</h4><p>CPU升级</p>
+<p>操作系统升级</p>
+<p>即使是单核CPU也可以使用时间片切换的方式（抢占式）不停的切换，抢占式是CPU最主要的处理方式</p>
+<p>编程语言升级</p>
+<h2 id="高并发"><a href="#高并发" class="headerlink" title="高并发"></a>高并发</h2><h3 id="什么是高并发"><a href="#什么是高并发" class="headerlink" title="什么是高并发"></a>什么是高并发</h3><p>高并发（High Concurrency）是一种系统运行过程中遇到的一种“短时间内遇到大量操作请求”的情况，主要发生在web系统集中大量访问收到大量请求（例如：12306的抢票情况；天猫双十一活动）。</p>
+<p>该情况的发生会导致系统在这段时间内执行大量操作，例如对资源的请求，数据库的操作等。</p>
+<h3 id="高并发和多线程的联系和不同"><a href="#高并发和多线程的联系和不同" class="headerlink" title="高并发和多线程的联系和不同"></a>高并发和多线程的联系和不同</h3><p>多线程是解决方案，高并发是状态</p>
+<p>为了解决高并发的问题，可以使用多线程来提高硬件的利用率，来获取更多的资源</p>
+<p>高并发不一定通过多线程来解决</p>
+<p>有时候数据库有很大的压力，可以使用redis来承受压力</p>
+<p>高并发并不意味着多线程，比如redis的使用，也是解决高并发的一种方式，使用redis承受数据的压力，就减轻了数据库的压力</p>
+<h3 id="高并发有哪些指标"><a href="#高并发有哪些指标" class="headerlink" title="高并发有哪些指标"></a>高并发有哪些指标</h3><ul>
+<li><p>QPS（Queries Per Second）：每秒查询数（每秒请求数）</p>
+<p>每秒响应请求数。在互联网领域，这个指标和吞吐量区分的没有这么明显。</p>
+</li>
+<li><p>带宽：峰值流量和页面平均大小</p>
+</li>
+<li><p>PV（Page View）：页面浏览量，一天之内的页面点击量</p>
+</li>
+<li><p>UV（Unique Visitor）：独立访问，在UV上的用户访问数量，UV一定小于PV</p>
+</li>
+<li><p>并发连接数（The number of concurrent connections）：某个时刻服务器所接受的请求的数目，通常大于服务器用户在线数量，而对于服务器来说并发连接数是有一定上限的，所有可以作为参考</p>
+</li>
+<li><p>服务器平均请求等待时间（Time per request:across all concurrent requsets）：服务器处理一个请求所需要的时间，把众多的数据汇总起来求出平均时间</p>
+</li>
+</ul>
+<p>注：</p>
+<p>IP和UV不同</p>
+<h2 id="同步与异步、阻塞与非阻塞"><a href="#同步与异步、阻塞与非阻塞" class="headerlink" title="同步与异步、阻塞与非阻塞"></a>同步与异步、阻塞与非阻塞</h2><h3 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h3><p>被调用者<strong>是否主动</strong>告诉调用者结果</p>
+<p>同步：被调用者不会主动告诉调用者结果</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211235549.png" alt="image-20200131211235549"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211858795.png" alt="image-20200131211858795"></p>
+<p>同步就是被调用者不会主动告诉调用者调用的结果，如以上图，假设去请求服务器中的一张图片，开始请求的时候服务器一直在处理，用户就等待，服务器处理完成，用户获得结果</p>
+<p>同步异步这里指的是被调用者（也就是服务器）的行为，而不是请求方的行为。在没有得到结果之前，服务端就不返回任何结果</p>
+<p>异步：调用在发出之后，服务端会立即告诉调用方“我收到你的请求了，会处理的”，服务器就会去处理请求，而用户可以继续做自己的事情，服务器处理完请求会自动将结果交给用户</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211325138.png" alt="image-20200131211325138"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131211954710.png" alt="image-20200131211954710"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131212413006.png" alt="image-20200131212413006"></p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131220604116.png" alt="image-20200131220604116"></p>
+<h3 id="阻塞与非阻塞"><a href="#阻塞与非阻塞" class="headerlink" title="阻塞与非阻塞"></a>阻塞与非阻塞</h3><p>对于阻塞和非阻塞要站在两个角度去考虑</p>
+<ul>
+<li><p>站在线程状态的角度，阻塞时当前线程不能执行，需要等待时间到期或者有人唤醒</p>
+</li>
+<li><p>站在线程发出请求的角度，通常是HTTP请求的角度，站在调用者角度</p>
+</li>
+</ul>
+<p>作为调用者，调用一个东西之后，在结果返回之前，是否能做别的事情</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>同步、异步指的是被调用者，调用结束后是否主动返回结果</p>
+<p>阻塞、非阻塞指的是调用者，调用后是否可以去做别的事</p>
+<p>阻塞是线程基本状态中的三种指的是：blocked、waiting、timed_waiting</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/image-20200131221906268.png" alt="image-20200131221906268"></p>
+<h2 id="面试常考"><a href="#面试常考" class="headerlink" title="面试常考"></a>面试常考</h2><p>线程和进程相同和不同</p>
+<p>并行和并发的区别</p>
+<p>多线程就是高并发吗</p>
+<p>同步阻塞和异步非阻塞的关系</p>
+<p>多线程可以提高执行效率，但有哪些弊端</p>
+<p>在单核CPU上运行多线程程序有意义吗</p>
+<p>有意义，虽然在单核CPU执行真正的并行是不可能的，因为只有一个处理器，但对于应用程序而言，用户并不知道程序运行在单核CPU还是多核CPU，所以在编写的时候一定一多核CPU为准。首先会编写一个多核CPU程序，其次，假设是多线程，当一个线程执行缓慢并且阻塞的时候，其他线程就可以利用这些时间来做其他的事情，来提高CPU的利用效率</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>假设我们有3件事情(事情A、事情B和事情C)要完成,完成每件事情所需的时间包括实际投人时间(如做些准备活动所需的时间)和等待的时间,完成这些事情所需的时间为:事情A耗时15分钟(实际投入5分钟,等待10分钟)、事情B耗时10分钟(实际投人2分钟,等待8分钟)、事情C耗时10分钟(实际投入10分钟,无等待耗时)。那么,我们有3种方式来完成这几件事情,如图所示：</p>
+<p><img src="/2020/03/06/4悟空Java并发编程/并发编程的基石/20190314231658746.png" alt></p>
+<p>串行( Sequential)：如图(a)所示。先开始做事情A,待其完成之后再开始做事情B,依次类推,直到事情C完成。这实际上顺序逐一完成几件事情,只需要投入一个人。在这种方式下3件事情总共耗时35(15+10+10)分钟。</p>
+<p>并发( Concurrent)：如图(b)所示。这种方式也可以只投入一个人。这个人先开始做事情A,事情A旳准备活动做好后(此时消耗了5分钟),在等待事情A完成的这段时间内他开始做事情B。为事情B的准备活动花了2分钟之后,在等待事情B完成的这段时间内他开始做事情C,直到10分钟之后事情C完成。这整个过程实际上是以交替的方式利用等待某件事情完成的时间来做其他事情。在这种方式下3件事情总共耗时17(5+2+10)分钟,这比第1种方式节约了一半多的时间。</p>
+<p>并行( Parallel)：如图(c)所示。这种方式需要投入3个人,每个人负责完成其中一件事情。这3个人在同一时刻开始齐头并进地完成这些事情。在这种方式下3件事情总共耗时15分钟(取决于耗时最长的那件事情所需的时间),比并发的方式节约了2分钟的时间。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:41:28</p>
+        <p><span>最后更新:</span>2020-03-06, 08:43:47</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/" title="多线程一之并发编程的基石">http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/4悟空Java并发编程/并发编程的基石/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/控制并发流程/">
+                    
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">
+                    并发工具类
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#并发编程的基石之多线程概念建立"><span class="toc-number">1.</span> <span class="toc-text">并发编程的基石之多线程概念建立</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是线程、进程"><span class="toc-number">1.1.</span> <span class="toc-text">什么是线程、进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#操作系统、进程、线程的包含关系"><span class="toc-number">1.1.1.</span> <span class="toc-text">操作系统、进程、线程的包含关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Oracle文档的官方定义"><span class="toc-number">1.1.2.</span> <span class="toc-text">Oracle文档的官方定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是进程"><span class="toc-number">1.1.3.</span> <span class="toc-text">什么是进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是线程"><span class="toc-number">1.1.4.</span> <span class="toc-text">什么是线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进程和线程的关系和区别"><span class="toc-number">1.1.5.</span> <span class="toc-text">进程和线程的关系和区别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1起源不同"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">1起源不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2概念不同"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">2概念不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3内存共享方式不同"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">3内存共享方式不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4拥有资源不同"><span class="toc-number">1.1.5.4.</span> <span class="toc-text">4拥有资源不同</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#线程共享的内容"><span class="toc-number">1.1.5.4.1.</span> <span class="toc-text">线程共享的内容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#线程独有的内容"><span class="toc-number">1.1.5.4.2.</span> <span class="toc-text">线程独有的内容</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数量不同"><span class="toc-number">1.1.5.5.</span> <span class="toc-text">数量不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#开销不同"><span class="toc-number">1.1.5.6.</span> <span class="toc-text">开销不同</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#相同点"><span class="toc-number">1.1.5.7.</span> <span class="toc-text">相同点</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java和多线程的关系"><span class="toc-number">1.1.6.</span> <span class="toc-text">Java和多线程的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是多线程"><span class="toc-number">1.1.7.</span> <span class="toc-text">什么是多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#比喻"><span class="toc-number">1.1.7.1.</span> <span class="toc-text">比喻</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#客厅比喻"><span class="toc-number">1.1.7.1.1.</span> <span class="toc-text">客厅比喻</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#火锅的比喻"><span class="toc-number">1.1.7.1.2.</span> <span class="toc-text">火锅的比喻</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举例"><span class="toc-number">1.1.7.2.</span> <span class="toc-text">举例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#抢火车票"><span class="toc-number">1.1.7.2.1.</span> <span class="toc-text">抢火车票</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么需要多线程"><span class="toc-number">1.1.8.</span> <span class="toc-text">为什么需要多线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#计算机性能定律"><span class="toc-number">1.1.8.1.</span> <span class="toc-text">计算机性能定律</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么场景会用到多线程"><span class="toc-number">1.1.9.</span> <span class="toc-text">什么场景会用到多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多线程的局限性"><span class="toc-number">1.1.10.</span> <span class="toc-text">多线程的局限性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#串行、并行、并发"><span class="toc-number">1.2.</span> <span class="toc-text">串行、并行、并发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#串行、并行"><span class="toc-number">1.2.1.</span> <span class="toc-text">串行、并行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并行、并发"><span class="toc-number">1.2.2.</span> <span class="toc-text">并行、并发</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#并发"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">并发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并行"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">并行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并行的概念"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">并行的概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并发的2种概念"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">并发的2种概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用单核多核CPU来辨别概念"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">用单核多核CPU来辨别概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#是什么让并发和并行成为可能"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">是什么让并发和并行成为可能</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高并发"><span class="toc-number">1.3.</span> <span class="toc-text">高并发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是高并发"><span class="toc-number">1.3.1.</span> <span class="toc-text">什么是高并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高并发和多线程的联系和不同"><span class="toc-number">1.3.2.</span> <span class="toc-text">高并发和多线程的联系和不同</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高并发有哪些指标"><span class="toc-number">1.3.3.</span> <span class="toc-text">高并发有哪些指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步与异步、阻塞与非阻塞"><span class="toc-number">1.4.</span> <span class="toc-text">同步与异步、阻塞与非阻塞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#同步与异步"><span class="toc-number">1.4.1.</span> <span class="toc-text">同步与异步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阻塞与非阻塞"><span class="toc-number">1.4.2.</span> <span class="toc-text">阻塞与非阻塞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-number">1.4.3.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面试常考"><span class="toc-number">1.5.</span> <span class="toc-text">面试常考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充"><span class="toc-number">1.6.</span> <span class="toc-text">补充</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"多线程一之并发编程的基石　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/4悟空Java并发编程/控制并发流程/" title="上一篇: ">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/" title="下一篇: 并发工具类">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

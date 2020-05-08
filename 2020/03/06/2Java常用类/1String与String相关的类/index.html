@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="String介绍String:字符串，使用一对””引起来表示 Java程序中的所有字符串字面值（如”abc”）都作为此类的实例实现  String声明为final的，不可被继承，代表不可变的字符序列  String实现了Serializable接口：表示字符串是支持序列化的 实现了Comparable接口：表示String可以比较大小  String内部定义了final char[] value用">
+<meta name="keywords" content="String">
+<meta property="og:type" content="article">
+<meta property="og:title" content="String详解">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/2Java常用类/1String与String相关的类/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="String介绍String:字符串，使用一对””引起来表示 Java程序中的所有字符串字面值（如”abc”）都作为此类的实例实现  String声明为final的，不可被继承，代表不可变的字符序列  String实现了Serializable接口：表示字符串是支持序列化的 实现了Comparable接口：表示String可以比较大小  String内部定义了final char[] value用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/2Java常用类/1String与String相关的类/image-20200211185824706.png">
+<meta property="og:updated_time" content="2020-02-12T04:32:24.934Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="String详解">
+<meta name="twitter:description" content="String介绍String:字符串，使用一对””引起来表示 Java程序中的所有字符串字面值（如”abc”）都作为此类的实例实现  String声明为final的，不可被继承，代表不可变的字符序列  String实现了Serializable接口：表示字符串是支持序列化的 实现了Comparable接口：表示String可以比较大小  String内部定义了final char[] value用">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/2Java常用类/1String与String相关的类/image-20200211185824706.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>String详解 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-2Java常用类/1String与String相关的类" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/2Java常用类/1String与String相关的类/" class="article-date">
+      <time datetime="2020-03-06T09:35:17.836Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      String详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/String/">String</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="String介绍"><a href="#String介绍" class="headerlink" title="String介绍"></a>String介绍</h2><p>String:字符串，使用一对””引起来表示</p>
+<p>Java程序中的所有字符串字面值（如”abc”）都作为此类的实例实现</p>
+<ol>
+<li><p>String声明为final的，不可被继承，代表不可变的字符序列</p>
+</li>
+<li><p>String实现了Serializable接口：表示字符串是支持序列化的</p>
+<p>实现了Comparable接口：表示String可以比较大小</p>
+</li>
+<li><p>String内部定义了final char[] value用于存储字符串数据</p>
+</li>
+<li><p>4.String:代表不可变的字符序列。简称：不可变性</p>
+</li>
+</ol>
+<p><img src="/2020/03/06/2Java常用类/1String与String相关的类/image-20200211185824706.png" alt></p>
+<a id="more"></a>
+
+<p>   ​    体现：</p>
+<ol>
+<li>当对字符串重新赋值时，需要重写指定内存区域赋值，不能使用原有的value进行赋值。</li>
+<li>当对现有的字符串进行连接操作时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值。</li>
+<li>当调用String的replace()方法修改指定字符或字符串时，也需要重新指定内存区域赋值，不能使用原有的value进行赋值。</li>
+</ol>
+<ol start="5">
+<li>通过字面量的方式（区别于new）给一个字符串赋值，此时的字符串值声明在字符串常量池中。</li>
+<li>字符串常量池中是不会存储相同内容的字符串的。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class"><span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">	<span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/** Cache the hash code for the string */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> hash; <span class="comment">// Default to 0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="String的实例化方式"><a href="#String的实例化方式" class="headerlink" title="String的实例化方式"></a>String的实例化方式</h2><p>​    方式一：通过字面量定义的方式<br>​    方式二：通过new + 构造器的方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">面试题：String s = <span class="keyword">new</span> String(<span class="string">"abc"</span>);方式创建对象，在内存中创建了几个对象？</span><br><span class="line">       两个:一个是堆空间中<span class="keyword">new</span>结构，另一个是<span class="keyword">char</span>[]对应的常量池中的数据：<span class="string">"abc"</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过字面量定义的方式：此时的s1和s2的数据javaEE声明在方法区中的字符串常量池中。</span></span><br><span class="line">String s1 = <span class="string">"javaEE"</span>;</span><br><span class="line">String s2 = <span class="string">"javaEE"</span>;</span><br><span class="line"><span class="comment">//通过new + 构造器的方式:此时的s3和s4保存的地址值，是数据在堆空间中开辟空间以后对应的地址值。</span></span><br><span class="line">String s3 = <span class="keyword">new</span> String(<span class="string">"javaEE"</span>);</span><br><span class="line">String s4 = <span class="keyword">new</span> String(<span class="string">"javaEE"</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s3);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s4);<span class="comment">//false</span></span><br><span class="line">System.out.println(s3 == s4);<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"***********************"</span>);</span><br><span class="line">Person p1 = <span class="keyword">new</span> Person(<span class="string">"Tom"</span>,<span class="number">12</span>);</span><br><span class="line">Person p2 = <span class="keyword">new</span> Person(<span class="string">"Tom"</span>,<span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(p1.name.equals(p2.name));<span class="comment">//true</span></span><br><span class="line">System.out.println(p1.name == p2.name);<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line">p1.name = <span class="string">"Jerry"</span>;</span><br><span class="line">System.out.println(p2.name);<span class="comment">//Tom</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">false</span></span><br><span class="line">***********************</span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line">Tom</span><br></pre></td></tr></table></figure>
+
+<h2 id="String的特性"><a href="#String的特性" class="headerlink" title="String的特性"></a>String的特性</h2><ol>
+<li>常量与常量的拼接结果在常量池。且常量池中不会存在相同内容的常量。</li>
+<li>只要其中有一个是变量，结果就在堆中。</li>
+<li>如果拼接的结果调用intern()方法，返回值就在常量池中</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"javaEEhadoop"</span>;</span><br><span class="line">String s2 = <span class="string">"javaEE"</span>;</span><br><span class="line">String s3 = s2 + <span class="string">"hadoop"</span>;</span><br><span class="line">System.out.println(s1 == s3);<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> String s4 = <span class="string">"javaEE"</span>;<span class="comment">//s4:常量</span></span><br><span class="line">String s5 = s4 + <span class="string">"hadoop"</span>;</span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="String使用陷阱"><a href="#String使用陷阱" class="headerlink" title="String使用陷阱"></a>String使用陷阱</h3><ul>
+<li><p>String s1 = “a”;  </p>
+<p>说明：在字符串常量池中创建了一个字面量为”a”的字符串。 </p>
+</li>
+<li><p>s1 = s1 + “b”;  </p>
+<p>说明：实际上原来的“a”字符串对象已经丢弃了，现在在堆空间中产生了一个字符 </p>
+<p>串s1+”b”（也就是”ab”)。如果多次执行这些改变串内容的操作，会导致大量副本 </p>
+<p>字符串对象存留在内存中，降低效率。如果这样的操作放到循环中，会极大影响 </p>
+<p>程序的性能。 </p>
+</li>
+<li><p>String s2 = “ab”; </p>
+<p>说明：直接在字符串常量池中创建一个字面量为”ab”的字符串。 </p>
+</li>
+<li><p>String s3 = “a” + “b”; </p>
+<p>说明：s3指向字符串常量池中已经创建的”ab”的字符串。 </p>
+<p>String s4 = s1.intern(); </p>
+<p>说明：堆空间的s1对象在调用intern()之后，会将常量池中已经存在的”ab”字符串 </p>
+<p>赋值给s4。</p>
+</li>
+</ul>
+<h2 id="String与基本类型、包装类之间的转换"><a href="#String与基本类型、包装类之间的转换" class="headerlink" title="String与基本类型、包装类之间的转换"></a>String与基本类型、包装类之间的转换</h2><p>String –&gt; 基本数据类型、包装类：调用包装类的静态方法：parseXxx(str)<br>基本数据类型、包装类 –&gt; String:调用String重载的valueOf(xxx)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">"123"</span>;</span><br><span class="line"><span class="keyword">int</span> num = Integer.parseInt(str1);</span><br><span class="line"></span><br><span class="line">String str2 = String.valueOf(num);<span class="comment">//"123"</span></span><br><span class="line">String str3 = num + <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(str1 == str3);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="String-与-char-之间的转换"><a href="#String-与-char-之间的转换" class="headerlink" title="String 与 char[]之间的转换"></a>String 与 char[]之间的转换</h2><p>String –&gt; char[]:调用String的toCharArray()<br>char[] –&gt; String:调用String的构造器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">"abc123"</span>;  <span class="comment">//题目： a21cb3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span>[] charArray = str1.toCharArray();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; charArray.length; i++) &#123;</span><br><span class="line">    System.out.print(charArray[i]);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(<span class="string">"------"</span>);</span><br><span class="line"><span class="keyword">char</span>[] arr = <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'h'</span>,<span class="string">'e'</span>,<span class="string">'l'</span>,<span class="string">'l'</span>,<span class="string">'o'</span>&#125;;</span><br><span class="line">String str2 = <span class="keyword">new</span> String(arr);</span><br><span class="line">System.out.println(str2);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">abc123------</span><br><span class="line">hello</span><br></pre></td></tr></table></figure>
+
+<h2 id="String-与-byte-之间的转换"><a href="#String-与-byte-之间的转换" class="headerlink" title="String 与 byte[]之间的转换"></a>String 与 byte[]之间的转换</h2><p>编码：String –&gt; byte[]:调用String的getBytes()<br>解码：byte[] –&gt; String:调用String的构造器</p>
+<p>编码：字符串 –&gt;字节  (看得懂 —&gt;看不懂的二进制数据)<br>解码：编码的逆过程，字节 –&gt; 字符串 （看不懂的二进制数据 —&gt; 看得懂）</p>
+<p>说明：解码时，要求解码使用的字符集必须与编码时使用的字符集一致，否则会出现乱码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test3</span><span class="params">()</span> <span class="keyword">throws</span> UnsupportedEncodingException </span>&#123;</span><br><span class="line">    String str1 = <span class="string">"abc123中国"</span>;</span><br><span class="line">    <span class="keyword">byte</span>[] bytes = str1.getBytes();<span class="comment">//使用默认的字符集，进行编码。</span></span><br><span class="line">    System.out.println(Arrays.toString(bytes));    </span><br><span class="line">	<span class="keyword">byte</span>[] gbks = str1.getBytes(<span class="string">"gbk"</span>);<span class="comment">//使用gbk字符集进行编码。</span></span><br><span class="line">    System.out.println(Arrays.toString(gbks));</span><br><span class="line"></span><br><span class="line">    System.out.println(<span class="string">"******************"</span>);</span><br><span class="line"></span><br><span class="line">    String str2 = <span class="keyword">new</span> String(bytes);<span class="comment">//使用默认的字符集，进行解码</span></span><br><span class="line">    System.out.println(str2);</span><br><span class="line"></span><br><span class="line">    String str3 = <span class="keyword">new</span> String(gbks);</span><br><span class="line">    System.out.println(str3);<span class="comment">//出现乱码。原因：编码集和解码集不一致</span></span><br><span class="line">    </span><br><span class="line">    String str4 = <span class="keyword">new</span> String(gbks, <span class="string">"gbk"</span>);</span><br><span class="line">    System.out.println(str4);<span class="comment">//没有出现乱码。原因：编码集和解码集一致</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">97</span>, <span class="number">98</span>, <span class="number">99</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>, -<span class="number">28</span>, -<span class="number">72</span>, -<span class="number">83</span>, -<span class="number">27</span>, -<span class="number">101</span>, -<span class="number">67</span>]</span><br><span class="line">[<span class="number">97</span>, <span class="number">98</span>, <span class="number">99</span>, <span class="number">49</span>, <span class="number">50</span>, <span class="number">51</span>, -<span class="number">42</span>, -<span class="number">48</span>, -<span class="number">71</span>, -<span class="number">6</span>]</span><br><span class="line">******************</span><br><span class="line">abc123中国</span><br><span class="line">abc123�й�</span><br><span class="line">abc123中国</span><br></pre></td></tr></table></figure>
+
+<h2 id="String的常用方法"><a href="#String的常用方法" class="headerlink" title="String的常用方法"></a>String的常用方法</h2><ul>
+<li><p>int length()：返回字符串的长度： return value.length</p>
+</li>
+<li><p>char charAt(int index)： 返回某索引处的字符return value[index]</p>
+</li>
+<li><p>boolean isEmpty()：判断是否是空字符串：return value.length == 0</p>
+</li>
+<li><p>String toLowerCase()：使用默认语言环境，将 String 中的所有字符转换为小写</p>
+</li>
+<li><p>String toUpperCase()：使用默认语言环境，将 String 中的所有字符转换为大写</p>
+</li>
+<li><p>String trim()：返回字符串的副本，忽略前导空白和尾部空白</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"HelloWorld"</span>;</span><br><span class="line">System.out.println(s1.length());</span><br><span class="line">System.out.println(s1.charAt(<span class="number">0</span>));</span><br><span class="line">System.out.println(s1.charAt(<span class="number">9</span>));</span><br><span class="line">System.out.println(s1.isEmpty());</span><br><span class="line"></span><br><span class="line">String s2 = s1.toLowerCase();</span><br><span class="line">System.out.println(s1);<span class="comment">//s1不可变的，仍然为原来的字符串</span></span><br><span class="line">System.out.println(s2);<span class="comment">//改成小写以后的字符串</span></span><br><span class="line"></span><br><span class="line">String s3 = <span class="string">"   he  llo   world   "</span>;</span><br><span class="line">String s4 = s3.trim();</span><br><span class="line">System.out.println(<span class="string">"-----"</span> + s3 + <span class="string">"-----"</span>);</span><br><span class="line">System.out.println(<span class="string">"-----"</span> + s4 + <span class="string">"-----"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10</span></span><br><span class="line">H</span><br><span class="line">d</span><br><span class="line"><span class="keyword">false</span></span><br><span class="line">HelloWorld</span><br><span class="line">helloworld</span><br><span class="line">-----   he  llo   world   -----</span><br><span class="line">-----he  llo   world-----</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>boolean equals(Object obj)：比较字符串的内容是否相同</p>
+</li>
+<li><p>boolean equalsIgnoreCase(String anotherString)：与equals方法类似，忽略大小写</p>
+</li>
+<li><p>String concat(String str)：将指定字符串连接到此字符串的结尾。 等价于用“+”</p>
+</li>
+<li><p>int compareTo(String anotherString)：比较两个字符串的大小</p>
+</li>
+<li><p>String substring(int beginIndex)：返回一个新的字符串，它是此字符串的从beginIndex开始截取到最后的一个子字符串。</p>
+</li>
+<li><p>String substring(int beginIndex, int endIndex) ：返回一个新字符串，它是此字符串从beginIndex开始截取到endIndex(不包含)的一个子字符串。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"HelloWorld"</span>;</span><br><span class="line">String s2 = <span class="string">"helloworld"</span>;</span><br><span class="line">System.out.println(s1.equals(s2));</span><br><span class="line">System.out.println(s1.equalsIgnoreCase(s2));</span><br><span class="line"></span><br><span class="line">String s3 = <span class="string">"abc"</span>;</span><br><span class="line">String s4 = s3.concat(<span class="string">"def"</span>);</span><br><span class="line">System.out.println(s4);</span><br><span class="line"></span><br><span class="line">String s5 = <span class="string">"abc"</span>;</span><br><span class="line">String s6 = <span class="keyword">new</span> String(<span class="string">"abe"</span>);</span><br><span class="line">System.out.println(s5.compareTo(s6));<span class="comment">//涉及到字符串排序</span></span><br><span class="line"></span><br><span class="line">String s7 = <span class="string">"爱吃鱼的呆先生"</span>;</span><br><span class="line">String s8 = s7.substring(<span class="number">2</span>);</span><br><span class="line">System.out.println(s7);</span><br><span class="line">System.out.println(s8);</span><br><span class="line"></span><br><span class="line">String s9 = s7.substring(<span class="number">2</span>, <span class="number">5</span>);</span><br><span class="line">System.out.println(s9);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line">abcdef</span><br><span class="line">-<span class="number">2</span></span><br><span class="line">爱吃鱼的呆先生</span><br><span class="line">鱼的呆先生</span><br><span class="line">鱼的呆</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>boolean endsWith(String suffix)：测试此字符串是否以指定的后缀结束</p>
+</li>
+<li><p>boolean startsWith(String prefix)：测试此字符串是否以指定的前缀开始</p>
+</li>
+<li><p>boolean startsWith(String prefix, int toffset)：测试此字符串从指定索引开始的子字符串是否以指定前缀开始</p>
+</li>
+<li><p>boolean contains(CharSequence s)：当且仅当此字符串包含指定的 char 值序列时，返回 true</p>
+</li>
+<li><p>int indexOf(String str)：返回指定子字符串在此字符串中第一次出现处的索引</p>
+</li>
+<li><p>int indexOf(String str, int fromIndex)：返回指定子字符串在此字符串中第一次出现处的索引，从指定的索引开始</p>
+</li>
+<li><p>int lastIndexOf(String str)：返回指定子字符串在此字符串中最右边出现处的索引</p>
+</li>
+<li><p>int lastIndexOf(String str, int fromIndex)：返回指定子字符串在此字符串中最后一次出现处的索引，从指定的索引开始反向搜索</p>
+</li>
+</ul>
+<p>注：indexOf和lastIndexOf方法如果未找到都是返回-1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">"hellowworld"</span>;</span><br><span class="line"><span class="keyword">boolean</span> b1 = str1.endsWith(<span class="string">"rld"</span>);</span><br><span class="line">System.out.println(b1);</span><br><span class="line"></span><br><span class="line"><span class="keyword">boolean</span> b2 = str1.startsWith(<span class="string">"He"</span>);</span><br><span class="line">System.out.println(b2);</span><br><span class="line"></span><br><span class="line"><span class="keyword">boolean</span> b3 = str1.startsWith(<span class="string">"ll"</span>,<span class="number">2</span>);</span><br><span class="line">System.out.println(b3);</span><br><span class="line"></span><br><span class="line">String str2 = <span class="string">"wor"</span>;</span><br><span class="line">System.out.println(str1.contains(str2));</span><br><span class="line"></span><br><span class="line">System.out.println(str1.indexOf(<span class="string">"lol"</span>));</span><br><span class="line"></span><br><span class="line">System.out.println(str1.indexOf(<span class="string">"lo"</span>,<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">String str3 = <span class="string">"hellorworld"</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(str3.lastIndexOf(<span class="string">"or"</span>));</span><br><span class="line">System.out.println(str3.lastIndexOf(<span class="string">"or"</span>,<span class="number">6</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//什么情况下，indexOf(str)和lastIndexOf(str)返回值相同？</span></span><br><span class="line"><span class="comment">//情况一：存在唯一的一个str。情况二：不存在str</span></span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">false</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line">-<span class="number">1</span></span><br><span class="line">-<span class="number">1</span></span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<p>替换：</p>
+<ul>
+<li>String replace(char oldChar, char newChar)：返回一个新的字符串，它是通过用 newChar 替换此字符串中出现的所有 oldChar 得到的。</li>
+<li>String replace(CharSequence target, CharSequence replacement)：使用指定的字面值替换序列替换此字符串所有匹配字面值目标序列的子字符串。</li>
+<li>String replaceAll(String regex, String replacement)：使用给定的 replacement 替换此字符串所有匹配给定的正则表达式的子字符串。</li>
+<li>String replaceFirst(String regex, String replacement)：使用给定的 replacement 替换此字符串匹配给定的正则表达式的第一个子字符串。</li>
+</ul>
+<p>匹配:</p>
+<ul>
+<li>boolean matches(String regex)：告知此字符串是否匹配给定的正则表达式。</li>
+</ul>
+<p>切片：</p>
+<ul>
+<li>String[] split(String regex)：根据给定正则表达式的匹配拆分此字符串。</li>
+<li>String[] split(String regex, int limit)：根据匹配给定的正则表达式来拆分此字符串，最多不超过limit个，如果超过了，剩下的全部都放到最后一个元素中。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">"爱吃鱼的呆先生"</span>;</span><br><span class="line">String str2 = str1.replace(<span class="string">'北'</span>, <span class="string">'东'</span>);</span><br><span class="line"></span><br><span class="line">System.out.println(str1);</span><br><span class="line">System.out.println(str2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">String str3 = str1.replace(<span class="string">"北京"</span>, <span class="string">"上海"</span>);</span><br><span class="line">System.out.println(str3);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"*************************"</span>);</span><br><span class="line">String str = <span class="string">"12hello34world5java7891mysql456"</span>;</span><br><span class="line"><span class="comment">//把字符串中的数字替换成,，如果结果中开头和结尾有，的话去掉</span></span><br><span class="line">String string = str.replaceAll(<span class="string">"\\d+"</span>, <span class="string">","</span>).replaceAll(<span class="string">"^,|,$"</span>, <span class="string">""</span>);</span><br><span class="line">System.out.println(string);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"*************************"</span>);</span><br><span class="line">str = <span class="string">"12345"</span>;</span><br><span class="line"><span class="comment">//判断str字符串中是否全部有数字组成，即有1-n个数字组成</span></span><br><span class="line"><span class="keyword">boolean</span> matches = str.matches(<span class="string">"\\d+"</span>);</span><br><span class="line">System.out.println(matches);</span><br><span class="line">String tel = <span class="string">"0571-4534289"</span>;</span><br><span class="line"><span class="comment">//判断这是否是一个杭州的固定电话</span></span><br><span class="line"><span class="keyword">boolean</span> result = tel.matches(<span class="string">"0571-\\d&#123;7,8&#125;"</span>);</span><br><span class="line">System.out.println(result);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"*************************"</span>);</span><br><span class="line">str = <span class="string">"hello|world|java"</span>;</span><br><span class="line">String[] strs = str.split(<span class="string">"\\|"</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs.length; i++) &#123;</span><br><span class="line">    System.out.println(strs[i]);</span><br><span class="line">&#125;</span><br><span class="line">System.out.println();</span><br><span class="line">str2 = <span class="string">"hello.world.java"</span>;</span><br><span class="line">String[] strs2 = str2.split(<span class="string">"\\."</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strs2.length; i++) &#123;</span><br><span class="line">    System.out.println(strs2[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">爱吃鱼的呆先生</span><br><span class="line">爱吃鱼的呆先生</span><br><span class="line">爱吃鱼的呆先生</span><br><span class="line">*************************</span><br><span class="line">hello,world,java,mysql</span><br><span class="line">*************************</span><br><span class="line"><span class="keyword">true</span></span><br><span class="line"><span class="keyword">true</span></span><br><span class="line">*************************</span><br><span class="line">hello</span><br><span class="line">world</span><br><span class="line">java</span><br><span class="line"></span><br><span class="line">hello</span><br><span class="line">world</span><br><span class="line">java</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:35:17</p>
+        <p><span>最后更新:</span>2020-02-12, 12:32:24</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/2Java常用类/1String与String相关的类/" title="String详解">http://yoursite.com/2020/03/06/2Java常用类/1String与String相关的类/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/2Java常用类/1String与String相关的类/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">
+                    StringBuffer与StringBuilder
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/1Java基础/面向对象二5/">
+                    面向对象二
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#String介绍"><span class="toc-number">1.</span> <span class="toc-text">String介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String的实例化方式"><span class="toc-number">2.</span> <span class="toc-text">String的实例化方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String的特性"><span class="toc-number">3.</span> <span class="toc-text">String的特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String使用陷阱"><span class="toc-number">3.1.</span> <span class="toc-text">String使用陷阱</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String与基本类型、包装类之间的转换"><span class="toc-number">4.</span> <span class="toc-text">String与基本类型、包装类之间的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String-与-char-之间的转换"><span class="toc-number">5.</span> <span class="toc-text">String 与 char[]之间的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String-与-byte-之间的转换"><span class="toc-number">6.</span> <span class="toc-text">String 与 byte[]之间的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String的常用方法"><span class="toc-number">7.</span> <span class="toc-text">String的常用方法</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"String详解　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/" title="上一篇: StringBuffer与StringBuilder">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/1Java基础/面向对象二5/" title="下一篇: 面向对象二">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

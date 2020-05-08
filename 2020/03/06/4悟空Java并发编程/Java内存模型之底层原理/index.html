@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="Java内存模型之底层原理">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java内存模型之底层原理">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="Java内存模型之底层原理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200212215745899.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/4.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/5.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/6.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/9.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/10.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/8.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/11.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/12.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200213223516995.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200213231554758.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214003852577.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214011140319.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214011711352.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214011923097.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214012147113.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/13.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200215121618595.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200215121759822.png">
+<meta property="og:updated_time" content="2020-02-18T02:33:18.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java内存模型之底层原理">
+<meta name="twitter:description" content="Java内存模型之底层原理">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200212215745899.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Java内存模型之底层原理 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-4悟空Java并发编程/Java内存模型之底层原理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/" class="article-date">
+      <time datetime="2020-03-06T09:41:28.603Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java内存模型之底层原理
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Java多线程/">Java多线程</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Java内存模型之底层原理"><a href="#Java内存模型之底层原理" class="headerlink" title="Java内存模型之底层原理"></a>Java内存模型之底层原理</h1><p><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200212215745899.png" alt="image-20200212215745899"></p>
+<a id="more"></a>
+
+<h2 id="彩蛋：自顶向下的好处"><a href="#彩蛋：自顶向下的好处" class="headerlink" title="彩蛋：自顶向下的好处"></a>彩蛋：自顶向下的好处</h2><p>这种方法不止适用于本门课，更是学习新知识的一个思路，学习知识也应该采取这样的方式</p>
+<p>先讲使用场景（现象），再讲用法，最后讲原理</p>
+<p>这种方法会有直观的了解，具体而感性的认识，有助于加深理解，最后分析源码</p>
+<p>例子：计算机网络（自顶向下网络）、c语言学int</p>
+<h2 id="什么叫底层原理"><a href="#什么叫底层原理" class="headerlink" title="什么叫底层原理"></a>什么叫底层原理</h2><h3 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h3><p>Java面试的必考知识点，只有学会这一章，才说明真正懂了并发</p>
+<h3 id="从Java代码到CPU指令"><a href="#从Java代码到CPU指令" class="headerlink" title="从Java代码到CPU指令"></a>从Java代码到CPU指令</h3><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/1.png" style="zoom:60%;">
+
+<ol>
+<li>最开始，编写的Java代码，是*.java文件</li>
+<li>在编译（javac命令）后，从刚才的<em>.java文件会变成一个新的Java字节码文件（\</em>.class）</li>
+<li>JVM会执行刚才生成的字节码文件（*.class）,并把字节码文件中转化为机器指令</li>
+<li>机器指令可以直接在CPU上执行，也就是最终的程序执行</li>
+</ol>
+<p>在早期没有JMM内存模型的时候，JVM实现会带来不同的“翻译”，不同的CPU平台的机器指令又千差万别，无法保证并发安全的效果一致，正是因为此，所以想解决问题，所以需要一套规范与原则，来把转化过程做一个约束</p>
+<h2 id="JVM内存模型与Java内存模型与Java对象模型"><a href="#JVM内存模型与Java内存模型与Java对象模型" class="headerlink" title="JVM内存模型与Java内存模型与Java对象模型"></a>JVM内存模型与Java内存模型与Java对象模型</h2><p>容易混淆</p>
+<h3 id="整体方向"><a href="#整体方向" class="headerlink" title="整体方向"></a>整体方向</h3><p>JVM内存结构和Java虚拟机的运行时区域有关</p>
+<p>Java内存模型和Java的并发编程有关</p>
+<p>Java对象模型和Java对象在虚拟机中的表现形式有关</p>
+<h3 id="JVM内存结构"><a href="#JVM内存结构" class="headerlink" title="JVM内存结构"></a>JVM内存结构</h3><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/2.png" style="zoom:60%;">
+
+<h3 id="Java对象模型"><a href="#Java对象模型" class="headerlink" title="Java对象模型"></a>Java对象模型</h3><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/3.png" style="zoom:60%;">
+
+<p>Java对象自身的存储模型</p>
+<p>JVM会给这个类创建一个instanceKlass，保存在方法区中，用来在JVM层表示该Java类</p>
+<p>在代码中，使用new创建一个对象的时候，JVM会创建一个instanceOopDesc对象，这个对象中包含了对象头以及实例数据</p>
+<h2 id="JMM是什么"><a href="#JMM是什么" class="headerlink" title="JMM是什么"></a>JMM是什么</h2><h3 id="为什么需要JMM"><a href="#为什么需要JMM" class="headerlink" title="为什么需要JMM"></a>为什么需要JMM</h3><p><strong>JMM是规范</strong></p>
+<p>JMM是规范，全称Java Memory Model，是一组规范，需要各个JVM的是实现来遵守JMM规范，以便于开发者可以利用这些规范，更方便地开发多线程程序，如果没有这样一个JMM内存模型来规范，那么很可能经过不同JVM的不同规则的重排序之后，导致不同虚拟机上运行的结果不同，那是很大的问题</p>
+<p>C语言不存在内存模型的概念，由于不存在这样的概念，所以很多行为是依赖于处理器本身的内存一致性模型，这种模型依赖于处理器，不同的的处理器来自于不同的厂商，所以之间的模型也不一样，所以很多C的程序在一个处理器上运行正常，而在另一个处理器上运行却不一样，所以无法保证并发安全</p>
+<p>所以需要一种标准，让多线程运行的结果可预期</p>
+<p><strong>JMM是工具类和关键字的原理</strong></p>
+<p>volatile、synchronized、Lock等的原理都是JMM</p>
+<p>如果没有JMM，那就需要我们指定自己什么时候用内存栅栏（工作内存和主内存之间的工作与同步）等，那是相当麻烦的，幸好有了JMM，让用户只需要用同步工具和关键字就可以开发并发程序</p>
+<p><strong>最重要的3点内容，重排序、可见性、原子性</strong></p>
+<h2 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h2><h3 id="重排序的代码案例"><a href="#重排序的代码案例" class="headerlink" title="重排序的代码案例"></a>重排序的代码案例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     演示重排序的现象 “直到达到某个条件才停止”，测试小概率事件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//OutOfOrderExecution表示重排序，重排序不是经常发生的</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OutOfOrderExecution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> x = <span class="number">0</span>, y = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (; ; ) &#123;</span><br><span class="line">            i++;</span><br><span class="line">            x = <span class="number">0</span>;</span><br><span class="line">            y = <span class="number">0</span>;</span><br><span class="line">            a = <span class="number">0</span>;</span><br><span class="line">            b = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">            Thread one = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        latch.countDown();</span><br><span class="line">                        latch.await();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    a = <span class="number">1</span>;</span><br><span class="line">                    x = b;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            Thread two = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        latch.countDown();</span><br><span class="line">                        latch.await();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    b = <span class="number">1</span>;</span><br><span class="line">                    y = a;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            two.start();</span><br><span class="line">            one.start();</span><br><span class="line">            latch.countDown();</span><br><span class="line">            one.join();</span><br><span class="line">            two.join();</span><br><span class="line"></span><br><span class="line">            String result = <span class="string">"第"</span> + i + <span class="string">"次（"</span> + x + <span class="string">","</span> + y + <span class="string">")"</span>;</span><br><span class="line">            <span class="keyword">if</span> (x == <span class="number">1</span> &amp;&amp; y == <span class="number">1</span>) &#123;</span><br><span class="line">                System.out.println(result);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(result);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">第1次（0,1)</span><br><span class="line">第2次（0,1)</span><br><span class="line">第3次（0,1)</span><br><span class="line">第4次（0,1)</span><br><span class="line">第5次（1,0)</span><br><span class="line">第6次（0,1)</span><br><span class="line">第7次（0,1)</span><br><span class="line">第8次（1,0)</span><br><span class="line">第9次（0,1)</span><br><span class="line">第10次（0,1)</span><br><span class="line">第11次（0,1)</span><br><span class="line">第12次（1,0)</span><br><span class="line">第13次（0,1)</span><br><span class="line">第14次（0,1)</span><br><span class="line">第15次（0,1)</span><br><span class="line">第16次（0,1)</span><br><span class="line">第17次（0,1)</span><br><span class="line">第18次（0,1)</span><br><span class="line">第19次（1,1)</span><br></pre></td></tr></table></figure>
+
+<p>这4行代码的执行顺序决定了最终x和y的结果，一共有3种情况</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/4.png" style="zoom:60%;">
+
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/5.png" style="zoom:60%;">
+
+<h3 id="什么是重排序"><a href="#什么是重排序" class="headerlink" title="什么是重排序"></a>什么是重排序</h3><p>在线程1内部的两行代码的实际执行顺序和代码在Java文件中的顺序不一致，代码指令并不是严格按照代码语句顺序执行的，它们的顺序被改变，这就是重排序，这里被颠倒的是y=a和b=1这两行语句</p>
+<h3 id="重排序的好处"><a href="#重排序的好处" class="headerlink" title="重排序的好处"></a>重排序的好处</h3><p>提高处理速度</p>
+<h4 id="对比重排序前后的指令优化"><a href="#对比重排序前后的指令优化" class="headerlink" title="对比重排序前后的指令优化"></a>对比重排序前后的指令优化</h4><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/6.png" style="zoom:60%;">
+
+<h3 id="发生重排序的3种情况"><a href="#发生重排序的3种情况" class="headerlink" title="发生重排序的3种情况"></a>发生重排序的3种情况</h3><p>编译器优化：包括JVM、JIT编译器等</p>
+<p>CPU指令重排：就算编译器不发生重排，CPU也可以对指令进行重排</p>
+<p>内存的“重排序”：属于表面现象重排序的一种，线程A的修改，线程B却看不到，引出可见性问题</p>
+<h2 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h2><h3 id="什么是可见性问题"><a href="#什么是可见性问题" class="headerlink" title="什么是可见性问题"></a>什么是可见性问题</h3><h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     演示可见性带来的问题</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FieldVisibility</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        a = <span class="number">3</span>;</span><br><span class="line">        b = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"b="</span> + b + <span class="string">";a="</span> + a);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        FieldVisibility test = <span class="keyword">new</span> FieldVisibility();</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="comment">//FieldVisibility test = new FieldVisibility();</span></span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    test.change();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    test.print();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>以上程序会出现如下四种情况</p>
+<p>a=3,b=2</p>
+<p>a=1,b=2</p>
+<p>a=3,b=3</p>
+<p>a=3,b=1    体现出可见性的重要性</p>
+<h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/9.png" style="zoom: 50%;">
+
+<h4 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h4><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/10.png" style="zoom: 50%;">
+
+ <img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/8.png" style="zoom: 50%;">
+
+<p>用volatile来解决问题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：     演示可见性带来的问题</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FieldVisibility</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> a = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> b = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">change</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        a = <span class="number">3</span>;</span><br><span class="line">        b = a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"b="</span> + b + <span class="string">";a="</span> + a);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            FieldVisibility test = <span class="keyword">new</span> FieldVisibility();</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    test.change();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    test.print();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flush</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/11.png" style="zoom: 60%;">
+
+<p>load</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/12.png" style="zoom:60%;">
+
+<h3 id="为什么会有可见性问题"><a href="#为什么会有可见性问题" class="headerlink" title="为什么会有可见性问题"></a>为什么会有可见性问题</h3><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200213223516995.png" alt="image-20200213223516995" style="zoom: 67%;">
+
+<p>CPU有多级缓存，导致读的数据过期</p>
+<ul>
+<li>高速缓存的容量比主内存小，但是速度仅次于寄存器，所以在CPU和主存之间就多了Cache层</li>
+<li>线程间对于共享变量的可见性问题不是直接由多核引起的，而是由多缓存引起的</li>
+<li>如果所有的核心只用一个缓存，那么也就不存在内存可见性问题</li>
+<li>每个核心都会将自己需要的数据读到独占缓存中，数据修改后也是写入到缓存中，然后等待刷入到主存中，所以会导致有些核心读取的值是一个过期的值</li>
+</ul>
+<h3 id="JMM抽象：主内存和本地内存"><a href="#JMM抽象：主内存和本地内存" class="headerlink" title="JMM抽象：主内存和本地内存"></a>JMM抽象：主内存和本地内存</h3><h4 id="什么是主内存和本地内存"><a href="#什么是主内存和本地内存" class="headerlink" title="什么是主内存和本地内存"></a>什么是主内存和本地内存</h4><p>Java作为高级语言，屏蔽了这些底层细节，用JMM定义了一套读写内存数据的规范，虽然我们不再关心一级缓存和二级缓存的问题，但是，JMM抽象了主内存和本地内存的概念</p>
+<p>这里说的本地内存并不是真的是给每个线程分配的一块内存，而是JMM的一个抽象，是对于寄存器、一级缓存、二级缓存等的抽象</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200213231554758.png" alt="image-20200213231554758" style="zoom: 67%;">
+
+<h4 id="主内存和本地内存的关系"><a href="#主内存和本地内存的关系" class="headerlink" title="主内存和本地内存的关系"></a>主内存和本地内存的关系</h4><p>JMM有以下规定</p>
+<ol>
+<li>所有的变量都存储在主内存中，同时每个线程也有自己独立的工作内存，工作内存中的变量内容是主内存中的拷贝</li>
+<li>线程不能直接读写主内存中的变量，而是只能操作自己工作内存中的变量，然后再同步到主内存中</li>
+<li>主内存是多个线程共享的，但是线程间不共享工作内存，如果线程间需要通信，必须借助主存中转来完成</li>
+</ol>
+<p>所有的共享变量存在于主内存中，每个线程有自己的本地内存，而且线程读写共享数据也是通过本地内存交换的，所欲才导致可见性问题</p>
+<h3 id="Happns-Before原则"><a href="#Happns-Before原则" class="headerlink" title="Happns-Before原则"></a>Happns-Before原则</h3><h4 id="什么是happens-before"><a href="#什么是happens-before" class="headerlink" title="什么是happens-before"></a>什么是happens-before</h4><p>happens-before规则是用来解决可见性问题的：在时间上，动作A发生在动作B之前，B保证能看见A，这就是happens-before</p>
+<p>两个操作可以用happens-before来确定它们的执行顺序：如果一个操作happens-before于另一个操作，那么就说第一个操作于第二个操作是可见的</p>
+<h4 id="什么不是happens-before"><a href="#什么不是happens-before" class="headerlink" title="什么不是happens-before"></a>什么不是happens-before</h4><p>两个线程没有相互配合的机制，所以代码X和代码Y的执行结果并不能保证总被对方看到，这就不具备happens-before</p>
+<h4 id="happens-before规则有哪些"><a href="#happens-before规则有哪些" class="headerlink" title="happens-before规则有哪些"></a>happens-before规则有哪些</h4><ol>
+<li><p>单线程规则</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214003852577.png" alt="image-20200214003852577" style="zoom:67%;">
+
+<p>运用范围在一个线程之内，后面的语句一定能看到前面的语句执行了什么，happens-before不影响重排序，即使发生了重排序，代码中后面的语句也能看到前边的语句</p>
+</li>
+<li><p>锁操作（synchronized和Lock）</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214011140319.png" alt="image-20200214011140319" style="zoom:67%;">
+
+<p>如果一个线程对锁解锁，另一个线程对锁加锁，此时一个线程加锁之后一定能看到另一个线程的所有操作</p>
+</li>
+<li><p>volatile变量</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214011711352.png" alt="image-20200214011711352" style="zoom:67%;">
+
+<p>只要写线程完成写的操作，则独读线程一定能看到</p>
+</li>
+<li><p>线程启动</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214011923097.png" alt="image-20200214011923097" style="zoom:67%;">
+
+<p>子线程所执行的所有语句都能看到主线程发生之前的所有结果</p>
+</li>
+<li><p>线程join</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200214012147113.png" alt="image-20200214012147113" style="zoom:67%;">
+
+<p>join之后的语句一定能看到等待之前的语句</p>
+</li>
+<li><p>传递性</p>
+<p>如果hb(A,B)而且hb(B,C)，那么可以推出hb(A,C)</p>
+</li>
+<li><p>中断</p>
+<p>一个线程被其他线程interrupt，那么检测中断（isInterrupted）或者抛出InterruptedException一定能看到</p>
+</li>
+<li><p>构造方法</p>
+<p>对象构造方法的最后一行指令happens-before于finalize()方法的第一行指令</p>
+</li>
+<li><p>工具类的happens-before规则</p>
+<ol>
+<li>线程安全的容器get一定能看到在此之前的put等存入动作</li>
+<li>CountDownLatch</li>
+<li>Semaphore</li>
+<li>Future</li>
+<li>线程池</li>
+<li>CyclicBarrier</li>
+</ol>
+</li>
+</ol>
+<h4 id="优质代码案例"><a href="#优质代码案例" class="headerlink" title="优质代码案例"></a>优质代码案例</h4><p>happens-before演示</p>
+<h3 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h3><h4 id="volatile是什么"><a href="#volatile是什么" class="headerlink" title="volatile是什么"></a>volatile是什么</h4><p>volatile是一种同步机制，比synchronized或Lock相关类更轻便，因为volatile并不能发生上下文切换等很大开销的行为</p>
+<p>如果一个变量被修饰成volatile，那么JVM就知道这个变量可能会被并发修改</p>
+<p>但是开销小，相应的能力也小，虽说volatile是用来同步的保证线程安全的，但是volatile做不到synchronized那样的原子保护，volatile仅在很有限的场景下才能发挥作用</p>
+<p>上下文切换（有时也称做进程切换或任务切换）是指CPU从一个进程或线程切换到另一个进程或线程</p>
+<h4 id="volatile的适用场合"><a href="#volatile的适用场合" class="headerlink" title="volatile的适用场合"></a>volatile的适用场合</h4><p><strong>不适用场景</strong></p>
+<p>a++</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：不适用于volatile的场景</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NoVolatile</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> a;</span><br><span class="line">    AtomicInteger realA = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Runnable r =  <span class="keyword">new</span> NoVolatile();</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">        thread1.join();</span><br><span class="line">        thread2.join();</span><br><span class="line">        System.out.println(((NoVolatile) r).a);</span><br><span class="line">        System.out.println(((NoVolatile) r).realA.get());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">            a++;</span><br><span class="line">            realA.incrementAndGet();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">19672</span><br><span class="line">20000</span><br></pre></td></tr></table></figure>
+
+<p><strong>适合场合1</strong></p>
+<p>纯赋值操作</p>
+<p>boolean flag（标记位）如果一个共享变量自始至终只被各个线程赋值，而没有其他操作，那么就可以用volatile来代替，没有其他操作，那么就可以用volatile来代替synchronized或者代替原子变量，因为赋值自身就是有原子性，而volatile又保证可见性，所以就足以保证线程安全</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：volatile适用的情况1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UseVolatile1</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">boolean</span> done = <span class="keyword">false</span>;</span><br><span class="line">    AtomicInteger realA = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Runnable r =  <span class="keyword">new</span> UseVolatile1();</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread(r);</span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">        thread1.join();</span><br><span class="line">        thread2.join();</span><br><span class="line">        System.out.println(((UseVolatile1) r).done);</span><br><span class="line">        System.out.println(((UseVolatile1) r).realA.get());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">            setDone();</span><br><span class="line">            realA.incrementAndGet();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setDone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        done = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">20000</span><br></pre></td></tr></table></figure>
+
+<p><strong>适用场合2</strong></p>
+<p>作为刷新之前变量的触发器</p>
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/13.png" style="zoom:80%;">
+
+<p>首先<code>volatile boolean initialized=false</code>是一个触发器，在第一个线程中这个触发器最后被设置为true，在此之前有各种各样的准备工作，第二个线程只有在initialized设置为true才能继续运行，当线程B看到initialized为true，由于可见性的保证，在<code>volatile boolean initialized=false</code>前的三个操作，一定能被线程B 完全看到，此时<code>volatile boolean initialized=false</code>前的三个操作都可以被B正确的读取的最新的值</p>
+<h4 id="volatile的作用"><a href="#volatile的作用" class="headerlink" title="volatile的作用"></a>volatile的作用</h4><p><strong>可见性</strong></p>
+<p>读取一个volatile变量之前，需要先使相应的本地缓存失效，这样就必须到主内存读取最新值，写一个volatile属性会立即刷入到主内存</p>
+<p><strong>禁止重排序</strong></p>
+<p>禁止指令重排序优化：解决单例双重锁乱序问题</p>
+<h4 id="volatile和synchornized的关系"><a href="#volatile和synchornized的关系" class="headerlink" title="volatile和synchornized的关系"></a>volatile和synchornized的关系</h4><p>volatile在这方面可以看做是轻量版的synchronized</p>
+<p>如果一个共享变量自始至终只被各个线程赋值，而没有其他的操作，那么就可以用volatile来代替synchronized或者代替原子变量，因为赋值自身是有原子性的，而volatile又保证可见性，所以就满足保证线程安全</p>
+<h4 id="用volatile修正重排序问题"><a href="#用volatile修正重排序问题" class="headerlink" title="用volatile修正重排序问题"></a>用volatile修正重排序问题</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：演示重排序的现象 “直到达到某个条件才停止”，测试小概率事件</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//OutOfOrderExecution表示重排序，重排序不是经常发生的</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OutOfOrderExecution</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//注意这里</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> x = <span class="number">0</span>, y = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (; ; ) &#123;</span><br><span class="line">            i++;</span><br><span class="line">            x = <span class="number">0</span>;</span><br><span class="line">            y = <span class="number">0</span>;</span><br><span class="line">            a = <span class="number">0</span>;</span><br><span class="line">            b = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            CountDownLatch latch = <span class="keyword">new</span> CountDownLatch(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">            Thread one = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        latch.countDown();</span><br><span class="line">                        latch.await();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    a = <span class="number">1</span>;</span><br><span class="line">                    x = b;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            Thread two = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        latch.countDown();</span><br><span class="line">                        latch.await();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    b = <span class="number">1</span>;</span><br><span class="line">                    y = a;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            two.start();</span><br><span class="line">            one.start();</span><br><span class="line">            latch.countDown();</span><br><span class="line">            one.join();</span><br><span class="line">            two.join();</span><br><span class="line"></span><br><span class="line">            String result = <span class="string">"第"</span> + i + <span class="string">"次（"</span> + x + <span class="string">","</span> + y + <span class="string">")"</span>;</span><br><span class="line">            <span class="keyword">if</span> (x == <span class="number">0</span> &amp;&amp; y == <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(result);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(result);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="volatile小结"><a href="#volatile小结" class="headerlink" title="volatile小结"></a>volatile小结</h4><img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200215121618595.png" alt="image-20200215121618595" style="zoom: 50%;">
+
+<img src="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/image-20200215121759822.png" alt="image-20200215121759822" style="zoom: 50%;">
+
+<h3 id="能保证可见性的措施"><a href="#能保证可见性的措施" class="headerlink" title="能保证可见性的措施"></a>能保证可见性的措施</h3><p>除了volatile可以让变量保证可见性以外，synchronized、Lock、并发集合、Thread.join()和Thread.start()等都可以保证可见性</p>
+<p>具体看happens-before原则的规定</p>
+<h3 id="升华：对synchornized可见性的正确理解"><a href="#升华：对synchornized可见性的正确理解" class="headerlink" title="升华：对synchornized可见性的正确理解"></a>升华：对synchornized可见性的正确理解</h3>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:41:28</p>
+        <p><span>最后更新:</span>2020-02-18, 10:33:18</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/" title="Java内存模型之底层原理">http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">
+                    ThreadLocal详解
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/AQS/">
+                    
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java内存模型之底层原理"><span class="toc-number">1.</span> <span class="toc-text">Java内存模型之底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#彩蛋：自顶向下的好处"><span class="toc-number">1.1.</span> <span class="toc-text">彩蛋：自顶向下的好处</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么叫底层原理"><span class="toc-number">1.2.</span> <span class="toc-text">什么叫底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重要性"><span class="toc-number">1.2.1.</span> <span class="toc-text">重要性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从Java代码到CPU指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">从Java代码到CPU指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM内存模型与Java内存模型与Java对象模型"><span class="toc-number">1.3.</span> <span class="toc-text">JVM内存模型与Java内存模型与Java对象模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整体方向"><span class="toc-number">1.3.1.</span> <span class="toc-text">整体方向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM内存结构"><span class="toc-number">1.3.2.</span> <span class="toc-text">JVM内存结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java对象模型"><span class="toc-number">1.3.3.</span> <span class="toc-text">Java对象模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JMM是什么"><span class="toc-number">1.4.</span> <span class="toc-text">JMM是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么需要JMM"><span class="toc-number">1.4.1.</span> <span class="toc-text">为什么需要JMM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重排序"><span class="toc-number">1.5.</span> <span class="toc-text">重排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#重排序的代码案例"><span class="toc-number">1.5.1.</span> <span class="toc-text">重排序的代码案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是重排序"><span class="toc-number">1.5.2.</span> <span class="toc-text">什么是重排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重排序的好处"><span class="toc-number">1.5.3.</span> <span class="toc-text">重排序的好处</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对比重排序前后的指令优化"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">对比重排序前后的指令优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发生重排序的3种情况"><span class="toc-number">1.5.4.</span> <span class="toc-text">发生重排序的3种情况</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可见性"><span class="toc-number">1.6.</span> <span class="toc-text">可见性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是可见性问题"><span class="toc-number">1.6.1.</span> <span class="toc-text">什么是可见性问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#案例一"><span class="toc-number">1.6.1.1.</span> <span class="toc-text">案例一</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析"><span class="toc-number">1.6.1.2.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#案例二"><span class="toc-number">1.6.1.3.</span> <span class="toc-text">案例二</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分析-1"><span class="toc-number">1.6.1.4.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么会有可见性问题"><span class="toc-number">1.6.2.</span> <span class="toc-text">为什么会有可见性问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMM抽象：主内存和本地内存"><span class="toc-number">1.6.3.</span> <span class="toc-text">JMM抽象：主内存和本地内存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是主内存和本地内存"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">什么是主内存和本地内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主内存和本地内存的关系"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">主内存和本地内存的关系</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Happns-Before原则"><span class="toc-number">1.6.4.</span> <span class="toc-text">Happns-Before原则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是happens-before"><span class="toc-number">1.6.4.1.</span> <span class="toc-text">什么是happens-before</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么不是happens-before"><span class="toc-number">1.6.4.2.</span> <span class="toc-text">什么不是happens-before</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#happens-before规则有哪些"><span class="toc-number">1.6.4.3.</span> <span class="toc-text">happens-before规则有哪些</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优质代码案例"><span class="toc-number">1.6.4.4.</span> <span class="toc-text">优质代码案例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile关键字"><span class="toc-number">1.6.5.</span> <span class="toc-text">volatile关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#volatile是什么"><span class="toc-number">1.6.5.1.</span> <span class="toc-text">volatile是什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#volatile的适用场合"><span class="toc-number">1.6.5.2.</span> <span class="toc-text">volatile的适用场合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#volatile的作用"><span class="toc-number">1.6.5.3.</span> <span class="toc-text">volatile的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#volatile和synchornized的关系"><span class="toc-number">1.6.5.4.</span> <span class="toc-text">volatile和synchornized的关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用volatile修正重排序问题"><span class="toc-number">1.6.5.5.</span> <span class="toc-text">用volatile修正重排序问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#volatile小结"><span class="toc-number">1.6.5.6.</span> <span class="toc-text">volatile小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#能保证可见性的措施"><span class="toc-number">1.6.6.</span> <span class="toc-text">能保证可见性的措施</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#升华：对synchornized可见性的正确理解"><span class="toc-number">1.6.7.</span> <span class="toc-text">升华：对synchornized可见性的正确理解</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Java内存模型之底层原理　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/" title="上一篇: ThreadLocal详解">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/4悟空Java并发编程/AQS/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

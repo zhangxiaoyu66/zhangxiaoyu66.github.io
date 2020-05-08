@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="LinuxLinux几乎无处不在 品牌手机与电脑，为其提供服务的服务器基本都是Linux系统 Android系统的底层用的是修改过的Linux内核 全球500台最快的超级计算机中，100%采用Linux系统 电脑的启动顺序  启动界面（主板） 操作系统的启动（Windows） 其他程序的启动  [zhangxiaoyu@localhost ~]$ 叫做“命令行提示符”，提示在其后面输入命令 zha">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux1">
+<meta property="og:url" content="http://yoursite.com/2020/03/10/0编程工具/Linux/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="LinuxLinux几乎无处不在 品牌手机与电脑，为其提供服务的服务器基本都是Linux系统 Android系统的底层用的是修改过的Linux内核 全球500台最快的超级计算机中，100%采用Linux系统 电脑的启动顺序  启动界面（主板） 操作系统的启动（Windows） 其他程序的启动  [zhangxiaoyu@localhost ~]$ 叫做“命令行提示符”，提示在其后面输入命令 zha">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310100336649.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310101613157.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310102211329.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310103122086.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310105541930.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310113725112.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310190443366.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310202457371.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310203155475.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310211306089.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311113805133.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311125353397.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311125740062.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311140918265.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311141237733.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311155722829.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311163740125.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311181736332.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200311182845400.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313163012532.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313175533526.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313191313345.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313194444737.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313201316778.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313203817314.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313203515967.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200313210249426.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200314085141405.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200314090151817.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200314091002291.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200314124652626.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200314131547221.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200315110512346.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200315194339746.png">
+<meta property="og:updated_time" content="2020-03-16T14:16:21.859Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux1">
+<meta name="twitter:description" content="LinuxLinux几乎无处不在 品牌手机与电脑，为其提供服务的服务器基本都是Linux系统 Android系统的底层用的是修改过的Linux内核 全球500台最快的超级计算机中，100%采用Linux系统 电脑的启动顺序  启动界面（主板） 操作系统的启动（Windows） 其他程序的启动  [zhangxiaoyu@localhost ~]$ 叫做“命令行提示符”，提示在其后面输入命令 zha">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/10/0编程工具/Linux/image-20200310100336649.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Linux1 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-0编程工具/Linux" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/10/0编程工具/Linux/" class="article-date">
+      <time datetime="2020-03-10T00:33:43.473Z" itemprop="datePublished">2020-03-10</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux1
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/编程工具/">编程工具</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><p>Linux几乎无处不在</p>
+<p>品牌手机与电脑，为其提供服务的服务器基本都是Linux系统</p>
+<p>Android系统的底层用的是修改过的Linux内核</p>
+<p>全球500台最快的超级计算机中，100%采用Linux系统</p>
+<p><strong>电脑的启动顺序</strong></p>
+<ul>
+<li>启动界面（主板）</li>
+<li>操作系统的启动（Windows）</li>
+<li>其他程序的启动</li>
+</ul>
+<p>[zhangxiaoyu@localhost ~]$</p>
+<p>叫做“命令行提示符”，提示在其后面输入命令</p>
+<p><strong>zhangxiaoyu</strong>是当前用户的名字（username）,Linux是多用户的操作系统</p>
+<p><strong>@</strong>前面是用户名，后面是所在的域，例如<a href="mailto:87195243@qq.com" target="_blank" rel="noopener">87195243@qq.com</a></p>
+<p><strong>localhost</strong>是电脑、主机的名字，也就是主机名（hostname）</p>
+<p><strong>~</strong>表示当前用户的家目录（home directory），是当前所在目录的名字，会随着用户进入不同目录而改变</p>
+<p><strong>$</strong>标志用户所具有的权限，$表示普通用户，有权限的限制，#表示超级用户也就是root，它拥有所有的权限，是系统的管家</p>
+<a id="more"></a>
+
+<h3 id="将用户切换为root"><a href="#将用户切换为root" class="headerlink" title="将用户切换为root"></a>将用户切换为root</h3><ol>
+<li><p>用sudo su命令</p>
+</li>
+<li><p>命令行提示符变成[root@localhost zhangxiaoyu]#</p>
+</li>
+<li><p>退出root身份，可以用Ctrl+D的组合键，或者用exit命令</p>
+</li>
+</ol>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310100336649.png" alt="image-20200310100336649" style="zoom:80%;">
+
+<h3 id="whoami和hostname命令"><a href="#whoami和hostname命令" class="headerlink" title="whoami和hostname命令"></a>whoami和hostname命令</h3><img src="/2020/03/10/0编程工具/Linux/image-20200310101613157.png" alt="image-20200310101613157" style="zoom:80%;">
+
+<h3 id="知识点"><a href="#知识点" class="headerlink" title="知识点"></a>知识点</h3><p>Linux的开发者写了丰富详尽的命令使用手册，英语是manual</p>
+<p>Linux的使用手册可以说是Linux开发者的圣经</p>
+<h2 id="简单的命令"><a href="#简单的命令" class="headerlink" title="简单的命令"></a>简单的命令</h2><h3 id="date命令"><a href="#date命令" class="headerlink" title="date命令"></a>date命令</h3><p>date是日期的意思，用于显示当前的时间</p>
+<p>CST是Central Standard Time的缩写，表示“中央标准时间”</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310102211329.png" alt="image-20200310102211329" style="zoom:80%;">
+
+<h3 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h3><p>ls是list的缩写，list是“列举，列出”的意思</p>
+<p>ls命令的作用是用于列出当前目录下的文件和目录</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310103122086.png" alt="image-20200310103122086" style="zoom:80%;">
+
+<h2 id="命令的参数"><a href="#命令的参数" class="headerlink" title="命令的参数"></a>命令的参数</h2><p>参数是写在命令之后的一些补充选项，命令和参数之间有空格隔开</p>
+<p>格式：command parameters</p>
+<p>参数里可以包含数字、字母等等</p>
+<p>参数里可以包含多个参数，由空格隔开</p>
+<p>参数没有固定格式，但是一般还是遵循一定的规范</p>
+<h3 id="短参数（一个字母）"><a href="#短参数（一个字母）" class="headerlink" title="短参数（一个字母）"></a>短参数（一个字母）</h3><p>最常用的参数形式就是一个短横线后接一个字母：command -p</p>
+<p>一次可以加好几个短参数，可以用空格隔开：command -p -a -T -c</p>
+<p>多个短参数也可以合并在一起：command -paTc</p>
+<p>字母的大小写有区别，大写的T和小写的t通常含义不同</p>
+<h3 id="长参数（多个字母）"><a href="#长参数（多个字母）" class="headerlink" title="长参数（多个字母）"></a>长参数（多个字母）</h3><ul>
+<li><p>多个长参数，是不能当多个短参数那样合并写的，而是只能以空格隔开</p>
+<p>command –parameter1 –parameter2</p>
+</li>
+<li><p>可以组合使用长参数和短参数</p>
+<p>command -paTc –parameter1 –parameter2</p>
+</li>
+</ul>
+<p>有时候，同一个意义的参数有短参数和长参数两种形式效果是一样的</p>
+<p>例如ls -a和ls -all</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310105541930.png" alt="image-20200310105541930" style="zoom:80%;">
+
+<h3 id="参数的值"><a href="#参数的值" class="headerlink" title="参数的值"></a>参数的值</h3><p>有一些参数需要赋值，短参数和长参数的赋值方法不一样</p>
+<p>短参数赋值，通常是：command -p 10</p>
+<p>长参数赋值，通常是：command –parameter=10</p>
+<h2 id="如何查找命令和命令的历史记录"><a href="#如何查找命令和命令的历史记录" class="headerlink" title="如何查找命令和命令的历史记录"></a>如何查找命令和命令的历史记录</h2><h3 id="如何找到一个命令"><a href="#如何找到一个命令" class="headerlink" title="如何找到一个命令"></a>如何找到一个命令</h3><p>使用Tab键来补全命令</p>
+<p>Tab键可以补全命令，也可以补全文件名、路径名：按两次Tab键</p>
+<h3 id="命令的历史记录"><a href="#命令的历史记录" class="headerlink" title="命令的历史记录"></a>命令的历史记录</h3><p>向上键：向前查找用过的命令</p>
+<p>向下键：先后查找用过的命令</p>
+<p>Ctrl+R：用于查找使用过的命令</p>
+<p>history命令用于列出之前使用过的所有命令，可以使用<code>!编号</code>的格式来重新运行history输出中对应编号的命令</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310113725112.png" alt="image-20200310113725112" style="zoom:80%;">
+
+<h2 id="实用的快捷键"><a href="#实用的快捷键" class="headerlink" title="实用的快捷键"></a>实用的快捷键</h2><p>Ctrl+L：用于清理终端的内容，清屏的作用，同clear命令</p>
+<p>Ctrl+D：给终端传递EOF（End Of File，文件结束符）</p>
+<p>Shift+PgUp：用于向上滚屏</p>
+<p>Shift+PgDn：用于向下滚屏</p>
+<p>Ctrl+A：光标跳到一行命令的开头，Home键有相同的效果</p>
+<p>Ctrl+E：光标跳到一行命令的结尾，End键有相同的效果</p>
+<p>Ctrl+U：删除所有在光标左侧的命令字符</p>
+<p>Ctrl+K：删除所有在光标右侧的命令字符</p>
+<p>Ctrl+W：删除光标左侧的一个单词，单词指用空格隔开的一个字符串，例如-a就是一个单词</p>
+<p>Ctrl+Y：粘贴之前用Ctrl+U、Ctrl+K或Ctrl+W删除的字符，像“剪切-粘贴”</p>
+<h2 id="文件和目录组成命令"><a href="#文件和目录组成命令" class="headerlink" title="文件和目录组成命令"></a>文件和目录组成命令</h2><p>Linux中一切都是文件</p>
+<h3 id="Linux中两种类型的文件"><a href="#Linux中两种类型的文件" class="headerlink" title="Linux中两种类型的文件"></a>Linux中两种类型的文件</h3><p>普通文件和特殊文件</p>
+<h4 id="普通文件"><a href="#普通文件" class="headerlink" title="普通文件"></a>普通文件</h4><p>文本类型的文件（.txt，.doc，.odt等等）</p>
+<p>声音文件（.wav，.mp3，.ogg）</p>
+<p>这样的文件在Windows中也有</p>
+<h4 id="特殊文件"><a href="#特殊文件" class="headerlink" title="特殊文件"></a>特殊文件</h4><p>其他一些文件是特殊的，因为它们表示一些东西，例如光盘驱动器就是这类特殊的文件</p>
+<h3 id="根目录"><a href="#根目录" class="headerlink" title="根目录"></a>根目录</h3><p>Linux有且只有一个根目录，就是/（斜杠）</p>
+<p>Linux中没有比根目录再高一阶的目录了，没有目录包含根目录</p>
+<h3 id="Linux目录结构"><a href="#Linux目录结构" class="headerlink" title="Linux目录结构"></a>Linux目录结构</h3><p>Linux中用斜杠/来标明目录的层级与包含关系，形式是这样的 /usr/bin，bin是usr目录的子目录，usr是/这个根目录的子目录</p>
+<h4 id="目录命名规范"><a href="#目录命名规范" class="headerlink" title="目录命名规范"></a>目录命名规范</h4><p>Linux的目录名称可以包含空格等符号，但一般情况下，Linux下的命名目录时尽量不使用空格或者其他特殊符号，并且尽量使用小写英文字母</p>
+<h3 id="Linux的根目录的常用直属子目录"><a href="#Linux的根目录的常用直属子目录" class="headerlink" title="Linux的根目录的常用直属子目录"></a>Linux的根目录的常用直属子目录</h3><h4 id="bin"><a href="#bin" class="headerlink" title="bin"></a>bin</h4><p>是binary的缩写，表示“二进制文件”，可执行文件是二进制的，bin目录包含了会被所有用户使用的可执行程序</p>
+<h4 id="boot"><a href="#boot" class="headerlink" title="boot"></a>boot</h4><p>启动，boot目录包含与Linux启动密切相关的文件</p>
+<h4 id="dev"><a href="#dev" class="headerlink" title="dev"></a>dev</h4><p>表示设备，包含外设，它里面的子目录，每一个对应一个外设，比如代表光盘驱动器的文件就会出现在这个目录下面</p>
+<h4 id="etc"><a href="#etc" class="headerlink" title="etc"></a>etc</h4><p>etc目录包含系统的配置文件</p>
+<h4 id="home"><a href="#home" class="headerlink" title="home"></a>home</h4><p>表示家，用户的私人目录，放置私人文件，Linux中的每个用户都在home目录下有一个私人目录，除了用户root，root用户拥有所有权限，与普通用户不在一起</p>
+<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>library的缩写，表示“库 ”</p>
+<p>lib目录包含被程序所调用的库文件，例如.so结尾的文件，Windows下这样的库文件则是以.dll结尾</p>
+<h4 id="media"><a href="#media" class="headerlink" title="media"></a>media</h4><p>表示媒体，可移动的外设（USB盘，SD卡，DVD，光盘等等）插入电脑时，Linux可以让我们通过media的子目录来访问外设中的内容</p>
+<h4 id="mnt"><a href="#mnt" class="headerlink" title="mnt"></a>mnt</h4><p>表示挂载，类似media目录，但一般用于临时挂载一些装置</p>
+<h4 id="opt"><a href="#opt" class="headerlink" title="opt"></a>opt</h4><p>表示“可选的应用软件包”，用于安装多数第三方软件和插件</p>
+<h4 id="root"><a href="#root" class="headerlink" title="root"></a>root</h4><p>超级用户root的家目录，一般的用户的家目录位于/home下，root用户是一个例外</p>
+<h4 id="sbin"><a href="#sbin" class="headerlink" title="sbin"></a>sbin</h4><p>system binary的缩写，表示“系统二进制文件”</p>
+<h4 id="srv"><a href="#srv" class="headerlink" title="srv"></a>srv</h4><p>service的缩写，表示“服务”</p>
+<p>包含一些网络服务启动之后所需要取用的数据</p>
+<h4 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h4><p>temporary的缩写，表示“临时的”，是普通用户和程序存放临时文件的地方</p>
+<h4 id="usr"><a href="#usr" class="headerlink" title="usr"></a>usr</h4><p>Unix Software Resource</p>
+<p>表示“Unix操作系统软件资源”，类似etc也是历史遗留的命名</p>
+<p>它是最庞大的目录之一，类似Windows中的C:\Windows和C:\Program Files这两个文件夹的集合</p>
+<p>usr目录里安装了大部分用户要调用的程序</p>
+<h4 id="var"><a href="#var" class="headerlink" title="var"></a>var</h4><p>variable的缩写，表示动态的，可变的</p>
+<p>通常包含程序的数据，比如log（日志）文件</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310190443366.png" alt="image-20200310190443366" style="zoom:80%;">
+
+<h3 id="pwd命令和which命令"><a href="#pwd命令和which命令" class="headerlink" title="pwd命令和which命令"></a>pwd命令和which命令</h3><h4 id="pwd命令"><a href="#pwd命令" class="headerlink" title="pwd命令"></a>pwd命令</h4><p>显示当前目录的路径</p>
+<p>刚打开一个终端（Terminal），你将位于你的用户家目录~中</p>
+<p>如果用户是zhangxiaoyu，那么~这个目录就是/home/zhangxiaoyu这个目录，通常来说，命令行提示符会告诉你目前位于哪个目录下</p>
+<p>pwd命令，显示当前目录的路径</p>
+<p>除了看命令行提示符，还有一个方法就是pwd命令，全称Print Woking Directory（“打印当前工作目录”）的缩写</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310202457371.png" alt="image-20200310202457371" style="zoom:80%;">
+
+<h4 id="which命令"><a href="#which命令" class="headerlink" title="which命令"></a>which命令</h4><p>which命令不是一个必不可少的命令，平时用到它的机会也不多</p>
+<p>which命令用于显示一个命令的对应的可执行程序的位置</p>
+<p>Linux下，每一条命令其实都对应了一个可执行程序，在终端中输入命令，按回车的时候，就是执行了对应的那个程序，pwd命令对应的pwd程序就是存在于Linux中的，一个命令其实是一个我们随时可以调用的程序，which命令接受一个参数，是你想知道其可执行程序位于哪里的那个命令</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310203155475.png" alt="image-20200310203155475" style="zoom:80%;">
+
+<p>Windows可执行程序以<code>.exe</code>结尾，Linux中一般是没有后缀名的，which命令对应的可执行程序是在<code>usr/bin</code>中，Linux中的可执行程序也不都位于相同目录的</p>
+<h2 id="目录相关的命令ls-cd和du"><a href="#目录相关的命令ls-cd和du" class="headerlink" title="目录相关的命令ls,cd和du"></a>目录相关的命令ls,cd和du</h2><h3 id="ls命令-1"><a href="#ls命令-1" class="headerlink" title="ls命令"></a>ls命令</h3><p>列出文件和目录</p>
+<p>ls命令是最常用的Linux命令之一，用于列出文件和目录</p>
+<p>CentOS的终端默认是有颜色标注的，一般来说</p>
+<p>蓝色表示目录，绿色表示可执行文件，红色表示压缩文件，浅蓝色表示链接文件，灰色表示其他文件</p>
+<p>如果没有颜色，可以加上参数 <code>--color=auto</code>来开启颜色标注，即<code>ls --color=auto</code></p>
+<p>可以用<code>ls --color=none</code>来关闭颜色标注，为了避免每次都输入额外的参数，可以在配置文件中修改，详细售卖在后面</p>
+<h3 id="ls命令常用的参数"><a href="#ls命令常用的参数" class="headerlink" title="ls命令常用的参数"></a>ls命令常用的参数</h3><p><strong>-a</strong></p>
+<p>显示所有的文件和目录，包括隐藏的文件</p>
+<p>Linux中，以<code>.</code>开头的文件是隐藏文件，但不包括最开头的两个<code>.</code>和<code>..</code></p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200310211306089.png" alt="image-20200310211306089" style="zoom:80%;">
+
+<p>大写的参数<code>-A</code>，它的作用和小写的<code>-a</code>几乎一样，唯一不同就是<code>-A</code>不列出<code>.</code>和<code>..</code>这两个文件</p>
+<p><strong>-l</strong></p>
+<p>详细列表</p>
+<p><code>-l</code>参数使得ls命令列出一个显示文件和目录的详细信息的列表，每一个文件或目录都对应一行信息</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311113805133.png" alt="image-20200311113805133" style="zoom:80%;">
+
+<p>total：表示当前文件的总大小（单位以千字节来表示），但是total后面的数字并不统计当前目录下所有文件的大小，只是统计了这一层的文件大小，并没有深入这些文件的底层</p>
+<p>第一列表示文件权限：drwxr-xr-x之类的</p>
+<p>第二列表示链接的数目：2,1之类的</p>
+<p>第三列表示文件的所有者的名称</p>
+<p>第四列表示文件所在的群组</p>
+<p>第五列表示文件大小，单位是octet，也就是byte，表示字节</p>
+<p><strong>-h</strong></p>
+<p>以Ko、Mo、Go的形式显示文件大小</p>
+<p>仅用<code>ls -l</code>，列出的文件详细信息中，文件大小是以字节为单位的</p>
+<p>参数<code>-h</code>，h是<code>human readable</code>的缩写，表示适合人类阅读的</p>
+<p><strong>-t</strong></p>
+<p>按文件最近一次修改时间排序</p>
+<p>t是time的缩写，表示“时间”</p>
+<p><strong>注</strong></p>
+<p>ls的常用参数合并在一起使用，效果是叠加的</p>
+<p><code>ls -lath</code></p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311125353397.png" alt="image-20200311125353397" style="zoom:80%;">
+
+<h3 id="cd命令"><a href="#cd命令" class="headerlink" title="cd命令"></a>cd命令</h3><p>cd命令是最常用的Linux命令之一，change directory的缩写，表示切换目录</p>
+<p>cd命令后面接的参数就是一个：要去的那个目录的路径</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311125740062.png" alt="image-20200311125740062" style="zoom:80%;">
+
+<p>要回到上一级目录（也叫父目录），使用<code>cd..</code>，使用<code>cd.</code>就是返回当前目录</p>
+<p>要返回父目录的父目录就是用<code>cd../..</code></p>
+<h4 id="相对路径与绝对路径"><a href="#相对路径与绝对路径" class="headerlink" title="相对路径与绝对路径"></a>相对路径与绝对路径</h4><p>相对路径：相对于当前目录的一个路径表示法</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311140918265.png" alt="image-20200311140918265" style="zoom:80%;">
+
+<p>绝对路径：绝对的，不因当前目录而改变的一个路径表示法，它总是以/开头，/表示根目录</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311141237733.png" alt="image-20200311141237733" style="zoom:80%;">
+
+<h4 id="重回家目录的三种方式"><a href="#重回家目录的三种方式" class="headerlink" title="重回家目录的三种方式"></a>重回家目录的三种方式</h4><p>第一种</p>
+<p><code>cd /home/zhangxiaoyu</code></p>
+<p>第二种</p>
+<p><code>cd ~</code></p>
+<p>第三种</p>
+<p><code>cd</code>，直接使用cd命令，不参加参数</p>
+<h4 id="路径自动补全"><a href="#路径自动补全" class="headerlink" title="路径自动补全"></a>路径自动补全</h4><p>Tab键可以进行命令的补全（按两下Tab键），Tab键还可以用于路径的补全</p>
+<h3 id="du命令"><a href="#du命令" class="headerlink" title="du命令"></a>du命令</h3><p>显示目录包含的文件大小相比<code>ls -l</code>，du命令统计的才是真正的文件大小</p>
+<p>du命令会深入遍历每个目录的子目录，统计所有文件的大小</p>
+<p>du是disk usage，表示磁盘占用</p>
+<h3 id="du命令常用参数"><a href="#du命令常用参数" class="headerlink" title="du命令常用参数"></a>du命令常用参数</h3><p><strong>-h</strong></p>
+<p>以Ko，Mo，Go的形式显示文件大小，<code>du -h</code></p>
+<p><strong>-a</strong></p>
+<p>显示文件和目录的大小</p>
+<p>默认情况下，du命令只显示目录的大小，如果加上<code>-a</code>参数，则会显示目录和文件的大小</p>
+<p><strong>-s</strong></p>
+<p>只显示总计大小</p>
+<h2 id="浏览和创建文件"><a href="#浏览和创建文件" class="headerlink" title="浏览和创建文件"></a>浏览和创建文件</h2><h3 id="cat和less命令"><a href="#cat和less命令" class="headerlink" title="cat和less命令"></a>cat和less命令</h3><p>显示文件内容</p>
+<p><code>/var/log</code>中有很多日志文件</p>
+<p>/var这个目录通常包含程序的数据</p>
+<p><strong>cat命令</strong></p>
+<p>concatenate，表示连接/串联，可以一次性在终端中显示文件的所有内容，只需要在命令后加上想要显示的文件路径即可</p>
+<p><strong>less命令</strong></p>
+<p>分页显示文件内容</p>
+<p>如果文件比较大，cat命令就不适合，和cat命令最大的区别就是，less命令会一页一页的显示文件内容</p>
+<h3 id="less命令中最基本最常用的快捷键"><a href="#less命令中最基本最常用的快捷键" class="headerlink" title="less命令中最基本最常用的快捷键"></a>less命令中最基本最常用的快捷键</h3><p>空格键：文件内容读取下一个终端屏幕的行数，与键盘上PageDown效果一样</p>
+<p>回车键：文件内容读取下一行，也就是前进一行</p>
+<p>d键：前进半个页面（半个屏幕）</p>
+<p>b键：后退一页，与键盘上PageUp效果一样</p>
+<p>d键：后退一行</p>
+<p>u键：后退半页（半个屏幕）</p>
+<p>q键：停止读取文件，终止less命令</p>
+<p>这里的快捷键大小写是需要区分的，d键，就是小写的d，而不是大写的D，在Linux中通常区分大小写</p>
+<p>=号：显示你在文件中的什么位置</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311155722829.png" alt="image-20200311155722829" style="zoom:80%;">
+
+<p><code>lines当前页面的内容是文件中第几行到第几行/整个文件所含行数/所含字符数/整个文件所含字符</code></p>
+<p>h键：显示帮助文档，q键退出帮助文档</p>
+<p>/（斜杠）：进入搜索模式，在斜杠后面输入要搜索的文字，按下回车键，就会把所有符合的结果都标识出来，要在搜索得到的结果中跳转，可以按n键，跳到下一个符合项目，按N键（Shift+n）跳到下一个项目</p>
+<h3 id="head命令和tail命令"><a href="#head命令和tail命令" class="headerlink" title="head命令和tail命令"></a>head命令和tail命令</h3><p>显示文件的head开头和tail结尾</p>
+<p>默认情况下，head会显示文件的头10行</p>
+<p>默认情况下，tail会显示文件的尾10行</p>
+<p>可以指定显示的行数，用-n这个参数</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311163740125.png" alt="image-20200311163740125" style="zoom:80%;">
+
+<p><code>tail</code>命令还可以配合<code>-f</code>参数来实时追踪文件的更新</p>
+<p>Ctrl+c组合快捷键可以终止大部分终端的命令和正在执行的程序</p>
+<p>默认<code>tail -f</code>会每1秒检查一下文件是否有新内容</p>
+<p>可以指定间隔检查的秒数，用<code>-s</code>参数，<code>tail -f -s 4 文件名</code></p>
+<h3 id="touch命令和mkdir命令"><a href="#touch命令和mkdir命令" class="headerlink" title="touch命令和mkdir命令"></a>touch命令和mkdir命令</h3><p>创建文件和目录</p>
+<h4 id="touch命令"><a href="#touch命令" class="headerlink" title="touch命令"></a>touch命令</h4><p>创建一个空白的文件</p>
+<p>事实上，Linux没有一个命令是专门用来创建一个空白文件的</p>
+<p>touch命令其实一开始的设计初衷是修改文件的时间戳，就是可以修改文件的创建时间或修改时间，让电脑以为文件是在那个时候被修改和创建的</p>
+<p>如果touch命令后跟着的文件名是不存在的文件，则会新建一个</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311181736332.png" alt="image-20200311181736332" style="zoom:80%;">
+
+<h4 id="mkdir命令"><a href="#mkdir命令" class="headerlink" title="mkdir命令"></a>mkdir命令</h4><p>mkdir命令就是用于创建一个目录的</p>
+<p>还可以用<code>-p</code>参数来递归创建目录结构：<code>mkdir -p one/two/three</code></p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200311182845400.png" alt="image-20200311182845400" style="zoom:80%;">
+
+<h2 id="文件的复制、移动、删除和链接"><a href="#文件的复制、移动、删除和链接" class="headerlink" title="文件的复制、移动、删除和链接"></a>文件的复制、移动、删除和链接</h2><h3 id="cp和mv命令"><a href="#cp和mv命令" class="headerlink" title="cp和mv命令"></a>cp和mv命令</h3><p>拷贝文件和移动文件</p>
+<h3 id="cp命令"><a href="#cp命令" class="headerlink" title="cp命令"></a>cp命令</h3><p>拷贝文件或目录，cp命令不仅可以拷贝单个文件，还可以拷贝多个文件，也可以拷贝目录</p>
+<p>拷贝之前创建的new_file文件：cp new_file new_file_copy</p>
+<p>第一个文件new_file是已经存在的文件，也就是 被拷贝的文件</p>
+<p>第二个文件new_file_copy是需要创建的文件，是new_file的副本</p>
+<h4 id="复制文件到另一个目录"><a href="#复制文件到另一个目录" class="headerlink" title="复制文件到另一个目录"></a>复制文件到另一个目录</h4><p>不一定要在同一个目录下拷贝，也可以把文件拷贝到其他目录</p>
+<p>只需要把cp命令的第二个参数换成目录名：<code>cp new_file one/</code></p>
+<p>如果想拷贝文件到其他目录的同时，并想重新取一个新名字，那么可以这样做<code>cp new_file one/new_file_copy</code></p>
+<h4 id="拷贝目录"><a href="#拷贝目录" class="headerlink" title="拷贝目录"></a>拷贝目录</h4><p>拷贝目录只要在cp命令之后加上<code>-r</code>或者<code>-R</code>参数</p>
+<p>r大写和小写的作用是一样的，都表示recursive，也就是递归，拷贝的时候，目录中的所有内容（子目录和文件）都会被拷贝</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313163012532.png" alt="image-20200313163012532" style="zoom:80%;">
+
+<h4 id="使用通配符"><a href="#使用通配符" class="headerlink" title="使用通配符*"></a>使用通配符*</h4><p>*号是很常用的正则表达式的符号，被称为“通配符”，可以替代任意字符串</p>
+<p><code>cp *.txt folder</code>：把当前目录下所有txt文件拷贝到folder目录中</p>
+<p><code>cp ha* folder</code>：把当前目录以ha开头的文件都拷贝到folder目录中</p>
+<h3 id="mv命令"><a href="#mv命令" class="headerlink" title="mv命令"></a>mv命令</h3><p>移动文件</p>
+<p>mv是move，表示移动，mv命令有两个功能</p>
+<p>一个是移动文件（或目录），另一个是重命名文件（或目录）</p>
+<h4 id="移动文件"><a href="#移动文件" class="headerlink" title="移动文件"></a>移动文件</h4><p>与<code>cp</code>命令用法类似，不同的是<code>cp</code>命令会复制当前文件，而mv命令则是单纯的移动，并不会制作副本</p>
+<p><code>cp</code>像windows中的复制+粘贴，mv像Windows中的剪切+粘贴</p>
+<p><code>mv new_file_2 one</code>：将new_file_2这个文件移动到one目录，原先的new_file_2文件不存在了，用cp，命令的时候，源文件还在的，只是把副本移动到其他目录</p>
+<p>用mv命令移动目录很简单，不需要额外的参数，和移动文件一样</p>
+<p>例如：mv new_folder one，将new_folder目录（包括子目录和文件）移动到one这个目录</p>
+<h4 id="重命名文件"><a href="#重命名文件" class="headerlink" title="重命名文件"></a>重命名文件</h4><p>事实上，Linux中没有一个专门的命令用于重命名文件，mv命令可以重命名文件，还是因为它的机制：移动文件</p>
+<p>mv new_file renamed_file</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313175533526.png" alt="image-20200313175533526" style="zoom:80%;">
+
+<p>以上命令将new_file重命名为renamed_file</p>
+<h3 id="rm命令"><a href="#rm命令" class="headerlink" title="rm命令"></a>rm命令</h3><p>删除文件和目录</p>
+<p>rm，表示“移除”，因为在终端中没有回收站或垃圾箱，用rm命令删除了文件，一般比较难恢复，所以需要谨慎使用</p>
+<p>rm命令可以删除一个文件、多个文件、目录，甚至整个Linux系统</p>
+<p><code>rm new_file_copy</code>：删除当前目录下的new_file_copy这个文件</p>
+<p>可以同时删除多个文件，只要用空格隔开每个文件即可，例：<code>rm file1 file2 file3</code></p>
+<p><strong>-i</strong></p>
+<p>向用户确认是否删除，保险起见，用rm命令删除文件时，可以加上<code>-i</code>参数，这样对于每一个要删除的文件，终端都会询问我们是否确定删除，<code>-i</code>中i表示inform，告知，通知</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313191313345.png" alt="image-20200313191313345" style="zoom:80%;">
+
+<p><strong>-f</strong></p>
+<p>不会询问是否删除，强制删除</p>
+<p>在rm命令后加上<code>-f</code>参数，终端不会询问用户是否确定删除文件，文件会立即被强制删除，<code>f</code>表示force，强迫</p>
+<p><strong>-r</strong></p>
+<p>递归删除，recursive，表示“递归”，使用<code>-r</code>参数，可以使rm命令删除目录，并且递归删除其包含的子目录和文件</p>
+<h3 id="ln命令"><a href="#ln命令" class="headerlink" title="ln命令"></a>ln命令</h3><p>创建链接</p>
+<p>ln是link的缩写，表示链接，ln命令用于在文件之间创建链接，用一个比较熟悉的词就是快捷方式</p>
+<p>Linux下有两种链接类型：</p>
+<p>Physical link：物理链接或硬链接</p>
+<p>Symbolic link：符号链接或软链接</p>
+<h4 id="文件的存储"><a href="#文件的存储" class="headerlink" title="文件的存储"></a>文件的存储</h4><p>大致上来说，每个文件有两个部分，一个是文件名，一个是文件内容，文件名的列表是存储在硬盘的其他地方的，和文件内容分开存放，这样方便Linux管理</p>
+<p>其实每个文件有三个部分：文件名、权限和文件内容，这里简化的将文件分为两部分：文件名和文件内容</p>
+<p>每个文件的文件内容被分配到一个标识号码，就是inode，因此每个文件名都绑定到它的文件内容（用inode标识）</p>
+<h4 id="创建硬链接"><a href="#创建硬链接" class="headerlink" title="创建硬链接"></a>创建硬链接</h4><p>硬链接的原理是使链接的两个文件共享同样的文件内容，就是同样的inode</p>
+<p>所以一旦文件1和文件2之间有了硬链接，那么修改文件或文件2修改的是相同的一块内容，只不过可以用两个文件名来取到文件内容</p>
+<p>硬链接的缺陷：只能创建指向文件的硬链接，不能创建指向目录的硬链接，通过一些参数的修改，也可以创建指向目录的硬链接，但比较复杂</p>
+<p>软链接可以指向文件或目录，对于目录，一般使用软链接</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313194444737.png" alt="image-20200313194444737" style="zoom:80%;">
+
+<p>创建一个文佳file2，使它成为file1的硬链接，要创建硬链接，直接用ln命令，不加任何参数，<code>ln file1 file2</code>，以上命令创建了file1的一个硬链接file2，原理图如下</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313201316778.png" alt="image-20200313201316778" style="zoom:50%;">
+
+<p>对于硬链接来说，删除任意一方的文件，共同指向的另一个文件内容并不会从硬盘上删除，只有即删除file1又删除file2，它们的共同指向的文件内容才会消失，也就是inode才会被删除</p>
+<h4 id="创建软链接"><a href="#创建软链接" class="headerlink" title="创建软链接"></a>创建软链接</h4><p>软链接才真正像我们在Windows下的快捷方式，原理很相似</p>
+<p>创建硬链接时In不带任何参数，创建软链接需要加上<code>-s</code>参数，s是symbolic（符号的）的缩写</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313203817314.png" alt="image-20200313203817314" style="zoom:50%;">
+
+<p><code>ln -s file3 file4</code>：创建 了file3的软链接file4</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313203515967.png" alt="image-20200313203515967" style="zoom:80%;">
+
+<p>file4的信息是这样的：file4-&gt;file3，表示file4指向file3</p>
+<p>file4前面的权限那里的第一个字母变成了<code>l</code>，表示link（链接），之前硬链接的时候是没有l的，硬链接看起来就和普通文件类似</p>
+<p>使用<code>ls -l</code>命令查看文件信息的时候，第二列的那个1，表示拥有相同inode号的文件数，不难理解，因为file4指向file1，它们并没有指向同一块文件内容，所有他们的inode号不相同</p>
+<p>其实file4这个软链接只是file1的一个快捷方式，它指向的是file1，所以显示的是file1的内容，file2的inode和file1不一样，也就是文件内容不一样</p>
+<p>如果删除file4，file3不会受到影响，如果删除file1，file2会变成“死链接”，因为指向的文件不见了</p>
+<p>软链接可以指向目录，硬链接不行</p>
+<h2 id="用户和权限"><a href="#用户和权限" class="headerlink" title="用户和权限"></a>用户和权限</h2><h3 id="sudo命令"><a href="#sudo命令" class="headerlink" title="sudo命令"></a>sudo命令</h3><p>以root身份运行命令</p>
+<h4 id="Linux下的用户组织"><a href="#Linux下的用户组织" class="headerlink" title="Linux下的用户组织"></a>Linux下的用户组织</h4><p>在Linux中，理论上可以创建无数个用户，但是这些用户是被划分到不同的群组里面的，有一个root用户很特殊</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200313210249426.png" alt="image-20200313210249426" style="zoom:50%;">
+
+<p>root用户是默认会创建的，因为是超级用户，zhangxiaoyu则是我们自己创建的用户，我们只在必要时才会切换root身份，其他时候都使用有限权限的用户，例如zhangxiaoyu，这个简单的保护措施大大提高了Linux系统的安全性，有效防止误操作或是病毒攻击</p>
+<p>以普通用户登录，可以使用sudo命令暂时成为root</p>
+<p>substitute，代替、替换的意思，如果要运行只有root才可以运行的命令，可以在此命令前加上sudo，如下</p>
+<p><code>sudo command</code></p>
+<p>终端会提示输入密码，至少第一次会要求输入密码</p>
+<h4 id="sudo-su命令"><a href="#sudo-su命令" class="headerlink" title="sudo su命令"></a>sudo su命令</h4><p>想要从root用户切换到普通用户，只需要输入<code>su 用户名</code></p>
+<p>一直成为root</p>
+<p>只要使用sudo su这个命令组合，就可以一直成为root用户</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200314085141405.png" alt="image-20200314085141405" style="zoom:80%;">
+
+<h3 id="用户管理的命令"><a href="#用户管理的命令" class="headerlink" title="用户管理的命令"></a>用户管理的命令</h3><p>以下是只有root用户才能运行的命令</p>
+<h4 id="useradd命令"><a href="#useradd命令" class="headerlink" title="useradd命令"></a>useradd命令</h4><p>添加新用户，命令后面直接创建用户名</p>
+<h4 id="passwd命令"><a href="#passwd命令" class="headerlink" title="passwd命令"></a>passwd命令</h4><p>可以修改用户的密码</p>
+<p>在其后面加上需要修改密码 的那个用户名</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200314090151817.png" alt="image-20200314090151817" style="zoom:80%;">
+
+<h4 id="userdel命令"><a href="#userdel命令" class="headerlink" title="userdel命令"></a>userdel命令</h4><p>删除用户，在后面接要删除的用户名</p>
+<p> 单使用userdel命令，不加参数的话，只会删除用户，但不会删除/home目录的用户家目录，如果想连此用户的家目录也一起删除，要加上<code>-r</code>或<code>--remove</code>这个参数</p>
+<p><code>userdel -r thomas</code>或<code>userdel --remove thomas</code></p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200314091002291.png" alt="image-20200314091002291" style="zoom:80%;">
+
+<h2 id="群组的管理和文件权限管理"><a href="#群组的管理和文件权限管理" class="headerlink" title="群组的管理和文件权限管理"></a>群组的管理和文件权限管理</h2><h3 id="群组管理的命令"><a href="#群组管理的命令" class="headerlink" title="群组管理的命令"></a>群组管理的命令</h3><p>Linux中每一个用户都属于一个特定的群组</p>
+<p>如果不设置用户的群组，默认会创建一个和它用户名一样的群组，并且把用户划归</p>
+<h4 id="groupadd命令"><a href="#groupadd命令" class="headerlink" title="groupadd命令"></a>groupadd命令</h4><p>用于添加一个新的群组，后接需要创建的群组名</p>
+<h4 id="usermod命令"><a href="#usermod命令" class="headerlink" title="usermod命令"></a>usermod命令</h4><p>修改用户账户</p>
+<p><code>-l</code>：对用户重命名，/home中的用户加目录名不改变，需要手动修改</p>
+<p><code>-g</code>：修改用户所在群组</p>
+<p>将thomas这个用户方法刚创建的friends这个群组中</p>
+<p><code>usermod -g friends thomas</code></p>
+<p>用户thomas之前的群组是thomas，是默认的</p>
+<p>用groups命令可以获知一个用户属于哪个或哪些群组，用法很简单，后接用户名就可以了，当然用户需要存在才行</p>
+<hr>
+<p>可以将一个用户添加到多个群组，用-G参数</p>
+<p><code>uesrmod -G happy,funny thomas</code></p>
+<p>以上命令把thomas添加到happy和funny群组中，群组名之间要用逗号分隔，而且没有空格</p>
+<p>注意：</p>
+<p> 使用usermod时要小心，因为配合<code>-g</code>或<code>-G</code>参数时，他会把用户从原先的群组里剔除，加入到新的群组，如果不想离开原先的群组，又想加入新的群组，可以在<code>-G</code>参数的基础上加上<code>-a</code>参数，a是append，表示追加</p>
+<p><code>usermod -aG good thomas</code></p>
+<hr>
+<p>groups命令单独用，不加任何参数，会显示当前用户所在群组</p>
+<p>追加群组的时候，一定要用到大写的G的参数，即使只是追加一个群组</p>
+<h4 id="groupdel命令"><a href="#groupdel命令" class="headerlink" title="groupdel命令"></a>groupdel命令</h4><p>删除已存在的群组</p>
+<p><code>groupdel happy</code></p>
+<h4 id="chown命令"><a href="#chown命令" class="headerlink" title="chown命令"></a>chown命令</h4><p>改变文件的所有者</p>
+<p>chown是change和owner的缩写，需要 root身份才能运行</p>
+<p>后接新的用户所有者的用户名，再接文件名</p>
+<p><code>chown thomas file.txt</code></p>
+<h4 id="chgrp命令"><a href="#chgrp命令" class="headerlink" title="chgrp命令"></a>chgrp命令</h4><p>用于改变文件的群组</p>
+<p>后接新的群组名，在接文件名</p>
+<p><code>chgrp thomas file.txt</code></p>
+<p>chown命令也可以改变文件的额群组，用法如下</p>
+<p><code>chown oscar:friends file.txt</code>，就是把file.txt文件的所有制改为oscar，群组改为friends</p>
+<p><strong>-R</strong>参数</p>
+<p>递归设置子目录和子文件</p>
+<p>chwon命令的<code>-R</code>参数非常有用，注意：这里只能用 大写的R，小写的r不起作用</p>
+<p>chwon命令配上<code>-R</code>参数，就会使得被修改的目录的所有子目录和子文件都改变所有者，或者连群组也改变，用上述冒号的方法来同时修改所有者和群组</p>
+<p>假如想把用户thomas的家目录的所有子目录和文件都占为己有，可以使用</p>
+<p><code>chown -R oscar:oscar /home/thomas</code>，此时<code>/home/thomas</code>都归oscar所有</p>
+<h4 id="权限原理"><a href="#权限原理" class="headerlink" title="权限原理"></a>权限原理</h4><p>Linux系统中，每个文件和目录都已一列权限属性，访问权限指明了谁有读的权利，谁有修改的权利，谁有运行的权利</p>
+<p>在运行<code>ls -l</code>命令的时候，显示的每个文件或目录的第一列信息就是访问权限，文件信息的第一列比较复杂，可以看到不少d，r，w，l，x等字母，不细分的话，这些统称为文件访问权限符</p>
+<p><code>d:</code>表示目录，说明这是一个目录</p>
+<p><code>l:</code>link，表示链接，说明这是一个链接</p>
+<p><code>r:</code>read,表示可以读这个文件</p>
+<p><code>w:</code>write，表示写，就是可以写、修改这个文件</p>
+<p><code>x:</code>execute，表示执行，可以运行这个文件</p>
+<p>最后可能有一个点，这是SELinux的安全标签</p>
+<hr>
+<p>为什么我们看到这一排有好多个重复出现的r、w和x呢？</p>
+<p>那是因为访问权限是按照用户来划分的</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200314124652626.png" alt="image-20200314124652626" style="zoom: 50%;">
+
+<p>第一组rwx表示文件的所有者对于此文件的访问权限</p>
+<p>第二组rwx表示文件所属的群组的其他用户对于此文件的访问权限</p>
+<p>第三组rwx表示除前两组之外的其他用户对于此文件的访问权限</p>
+<h4 id="解析-rw-rw-r–"><a href="#解析-rw-rw-r–" class="headerlink" title="解析-rw-rw-r–"></a>解析-rw-rw-r–</h4><p> <code>-</code>：第一个短横表示这个是普通文件</p>
+<p><code>rw-</code>：文件的所有者对文件有读、写的权限，没有运行权限，记住，如果有w权限，那么也有删除此文件的权限</p>
+<p><code>rw-</code>：表明文件所在的群组的其他用户，对文件有读、写的权限，但是没有运行的权限</p>
+<p><code>r--</code>：表示其他用户只能读此文件，不能写也不能执行</p>
+<h4 id="chmod命令"><a href="#chmod命令" class="headerlink" title="chmod命令"></a>chmod命令</h4><p>修改访问权限</p>
+<p>chmod命令不需要是root用户才能运行，只要是此文件的所有者，就可以用chmod来修饰文件的访问权限</p>
+<h4 id="用数字来分配权限"><a href="#用数字来分配权限" class="headerlink" title="用数字来分配权限"></a>用数字来分配权限</h4><p>chmod的绝对用法</p>
+<p>事实上，Linux系统对每种权限（r，w，x）分配了对应的数字</p>
+<img src="/2020/03/10/0编程工具/Linux/image-20200314131547221.png" alt="image-20200314131547221" style="zoom: 50%;">
+
+<p>要合并这些权限，就需要做简单的加法，将对应的数字相加，假如要分配读、写权限，就用4+2=6</p>
+<p>数字6表示具有读和写的权限</p>
+<p>访问权限的三组（所有者的权限、群组用户的权限、其他用户的权限），只要分别做加法就可以了，然后哈三个和连起来</p>
+<p>可以给的最宽泛的权限是777</p>
+<p><code>chmod 600 renamed_file</code></p>
+<hr>
+<p><code>-R</code>参数</p>
+<p>递归的修改访问权限</p>
+<p><code>chmod -R700 /home/oscar</code>，只允许oscar能读、写运行<code>/home/oscar</code>目录下的所有文件</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>有一些命令的运行需先切换到root身份</p>
+<p>usermod，chgrp，chown</p>
+<p>chmod命令不需要root身份就可以运行</p>
+<h2 id="Nano"><a href="#Nano" class="headerlink" title="Nano"></a>Nano</h2><p>文本编辑器，小巧简单，nano是“毫微”的意思，Nano相比Vim/Emacs，不及两者复杂和强大，但是对于入门文本编辑器还是合适的</p>
+<hr>
+<p>文本编辑器：Text Editor，可以编辑和查看文本文件，但是不能对文字做格式处理，例如：加粗、斜体、改变颜色等</p>
+<p>常见的有Windows下的记事本，macOS下的文本编辑</p>
+<p>Linux下的Vi、Vim、Emacs、Gedit，DOS下的edit等，Linux下默认系统中至少安装了一种文本编辑器</p>
+<hr>
+<p>文本处理器：Text Processor，又叫文档编辑器</p>
+<p>不仅可以编辑和查看文档，而且可以对其 文字进行格式处理，加下划线，设为标题，插入图片等、</p>
+<p>这些只能在图形界面下使用，常见的有Windows下的Word，macOS下的Pages</p>
+<p>文本编辑器处理的文件和文本处理器的文件格式一般也不同</p>
+<p>什么时候需要用文本编辑器呢？</p>
+<p>我们可以用文本编辑器来编辑纯文本文件</p>
+<p>纯文本格式就是没有任何文本修饰的，没有任何粗体，下划线等格式的文本，只保存文本，不保存其格式设置</p>
+<p>Windows下，比较熟悉的纯文本文件就是<code>.txt</code>结尾的文本文档，在Linux和macOS下，后缀名没有那么重要，不少纯文本文件是没有后缀名的</p>
+<p>文本编辑器对于程序员来说又是必不可少的，它可以让我们编辑各种编程语言的代码程序，<code>.c</code>（C语言代码文件），<code>.cpp</code>（C++代码文件）</p>
+<hr>
+<p>在学习如何使用Nano之后，我们学习如何修改两个配置文件 ：<code>.nanorc</code>和<code>.bashrc</code>，这两个文件能让我们分别配置nano和终端</p>
+<p>终端下部，有两行帮助文档</p>
+<p>^这个符号表示键盘Ctrl键，这些就是Nano的快捷键组合</p>
+<h3 id="Nano的参数"><a href="#Nano的参数" class="headerlink" title="Nano的参数"></a>Nano的参数</h3><p>nano命令也可以带参数，最常用的参数就是打开文件名</p>
+<p>如果对file.txt有写的权限，就可以使用<code>nano file.txt</code>，如果file.txt文件不存在，就会创建一个空文件，名字叫file.txt</p>
+<p><code>-m</code>：激活鼠标，如果没有<code>-m</code>参数，那么鼠标在nano里是不起作用的</p>
+<p><code>-i</code>：激活自动缩进功能</p>
+<p><code>-A</code>：激活智能Home键的功能，通常按下键盘的Home键光标会立即跳到一行的最开始，用了<code>-A</code>这个参数，按下Home键会智能的判断，根据一行的开始有无进行缩进</p>
+<p>如果要同时激活三个属性，只需要<code>nano -miA file.txt</code></p>
+<h2 id="软件安装"><a href="#软件安装" class="headerlink" title="软件安装"></a>软件安装</h2><p>CentOS下的安装程序称之为软件包，即package，一个软件包其实是是软件的所有文件的压缩包，是二进制形式的，包含了安装软件中的所有指令，在RedHat一族里，软件包的后缀是<code>.rpm</code>，rpm是Red Hat Package Manager的缩写，表示“红帽软件包管理器”，CentOS作为RedHat一族的一员，也是拥有<code>.rpm</code>的软件包</p>
+<p><code>.rpm</code>格式的软件包，和Windows下的<code>.exe</code>很像，但是它们的运作方式不一样，软件包管理包含了依赖关系的管理，软件包不需要我们通过搜索引擎来找到并下载，几乎所有<code>.rpm</code>软件包存放在相同的地方，称为软件仓库（repository）</p>
+<h3 id="依赖关系"><a href="#依赖关系" class="headerlink" title="依赖关系"></a>依赖关系</h3><p>通常来说，很少有一个软件可以单独在Linux上运行，也就是说他依赖与其他程序，一个软件经常需要使用其他程序或者其他程序的片段（称之为库）</p>
+<p>一个短剑依赖其他程序，这就是依赖关系，比如说Linux下类似PhotoShop的软件GIMP，GIMP的正常运作需要调用图片读取的库</p>
+<h3 id="软件仓库"><a href="#软件仓库" class="headerlink" title="软件仓库"></a>软件仓库</h3><img src="/2020/03/10/0编程工具/Linux/image-20200315110512346.png" alt="image-20200315110512346" style="zoom: 80%;">
+
+<p>是用户选择软件仓库，因为基本上各个软件仓库中的软件都是一样的，一般选择离自己所在地比较近的软件仓库的服务器，用默认的官方版没有太大坏处，但是有时候会卡，所以要学习切换软件仓库</p>
+<p>CentOS系统使用的软件仓库的列表是记录在一个文件中的，要编辑的那个包含软件仓库的列表文件是</p>
+<p><code>/etc/yum.repos.d/CentOS-Base.repo</code>，这个文件是系统文件，只能被root用户修改</p>
+<p><strong>切换CentOS的软件源</strong></p>
+<p>CentoS官方的源列表</p>
+<p><a href="https://www.centos.org/download/mirrors/" target="_blank" rel="noopener">https://www.centos.org/download/mirrors/</a></p>
+<h3 id="包管理工具"><a href="#包管理工具" class="headerlink" title="包管理工具"></a>包管理工具</h3><p>可以使用终端来管理软件包，终端的软件包管理命令一般用yum，yum是CentOS中默认包管理器工具，也用于RedHat一族</p>
+<p>yum update/upgrade</p>
+<p>更新软件包，update和upgrade几乎没有什么区别</p>
+<p>yum search</p>
+<p>搜索软件包</p>
+<p>yum install</p>
+<p>安装软件包</p>
+<p>yum remove</p>
+<p>删除软件包</p>
+<h2 id="RTFM阅读"><a href="#RTFM阅读" class="headerlink" title="RTFM阅读"></a>RTFM阅读</h2><h3 id="man命令"><a href="#man命令" class="headerlink" title="man命令"></a>man命令</h3><p>man是manual的缩写，是使用手册的意思，后接想要显示使用手册的命令、函数等，此命令用于查看系统中自带的各种参考手册</p>
+<p>手册的分类</p>
+<p>可执行程序或Shell命令</p>
+<p>系统调用（Linux内核提供的函数）</p>
+<p>库调用（程序库中的函数）</p>
+<p>文件（/etc/password）</p>
+<p>特殊文件（通常在/dev下）</p>
+<p> 游戏</p>
+<p>如果man的手册没有安装，可以运行<code>sudo yum install -y man-pages</code></p>
+<p>如果man的手册不全，可以运行<code>sudo mandb</code></p>
+<h4 id="显示使用手册"><a href="#显示使用手册" class="headerlink" title="显示使用手册"></a>显示使用手册</h4><p>输入man+数字+命令、函数，可以查到相关的命令和函数，若不加数字，man默认从数字较小的手册中寻找相关命令和函数</p>
+<p>键盘上Home和End键：实现开始和结尾的跳转</p>
+<p>/键（斜杠）：实现搜索，和之前在less命令中功能类似</p>
+<p>q键：退出手册页</p>
+<h4 id="手册页的不同区域"><a href="#手册页的不同区域" class="headerlink" title="手册页的不同区域"></a>手册页的不同区域</h4><p>手册页分为不同的区域，这些区域的名字是用大写和粗体表示，且靠左对齐</p>
+<p>NAME：名字，手册页对应的名字或函数的名字，后接简单描述</p>
+<p>SYNOPSIS：概要，大意，包含了此命令的所有方法</p>
+<p>SESCRIPTION：描述，命令更深入的描述，这个区域也会包含所有参数及其用法</p>
+<p>AUTHOR：作者，有时候作者不止一个</p>
+<p>COPYRIGHT：版权，也就是用了什么许可证，大多数命令都是在GPL许可证之下的开源代码</p>
+<p>[OPTION]：选项，表示可以添加选项参数（-v，-h）,SYNOPSIS区域，中括号中的内容表示可选，不一定要添加选项参数</p>
+<p>SYNOPSIS区域中，粗体的文字表示要原封不动地输入，下划线的文字表示要用实际的内容替换</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><p><strong>cp [option]… [-T] SOURCE DEST</strong>拷贝源文件到目标文件</p>
+<p>除了cp原封不动输入，还必须输入SOURCE和DEST这两部分内容</p>
+<h3 id="apropos命令"><a href="#apropos命令" class="headerlink" title="apropos命令"></a>apropos命令</h3><p>查找命令，在后面加一个关键字，apropos命令就会为你在所有手册页中查找相关的命令</p>
+<p>假设想知道如何用终端的命令来控制音量</p>
+<p>运行<code>apropos sound</code>之后，就列出了所有使用手册中有sound这个关键字的命令，左侧是命令的名字，右侧是命令出现关键字的句子</p>
+<h3 id="其他阅读手册方式"><a href="#其他阅读手册方式" class="headerlink" title="其他阅读手册方式"></a>其他阅读手册方式</h3><h4 id="h或–help参数"><a href="#h或–help参数" class="headerlink" title="-h或–help参数"></a>-h或–help参数</h4><p>显示帮助文档，没有man命令显示的使用手册详细</p>
+<h4 id="whatis命令"><a href="#whatis命令" class="headerlink" title="whatis命令"></a>whatis命令</h4><p>只会列出man命令显示的手册的开头部分，就是概述命令的作用</p>
+<h2 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h2><h3 id="locate命令"><a href="#locate命令" class="headerlink" title="locate命令"></a>locate命令</h3><p>快速查找</p>
+<p> locate命令是搜索包含关键字的所有文件和目录，但是刚创建的文件，用locate命令查找不出来，这是locate的缺陷</p>
+<p>locate命令不会对你实际的整个硬盘进行查找，而是在文件的数据库里查找记录，对于刚创建不久的文件，因为它们还没有被收录到文件数据库，因此locate命令就找不到其索引，自然就不会返回任何结果，Linux系统一般每天会更新一次文件数据库，因此，只要隔24小时再用locate查找，就应该找到刚创建的文件了</p>
+<p>可以用updatedb命令强制系统立即更新文件数据库，updatedb命令只能由root用户执行<code>sudo updatedb</code></p>
+<p>这个命令执行需要一点时间，一旦执行成功，再用locate查找刚创建的文件，就可以找到了</p>
+<h3 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h3><p>与locate命令不同，find命令不会在文件数据库中查找文件的记录，而是遍历实际硬盘</p>
+<p><code>find 何处 何物 做什么</code>，这几个参数，只有何物是必须指定的，也就是要查找什么</p>
+<p><code>何处</code>：指定在哪个目录中查找，此目录的所有子目录也会被查找，find命令可以限定查找目录，比如可以只让find查找/home目录，默认如果没有给出<code>何处</code>这个参数，那么find命令会在当前目录及其子目录中查找</p>
+<p><code>何物</code>：也就是要查找什么，可以根据文件的名字来查找，也可以根据大小查找，也可以根据最近访问时间来查找，这个参数是必须的</p>
+<p><code>做什么</code>：用find命令找到我们需要的文件后，可以对每个文件做一定的操作，称为“后续处理”，默认不加这个参数，find命令只会显示找到的文件</p>
+<p> <img src="/2020/03/10/0编程工具/Linux/image-20200315194339746.png" alt="image-20200315194339746"></p>
+<p>与locate命令不同的是，find命令只会查找完全符合<code>何物</code>的字符串表示的文件，locate会查找所有包含关键字的文件</p>
+<p>如果要查找以syslog结尾的文件，可以用<code>*syslog</code></p>
+<p>如果要查找包含syslog这个关键字的文件，可以用<code>*syslog*</code></p>
+<p>如果要在整个硬盘里查找，则使用<code>find / -name &quot;syslog&quot;</code></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/10/0编程工具/Linux/">Linux1</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-10, 08:33:43</p>
+        <p><span>最后更新:</span>2020-03-16, 22:16:21</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/10/0编程工具/Linux/" title="Linux1">http://yoursite.com/2020/03/10/0编程工具/Linux/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/10/0编程工具/Linux/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/15/数据结构/1数组/">
+                    数组
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/4悟空Java并发编程/锁/">
+                    锁
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux"><span class="toc-number">1.</span> <span class="toc-text">Linux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#将用户切换为root"><span class="toc-number">1.0.1.</span> <span class="toc-text">将用户切换为root</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#whoami和hostname命令"><span class="toc-number">1.0.2.</span> <span class="toc-text">whoami和hostname命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#知识点"><span class="toc-number">1.0.3.</span> <span class="toc-text">知识点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的命令"><span class="toc-number">1.1.</span> <span class="toc-text">简单的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#date命令"><span class="toc-number">1.1.1.</span> <span class="toc-text">date命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ls命令"><span class="toc-number">1.1.2.</span> <span class="toc-text">ls命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令的参数"><span class="toc-number">1.2.</span> <span class="toc-text">命令的参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#短参数（一个字母）"><span class="toc-number">1.2.1.</span> <span class="toc-text">短参数（一个字母）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#长参数（多个字母）"><span class="toc-number">1.2.2.</span> <span class="toc-text">长参数（多个字母）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数的值"><span class="toc-number">1.2.3.</span> <span class="toc-text">参数的值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何查找命令和命令的历史记录"><span class="toc-number">1.3.</span> <span class="toc-text">如何查找命令和命令的历史记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何找到一个命令"><span class="toc-number">1.3.1.</span> <span class="toc-text">如何找到一个命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令的历史记录"><span class="toc-number">1.3.2.</span> <span class="toc-text">命令的历史记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实用的快捷键"><span class="toc-number">1.4.</span> <span class="toc-text">实用的快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件和目录组成命令"><span class="toc-number">1.5.</span> <span class="toc-text">文件和目录组成命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux中两种类型的文件"><span class="toc-number">1.5.1.</span> <span class="toc-text">Linux中两种类型的文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#普通文件"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">普通文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特殊文件"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">特殊文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根目录"><span class="toc-number">1.5.2.</span> <span class="toc-text">根目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux目录结构"><span class="toc-number">1.5.3.</span> <span class="toc-text">Linux目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#目录命名规范"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">目录命名规范</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux的根目录的常用直属子目录"><span class="toc-number">1.5.4.</span> <span class="toc-text">Linux的根目录的常用直属子目录</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#bin"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">bin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#boot"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">boot</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dev"><span class="toc-number">1.5.4.3.</span> <span class="toc-text">dev</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#etc"><span class="toc-number">1.5.4.4.</span> <span class="toc-text">etc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#home"><span class="toc-number">1.5.4.5.</span> <span class="toc-text">home</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lib"><span class="toc-number">1.5.4.6.</span> <span class="toc-text">lib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#media"><span class="toc-number">1.5.4.7.</span> <span class="toc-text">media</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mnt"><span class="toc-number">1.5.4.8.</span> <span class="toc-text">mnt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#opt"><span class="toc-number">1.5.4.9.</span> <span class="toc-text">opt</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#root"><span class="toc-number">1.5.4.10.</span> <span class="toc-text">root</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sbin"><span class="toc-number">1.5.4.11.</span> <span class="toc-text">sbin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#srv"><span class="toc-number">1.5.4.12.</span> <span class="toc-text">srv</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tmp"><span class="toc-number">1.5.4.13.</span> <span class="toc-text">tmp</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usr"><span class="toc-number">1.5.4.14.</span> <span class="toc-text">usr</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#var"><span class="toc-number">1.5.4.15.</span> <span class="toc-text">var</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pwd命令和which命令"><span class="toc-number">1.5.5.</span> <span class="toc-text">pwd命令和which命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pwd命令"><span class="toc-number">1.5.5.1.</span> <span class="toc-text">pwd命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#which命令"><span class="toc-number">1.5.5.2.</span> <span class="toc-text">which命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录相关的命令ls-cd和du"><span class="toc-number">1.6.</span> <span class="toc-text">目录相关的命令ls,cd和du</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ls命令-1"><span class="toc-number">1.6.1.</span> <span class="toc-text">ls命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ls命令常用的参数"><span class="toc-number">1.6.2.</span> <span class="toc-text">ls命令常用的参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cd命令"><span class="toc-number">1.6.3.</span> <span class="toc-text">cd命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#相对路径与绝对路径"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">相对路径与绝对路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重回家目录的三种方式"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">重回家目录的三种方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#路径自动补全"><span class="toc-number">1.6.3.3.</span> <span class="toc-text">路径自动补全</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#du命令"><span class="toc-number">1.6.4.</span> <span class="toc-text">du命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#du命令常用参数"><span class="toc-number">1.6.5.</span> <span class="toc-text">du命令常用参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览和创建文件"><span class="toc-number">1.7.</span> <span class="toc-text">浏览和创建文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cat和less命令"><span class="toc-number">1.7.1.</span> <span class="toc-text">cat和less命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#less命令中最基本最常用的快捷键"><span class="toc-number">1.7.2.</span> <span class="toc-text">less命令中最基本最常用的快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#head命令和tail命令"><span class="toc-number">1.7.3.</span> <span class="toc-text">head命令和tail命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#touch命令和mkdir命令"><span class="toc-number">1.7.4.</span> <span class="toc-text">touch命令和mkdir命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#touch命令"><span class="toc-number">1.7.4.1.</span> <span class="toc-text">touch命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mkdir命令"><span class="toc-number">1.7.4.2.</span> <span class="toc-text">mkdir命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件的复制、移动、删除和链接"><span class="toc-number">1.8.</span> <span class="toc-text">文件的复制、移动、删除和链接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cp和mv命令"><span class="toc-number">1.8.1.</span> <span class="toc-text">cp和mv命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cp命令"><span class="toc-number">1.8.2.</span> <span class="toc-text">cp命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#复制文件到另一个目录"><span class="toc-number">1.8.2.1.</span> <span class="toc-text">复制文件到另一个目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#拷贝目录"><span class="toc-number">1.8.2.2.</span> <span class="toc-text">拷贝目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用通配符"><span class="toc-number">1.8.2.3.</span> <span class="toc-text">使用通配符*</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mv命令"><span class="toc-number">1.8.3.</span> <span class="toc-text">mv命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#移动文件"><span class="toc-number">1.8.3.1.</span> <span class="toc-text">移动文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重命名文件"><span class="toc-number">1.8.3.2.</span> <span class="toc-text">重命名文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rm命令"><span class="toc-number">1.8.4.</span> <span class="toc-text">rm命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ln命令"><span class="toc-number">1.8.5.</span> <span class="toc-text">ln命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件的存储"><span class="toc-number">1.8.5.1.</span> <span class="toc-text">文件的存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建硬链接"><span class="toc-number">1.8.5.2.</span> <span class="toc-text">创建硬链接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建软链接"><span class="toc-number">1.8.5.3.</span> <span class="toc-text">创建软链接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户和权限"><span class="toc-number">1.9.</span> <span class="toc-text">用户和权限</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sudo命令"><span class="toc-number">1.9.1.</span> <span class="toc-text">sudo命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux下的用户组织"><span class="toc-number">1.9.1.1.</span> <span class="toc-text">Linux下的用户组织</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sudo-su命令"><span class="toc-number">1.9.1.2.</span> <span class="toc-text">sudo su命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户管理的命令"><span class="toc-number">1.9.2.</span> <span class="toc-text">用户管理的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#useradd命令"><span class="toc-number">1.9.2.1.</span> <span class="toc-text">useradd命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#passwd命令"><span class="toc-number">1.9.2.2.</span> <span class="toc-text">passwd命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#userdel命令"><span class="toc-number">1.9.2.3.</span> <span class="toc-text">userdel命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#群组的管理和文件权限管理"><span class="toc-number">1.10.</span> <span class="toc-text">群组的管理和文件权限管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#群组管理的命令"><span class="toc-number">1.10.1.</span> <span class="toc-text">群组管理的命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#groupadd命令"><span class="toc-number">1.10.1.1.</span> <span class="toc-text">groupadd命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#usermod命令"><span class="toc-number">1.10.1.2.</span> <span class="toc-text">usermod命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#groupdel命令"><span class="toc-number">1.10.1.3.</span> <span class="toc-text">groupdel命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#chown命令"><span class="toc-number">1.10.1.4.</span> <span class="toc-text">chown命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#chgrp命令"><span class="toc-number">1.10.1.5.</span> <span class="toc-text">chgrp命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#权限原理"><span class="toc-number">1.10.1.6.</span> <span class="toc-text">权限原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解析-rw-rw-r–"><span class="toc-number">1.10.1.7.</span> <span class="toc-text">解析-rw-rw-r–</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#chmod命令"><span class="toc-number">1.10.1.8.</span> <span class="toc-text">chmod命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#用数字来分配权限"><span class="toc-number">1.10.1.9.</span> <span class="toc-text">用数字来分配权限</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-number">1.10.1.10.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nano"><span class="toc-number">1.11.</span> <span class="toc-text">Nano</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nano的参数"><span class="toc-number">1.11.1.</span> <span class="toc-text">Nano的参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软件安装"><span class="toc-number">1.12.</span> <span class="toc-text">软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖关系"><span class="toc-number">1.12.1.</span> <span class="toc-text">依赖关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#软件仓库"><span class="toc-number">1.12.2.</span> <span class="toc-text">软件仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#包管理工具"><span class="toc-number">1.12.3.</span> <span class="toc-text">包管理工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RTFM阅读"><span class="toc-number">1.13.</span> <span class="toc-text">RTFM阅读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#man命令"><span class="toc-number">1.13.1.</span> <span class="toc-text">man命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#显示使用手册"><span class="toc-number">1.13.1.1.</span> <span class="toc-text">显示使用手册</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#手册页的不同区域"><span class="toc-number">1.13.1.2.</span> <span class="toc-text">手册页的不同区域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举例"><span class="toc-number">1.13.1.3.</span> <span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apropos命令"><span class="toc-number">1.13.2.</span> <span class="toc-text">apropos命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他阅读手册方式"><span class="toc-number">1.13.3.</span> <span class="toc-text">其他阅读手册方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#h或–help参数"><span class="toc-number">1.13.3.1.</span> <span class="toc-text">-h或–help参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#whatis命令"><span class="toc-number">1.13.3.2.</span> <span class="toc-text">whatis命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找文件"><span class="toc-number">1.14.</span> <span class="toc-text">查找文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#locate命令"><span class="toc-number">1.14.1.</span> <span class="toc-text">locate命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#find命令"><span class="toc-number">1.14.2.</span> <span class="toc-text">find命令</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Linux1　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/15/数据结构/1数组/" title="上一篇: 数组">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/4悟空Java并发编程/锁/" title="下一篇: 锁">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

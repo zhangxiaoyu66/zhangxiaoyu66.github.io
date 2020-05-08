@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="类与对象面向对象学习的三条主线1.Java类及类的成员：属性、方法、构造器、代码块、内部类 2.面向对象的大特征：封装性、继承性、多态性、(抽象性) 3.其它关键字：this、super、static、final、abstract、interface、package、import等">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向对象一">
+<meta property="og:url" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="类与对象面向对象学习的三条主线1.Java类及类的成员：属性、方法、构造器、代码块、内部类 2.面向对象的大特征：封装性、继承性、多态性、(抽象性) 3.其它关键字：this、super、static、final、abstract、interface、package、import等">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps1.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200204224407655.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps2.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps3.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200131010214976.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps1.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps4.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200131004553764.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200131010033055.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200204235555961.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200204235743206.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200204235823644.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps3.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps4.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps5.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps6.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps12.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps22.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps23.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps13.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps14.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200205005204662.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/image-20200205005238701.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps15.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps62.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps61.png">
+<meta property="og:image" content="file:///C:%5CUsers%5CZHANGX~1%5CAppData%5CLocal%5CTemp%5Cksohtml14372%5Cwps4.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps11.png">
+<meta property="og:updated_time" content="2020-03-20T03:45:48.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向对象一">
+<meta name="twitter:description" content="类与对象面向对象学习的三条主线1.Java类及类的成员：属性、方法、构造器、代码块、内部类 2.面向对象的大特征：封装性、继承性、多态性、(抽象性) 3.其它关键字：this、super、static、final、abstract、interface、package、import等">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/06/1Java基础/面向对象一4/wps1.jpg">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>面向对象一 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-1Java基础/面向对象一4" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/03/06/1Java基础/面向对象一4/" class="article-date">
+      <time datetime="2020-03-06T09:35:07.021Z" itemprop="datePublished">2020-03-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      面向对象一
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Java基础/">Java基础</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h2><h3 id="面向对象学习的三条主线"><a href="#面向对象学习的三条主线" class="headerlink" title="面向对象学习的三条主线"></a>面向对象学习的三条主线</h3><p>1.Java类及类的成员：属性、方法、构造器、代码块、内部类</p>
+<p>2.面向对象的大特征：封装性、继承性、多态性、(抽象性)</p>
+<p>3.其它关键字：this、super、static、final、abstract、interface、package、import等</p>
+<a id="more"></a>
+
+<h3 id="面向对象与面向过程（理解）"><a href="#面向对象与面向过程（理解）" class="headerlink" title="面向对象与面向过程（理解）"></a>面向对象与面向过程（理解）</h3><p>1.面向过程：强调的是功能行为，以函数为最小单位，考虑怎么做。</p>
+<p>2.面向对象：强调具备了功能的对象，以类/对象为最小单位，考虑谁来做。</p>
+<p>举例对比：人把大象装进冰箱。</p>
+<h3 id="完成一个项目（或功能）的思路"><a href="#完成一个项目（或功能）的思路" class="headerlink" title="完成一个项目（或功能）的思路"></a>完成一个项目（或功能）的思路</h3><p><img src="/2020/03/06/1Java基础/面向对象一4/wps1.jpg" alt="img"> </p>
+<h3 id="面向对象中两个重要的概念"><a href="#面向对象中两个重要的概念" class="headerlink" title="面向对象中两个重要的概念"></a>面向对象中两个重要的概念</h3><p>类：对一类事物的描述，是抽象的、概念上的定义</p>
+<p>对象：是实际存在的该类事物的每个个体，因而也称为实例(instance)</p>
+<p> &gt;面向对象程序设计的重点是类的设计</p>
+<p> &gt;设计类，就是设计类的成员。</p>
+<p>二者的关系：</p>
+<p>对象，是由类new出来的，派生出来的。</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/image-20200204224407655.png" alt="image-20200204224407655"></p>
+<h3 id="面向对象思想落地实现的规则一"><a href="#面向对象思想落地实现的规则一" class="headerlink" title="面向对象思想落地实现的规则一"></a>面向对象思想落地实现的规则一</h3><p>1.创建类，设计类的成员</p>
+<p> 2.创建类的对象</p>
+<p>3.通过“对象.属性”或“对象.方法”调用对象的结构</p>
+<p>补充：几个概念的使用说明</p>
+<p>属性 = 成员变量 = field = 域、字段</p>
+<p>方法 = 成员方法 = 函数 = method</p>
+<p>创建类的对象 = 类的实例化 = 实例化类</p>
+<h3 id="对象的创建与对象的内存解析"><a href="#对象的创建与对象的内存解析" class="headerlink" title="对象的创建与对象的内存解析"></a>对象的创建与对象的内存解析</h3><p>典型代码：</p>
+<p>Person p1 = new Person();</p>
+<p>Person p2 = new Person();</p>
+<p>Person p3 = p1;//没有新创建一个对象，共用一个堆空间中的对象实体。</p>
+<p>说明：</p>
+<p>如果创建了一个类的多个对象，则每个对象都独立的拥有一套类的属性。（非static的）</p>
+<p>意味着：如果我们修改一个对象的属性a，则不影响另外一个对象属性a的值。</p>
+<p>内存解析：</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps2.png" alt="img"> </p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps3.png" alt="img"> </p>
+<p>7.匿名对象:我们创建的对象，没显式的赋给一个变量名。即为匿名对象</p>
+<p>特点：匿名对象只能调用一次。</p>
+<p>举例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Phone().sendEmail();</span><br><span class="line"><span class="keyword">new</span> Phone().playGame();</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Phone().price = <span class="number">1999</span>;</span><br><span class="line"><span class="keyword">new</span> Phone().showPrice();<span class="comment">//0.0</span></span><br></pre></td></tr></table></figure>
+
+<p>应用场景：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">PhoneMall mall = <span class="keyword">new</span> PhoneMall();</span><br><span class="line"></span><br><span class="line"><span class="comment">//匿名对象的使用</span></span><br><span class="line">mall.show(<span class="keyword">new</span> Phone());</span><br><span class="line">其中，</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PhoneMall</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Phone phone)</span></span>&#123;</span><br><span class="line">		phone.sendEmail();</span><br><span class="line">		phone.playGame();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="理解”万事万物皆对象”"><a href="#理解”万事万物皆对象”" class="headerlink" title="理解”万事万物皆对象”"></a>理解”万事万物皆对象”</h3><p>1.在Java语言范畴中，我们都将功能、结构等封装到类中，通过类的实例化，来调用具体的功能结构</p>
+<ul>
+<li><p>Scanner,String等</p>
+</li>
+<li><p>文件：File</p>
+</li>
+<li><p>网络资源：URL</p>
+</li>
+</ul>
+<p>2.涉及到Java语言与前端Html、后端的数据库交互时，前后端的结构在Java层面交互时，都体现为类、对象</p>
+<h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><p>类的访问机制</p>
+<p>在一个类中的访问机制：</p>
+<p>类中的方法可以直接访问类中的成员变量</p>
+<p>例外：static方法访问非static，编译不通过</p>
+<p>在不同类中的访问机制：</p>
+<p>先创建要访问类的对象，再用对象访问类中定义的成员</p>
+<p>##　类的结构之一：属性</p>
+<p>类的设计中，两个重要结构之一：属性</p>
+<p>对比：属性  vs  局部变量</p>
+<p>1.相同点：</p>
+<p>定义变量的格式：数据类型  变量名 = 变量值</p>
+<p>先声明，后使用</p>
+<p>变量都其对应的作用域 </p>
+<p>2.不同点：</p>
+<p>在类中声明的位置的不同</p>
+<ul>
+<li><p>属性：直接定义在类的一对{}内</p>
+</li>
+<li><p>局部变量：声明在方法内、方法形参、代码块内、构造器形参、构造器内部的变量</p>
+</li>
+</ul>
+<p>关于权限修饰符的不同</p>
+<ul>
+<li><p>属性：可以在声明属性时，指明其权限，使用权限修饰符。</p>
+<p>常用的权限修饰符：private、public、缺省、protected  —&gt;封装性</p>
+</li>
+<li><p>局部变量：不可以使用权限修饰符。</p>
+</li>
+</ul>
+<p>默认初始化值的情况：</p>
+<ul>
+<li><p>属性：类的属性，根据其类型，都默认初始化值。</p>
+<p>整型（byte、short、int、long：0）</p>
+<p>浮点型（float、double：0.0）</p>
+<p>字符型（char：0  （或’\u0000’））</p>
+<p>布尔型（boolean：false）</p>
+<p>引用数据类型（类、数组、接口：null）</p>
+</li>
+<li><p>局部变量：没默认初始化值。</p>
+<p>意味着，我们在调用局部变量之前，一定要显式赋值。</p>
+<p>特别地：形参在调用时，我们赋值即可。</p>
+</li>
+</ul>
+<p>在内存中加载的位置：</p>
+<ul>
+<li><p>属性：加载到堆空间中  （非static）</p>
+</li>
+<li><p>局部变量：加载到栈空间</p>
+</li>
+<li><p><img src="/2020/03/06/1Java基础/面向对象一4/image-20200131010214976.png" alt="image-20200131010214976"></p>
+<p>补充：回顾变量的分类：</p>
+</li>
+</ul>
+<p>方式一：按照数据类型：</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps1.png" alt="img"> </p>
+<p>方式二：按照在类中声明的位置：</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps4.png" alt="img"></p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/image-20200131004553764.png" alt="image-20200131004553764"></p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/image-20200131010033055.png" alt="image-20200131010033055"></p>
+<p>##　类的结构之二：方法</p>
+<p>类的设计中，两个重要结构之二：方法</p>
+<p> 方法：描述类应该具的功能。</p>
+<p>比如：Math类：sqrt()\random() ...</p>
+<p>Scanner类：nextXxx() …</p>
+<p>Arrays类：sort() \ binarySearch() \ toString() \ equals() \ …</p>
+<p>f方法是类或对象行为特征的抽象，用来完成某个功能。在某些语言中也称为函数或过程。<br>将功能封装为方法的目的是，可以实现代码重用，简化代码<br>Java里的方法不能独立存在，所有的方法必须定义在类里</p>
+<h3 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(<span class="keyword">int</span> hour)</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getNation</span><span class="params">(String nation)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法的声明："><a href="#方法的声明：" class="headerlink" title="方法的声明："></a>方法的声明：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">权限修饰符  返回值类型 方法名(形参列表 形参1,参数类型 形参2)&#123;</span><br><span class="line"> 	方法体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中</p>
+<p>修饰符：</p>
+<p>​    public、缺省、private,、protected等</p>
+<p>返回值类型：</p>
+<p>​    没有返回值：void</p>
+<p>​    有返回值，声明出返回值的类型。与方法体中“return 返回值”搭配使用</p>
+<p>方法名：</p>
+<p>​    属于标识符，命名时遵循标识符命名规则和规范，“见名知意”<br>形参列表：</p>
+<p>​    可以包含零个，一个或多个参数。多个参数时，中间用“,”隔开<br>返回值：</p>
+<p>​    方法在执行完毕后返还给调用它的程序的数据</p>
+<h3 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h3><h4 id="关于权限修饰符："><a href="#关于权限修饰符：" class="headerlink" title="关于权限修饰符："></a>关于权限修饰符：</h4><p>默认方法的权限修饰符先都使用public</p>
+<p>Java规定的4种权限修饰符：private、public、缺省、protected  –&gt;封装性再细说</p>
+<h4 id="返回值类型：-返回值-vs-没返回值"><a href="#返回值类型：-返回值-vs-没返回值" class="headerlink" title="返回值类型： 返回值  vs 没返回值"></a>返回值类型： 返回值  vs 没返回值</h4><ul>
+<li><p>如果方法返回值，则必须在方法声明时，指定返回值的类型。同时，方法中，需要使用</p>
+<p>return关键字来返回指定类型的变量或常量<code>“return 数据”</code></p>
+<p>如果方法没返回值，则方法声明时，使用void来表示。通常，没返回值的方法中，就不需要</p>
+<p>使用return.但是，如果使用的话，只能<code>“return;”</code>表示结束此方法的意思</p>
+<p>return后不可以声明表达式</p>
+</li>
+<li><p>我们定义方法该不该返回值？</p>
+<p>① 题目要求</p>
+<p>② 凭经验：具体问题具体分析</p>
+</li>
+</ul>
+<h4 id="方法名："><a href="#方法名：" class="headerlink" title="方法名："></a>方法名：</h4><p>属于标识符，遵循标识符的规则和规范，“见名知意” </p>
+<h4 id="形参列表："><a href="#形参列表：" class="headerlink" title="形参列表："></a>形参列表：</h4><p>方法可以声明0个，1个，或多个形参。</p>
+<ul>
+<li><p>格式：</p>
+<p>数据类型1 形参1,数据类型2 形参2,…</p>
+</li>
+<li><p>我们定义方法时，该不该定义形参？</p>
+<p>① 题目要求</p>
+<p>② 凭经验：具体问题具体分析</p>
+</li>
+</ul>
+<h4 id="方法体："><a href="#方法体：" class="headerlink" title="方法体："></a>方法体：</h4><p>方法功能的体现。     </p>
+<h4 id="方法的使用中，可以调用当前类的属性或方法"><a href="#方法的使用中，可以调用当前类的属性或方法" class="headerlink" title="方法的使用中，可以调用当前类的属性或方法"></a>方法的使用中，可以调用当前类的属性或方法</h4><p>特殊的：方法A中又调用了方法A:递归方法。</p>
+<p>方法中，不可以定义方法。</p>
+<h3 id="方法的重载"><a href="#方法的重载" class="headerlink" title="方法的重载"></a>方法的重载</h3><p>####　方法的重载的概念</p>
+<p>定义：在同一个类中，允许存在一个以上的同名方法，只要它们的参数个数或者参数类型不同即可。</p>
+<p>总结：”两同一不同”：同一个类、相同方法名，参数列表不同：参数个数不同，参数类型不同</p>
+<h4 id="构成重载的举例："><a href="#构成重载的举例：" class="headerlink" title="构成重载的举例："></a>构成重载的举例：</h4><p>举例一：Arrays类中重载的sort() / binarySearch()；PrintStream中的println()</p>
+<p>举例二：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如下的4个方法构成了重载</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"1"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">double</span> d1,<span class="keyword">double</span> d2)</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"2"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(String s ,<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"3"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,String s)</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"4"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">不构成重载的举例：</span><br><span class="line"><span class="comment">//如下的3个方法不能与上述4个方法构成重载</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何判断是否构成方法的重载"><a href="#如何判断是否构成方法的重载" class="headerlink" title="如何判断是否构成方法的重载"></a>如何判断是否构成方法的重载</h4><p>严格按照定义判断：两同一不同。</p>
+<p>跟方法的权限修饰符、返回值类型、形参变量名、方法体都没关系！</p>
+<h4 id="如何确定类中某一个方法的调用"><a href="#如何确定类中某一个方法的调用" class="headerlink" title="如何确定类中某一个方法的调用"></a>如何确定类中某一个方法的调用</h4><p>方法名 —&gt; 参数列表</p>
+<p>###　Java的值传递机制</p>
+<p>####　针对于方法内变量的赋值举例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"***********基本数据类型：****************"</span>);</span><br><span class="line"><span class="keyword">int</span> m = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> n = m;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"m = "</span> + m + <span class="string">", n = "</span> + n);</span><br><span class="line"></span><br><span class="line">n = <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"m = "</span> + m + <span class="string">", n = "</span> + n);</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"***********引用数据类型：****************"</span>);</span><br><span class="line"></span><br><span class="line">Order o1 = <span class="keyword">new</span> Order();</span><br><span class="line">o1.orderId = <span class="number">1001</span>;</span><br><span class="line"></span><br><span class="line">Order o2 = o1;<span class="comment">//赋值以后，o1和o2的地址值相同，都指向了堆空间中同一个对象实体。</span></span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"o1.orderId = "</span> + o1.orderId + <span class="string">",o2.orderId = "</span> +o2.orderId);</span><br><span class="line"></span><br><span class="line">o2.orderId = <span class="number">1002</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"o1.orderId = "</span> + o1.orderId + <span class="string">",o2.orderId = "</span> +o2.orderId);</span><br></pre></td></tr></table></figure>
+
+<p>规则：</p>
+<p>如果变量是基本数据类型，此时赋值的是变量所保存的数据值。</p>
+<p>如果变量是引用数据类型，此时赋值的是变量所保存的数据的地址值。</p>
+<h4 id="针对于方法的参数概念"><a href="#针对于方法的参数概念" class="headerlink" title="针对于方法的参数概念"></a>针对于方法的参数概念</h4><p>形参：方法定义时，声明的小括号内的参数</p>
+<p>实参：方法调用时，实际传递给形参的数据</p>
+<h4 id="java中参数传递机制：值传递"><a href="#java中参数传递机制：值传递" class="headerlink" title="java中参数传递机制：值传递"></a>java中参数传递机制：值传递</h4><p>规则：</p>
+<p>如果参数是基本数据类型，此时实参赋给形参的是实参真实存储的数据值。</p>
+<p>如果参数是引用数据类型，此时实参赋给形参的是实参存储数据的地址值。</p>
+<p>推广：</p>
+<p>如果变量是基本数据类型，此时赋值的是变量所保存的数据值。</p>
+<p>如果变量是引用数据类型，此时赋值的是变量所保存的数据的地址值。</p>
+<img src="/2020/03/06/1Java基础/面向对象一4/image-20200204235555961.png" alt="image-20200204235555961" style="zoom:80%;">
+
+<img src="/2020/03/06/1Java基础/面向对象一4/image-20200204235743206.png" alt="image-20200204235743206" style="zoom: 67%;">
+
+<img src="/2020/03/06/1Java基础/面向对象一4/image-20200204235823644.png" alt="image-20200204235823644" style="zoom:67%;">
+
+<h4 id="典型例题与内存解析："><a href="#典型例题与内存解析：" class="headerlink" title="典型例题与内存解析："></a>典型例题与内存解析：</h4><p>【例题1】</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps3.jpg" alt="img"> </p>
+<p>【例题2】</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps4.jpg" alt="img"> </p>
+<p> 【例题3】</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps5.jpg" alt="img"> </p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps6.jpg" alt="img"> </p>
+<p>答案为second中15  first中20</p>
+<p>方法，必须由其所在类或对象调用才有意义。若方法含有参数：</p>
+<p>形参：方法声明时的参数</p>
+<p>实参：方法调用时实际传给形参的参数值</p>
+<p>Java的实参值如何传入方法呢？</p>
+<p>Java里方法的参数传递方式只有一种：值传递。 即将实际参数值的副本（复制品）传入方法内，而参数本身不受影响。<br>形参是基本数据类型：将实参基本数据类型变量的“数据值”传递给形参</p>
+<p>形参是引用数据类型：将实参引用数据类型变量的“地址值”传递给形参</p>
+<h3 id="递归方法"><a href="#递归方法" class="headerlink" title="递归方法"></a>递归方法</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>递归方法：一个方法体内调用它自身。</p>
+<h4 id="如何理解递归方法？"><a href="#如何理解递归方法？" class="headerlink" title="如何理解递归方法？"></a>如何理解递归方法？</h4><p>方法递归包含了一种隐式的循环，它会重复执行某段代码，但这种重复执行无须循环控制。</p>
+<p>递归一定要向已知方向递归，否则这种递归就变成了无穷递归，类似于死循环。</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例1：计算1-n之间所自然数的和</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;<span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n + getSum(n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 例2：计算1-n之间所自然数的乘积:n!</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum1</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n * getSum1(n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//例3：已知一个数列：f(0) = 1,f(1) = 4,f(n+2)=2*f(n+1) + f(n),</span></span><br><span class="line"><span class="comment">//其中n是大于0的整数，求f(10)的值。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(n == <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">4</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//return f(n + 2) - 2 * f(n + 1);</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>*f(n - <span class="number">1</span>) + f(n - <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例4：斐波那契数列</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps12.png" alt="img"></p>
+<p>f(n)=f(n-1)+f(n-2)</p>
+<p>​    //例5：汉诺塔问题</p>
+<p>​    //例6：快排</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps22.png" alt="img"></p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps23.png" alt="img"></p>
+<h2 id="面向对象的特征一：封装性"><a href="#面向对象的特征一：封装性" class="headerlink" title="面向对象的特征一：封装性"></a>面向对象的特征一：封装性</h2><h3 id="为什么要引入封装性？"><a href="#为什么要引入封装性？" class="headerlink" title="为什么要引入封装性？"></a>为什么要引入封装性？</h3><p>我们程序设计追求“高内聚，低耦合”。</p>
+<p>高内聚 ：类的内部数据操作细节自己完成，不允许外部干涉；</p>
+<p>低耦合 ：仅对外暴露少量的方法用于使用。</p>
+<p>隐藏对象内部的复杂性，只对外公开简单的接口。便于外界调用，从而提高系统的可扩展性、可维护性。通俗的说，把该隐藏的隐藏起来，该暴露的暴露出来。这就是封装性的设计思想。</p>
+<h3 id="问题引入："><a href="#问题引入：" class="headerlink" title="问题引入："></a>问题引入：</h3><p>当我们创建一个类的对象以后，我们可以通过”对象.属性”的方式，对对象的属性进行赋值。这里，赋值操作要受到属性的数据类型和存储范围的制约。除此之外，没其他制约条件。但是，在实际问题中，我们往往需要给属性赋值加入额外的限制条件。这个条件就不能在属性声明时体现，我们只能通过方法进行限制条件的添加。（比如：setLegs()同时，我们需要避免用户再使用”对象.属性”的方式对属性进行赋值。则需要将属性声明为私有的(private).</p>
+<p> –&gt;此时，针对于属性就体现了封装性</p>
+<h3 id="封装性思想具体的代码体现："><a href="#封装性思想具体的代码体现：" class="headerlink" title="封装性思想具体的代码体现："></a>封装性思想具体的代码体现：</h3><p>体现一：将类的属性xxx私化(private),同时，提供公共的(public)方法来获取(getXxx)和设置(setXxx)此属性的值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">double</span> radius;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRadius</span><span class="params">(<span class="keyword">double</span> radius)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.radius = radius;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getRadius</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> radius;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>体现二：不对外暴露的私有的方法</p>
+<p>体现三：单例模式（将构造器私有化）</p>
+<p>体现四：如果不希望类在包外被调用，可以将类设置为缺省的。</p>
+<h3 id="Java规定的四种权限修饰符"><a href="#Java规定的四种权限修饰符" class="headerlink" title="Java规定的四种权限修饰符"></a>Java规定的四种权限修饰符</h3><h4 id="权限从小到大顺序为："><a href="#权限从小到大顺序为：" class="headerlink" title="权限从小到大顺序为："></a>权限从小到大顺序为：</h4><p>private &lt;  缺省 &lt; protected &lt; public</p>
+<h4 id="具体的修饰范围："><a href="#具体的修饰范围：" class="headerlink" title="具体的修饰范围："></a>具体的修饰范围：</h4><p><img src="/2020/03/06/1Java基础/面向对象一4/wps13.png" alt="img"> </p>
+<h4 id="权限修饰符可用来修饰的结构说明："><a href="#权限修饰符可用来修饰的结构说明：" class="headerlink" title="权限修饰符可用来修饰的结构说明："></a>权限修饰符可用来修饰的结构说明：</h4><p>4种权限都可以用来修饰类的内部结构：属性、方法、构造器、内部类</p>
+<p>修饰类的话，只能使用：缺省、public</p>
+<h2 id="类的结构之三：构造器"><a href="#类的结构之三：构造器" class="headerlink" title="类的结构之三：构造器"></a>类的结构之三：构造器</h2><h3 id="构造器（或构造方法）"><a href="#构造器（或构造方法）" class="headerlink" title="构造器（或构造方法）"></a>构造器（或构造方法）</h3><p>Constructor</p>
+<p>它具有与类相同的名称<br>它不声明返回值类型。（与声明为void不同）<br>不能被static、final、synchronized、abstract、native修饰，不能有return语句返回值</p>
+<p>根据参数不同，构造器可以分为如下两类：</p>
+<p>隐式无参构造器（系统默认提供）</p>
+<p>显式定义一个或多个构造器（无参、有参）</p>
+<h3 id="构造器的作用"><a href="#构造器的作用" class="headerlink" title="构造器的作用"></a>构造器的作用</h3><p>创建对象</p>
+<p>初始化对象的信息</p>
+<h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><p> 1.如果没显式的定义类的构造器的话，则系统默认提供一个空参的构造器</p>
+<p> 2.定义构造器的格式：权限修饰符  类名(形参列表){}</p>
+<p> 3.一个类中定义的多个构造器，彼此构成重载</p>
+<p> 4.一旦我们显式的定义了类的构造器之后，系统就不再提供默认的空参构造器</p>
+<p> 5.一个类中，至少会有一个构造器</p>
+<h3 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造器</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"Person()....."</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String n)</span></span>&#123;</span><br><span class="line">    name = n;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String n,<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">    name = n;</span><br><span class="line">    age = a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="属性赋值顺序"><a href="#属性赋值顺序" class="headerlink" title="属性赋值顺序"></a>属性赋值顺序</h2><p> 总结：属性赋值的先后顺序</p>
+<p>① 默认初始化</p>
+<p>② 显式初始化</p>
+<p>③ 构造器中初始化</p>
+<p>④ 通过”对象.方法” 或 “对象.属性”的方式，赋值</p>
+<p>以上操作的先后顺序：① - ② - ③ - ④  </p>
+<h4 id="扩展知识点"><a href="#扩展知识点" class="headerlink" title="扩展知识点"></a>扩展知识点</h4><p>JavaBean的概念</p>
+<p>所谓JavaBean，是指符合如下标准的Java类：</p>
+<p>​        &gt;类是公共的</p>
+<p>​        &gt;一个无参的公共的构造器</p>
+<p>​        &gt;属性，且对应的get、set方法</p>
+<p>JavaBean是一种java语言写成的可重用组件</p>
+<p>所谓JavaBean是符合如下标准的java类</p>
+<p>类是公共的</p>
+<p>有一个无参的公共的构造器</p>
+<p>有属性，且有对应的get、set方法</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps14.png" alt="img"></p>
+<h2 id="关键字：this"><a href="#关键字：this" class="headerlink" title="关键字：this"></a>关键字：this</h2><p><strong>可以调用的结构</strong></p>
+<p>属性、方法、构造器</p>
+<p><strong>this调用属性、方法</strong></p>
+<p>this理解为：当前对象或当前正在创建的对象</p>
+<p>在类的方法中，我们可以使用”this.属性”或”this.方法”的方式，调用当前对象属性或方法。但是，通常情况下，我们都择省略”this.”。特殊情况下，如果方法的形参和类的属性同名时，我们必须显式的使用”this.变量”的方式，表明此变量是属性，而非形参。</p>
+<p><strong>this调用构造器</strong></p>
+<p>① 我们在类的构造器中，可以显式的使用”this(形参列表)”方式，调用本类中指定的其他构造器</p>
+<p>② 构造器中不能通过”this(形参列表)”方式调用自己</p>
+<p>③ 如果一个类中有n个构造器，则最多有 n - 1构造器中使用了”this(形参列表)”</p>
+<p>④ 规定：”this(形参列表)”必须声明在当前构造器的首行</p>
+<p>⑤ 构造器内部，最多只能声明一个”this(形参列表)”，用来调用其他的构造器</p>
+<img src="/2020/03/06/1Java基础/面向对象一4/image-20200205005204662.png" alt="image-20200205005204662" style="zoom:80%;">
+
+<img src="/2020/03/06/1Java基础/面向对象一4/image-20200205005238701.png" alt="image-20200205005238701" style="zoom:80%;">
+
+<h2 id="关键字：package-import"><a href="#关键字：package-import" class="headerlink" title="关键字：package/import"></a>关键字：package/import</h2><h3 id="package的使用"><a href="#package的使用" class="headerlink" title="package的使用"></a>package的使用</h3><h4 id="使用说明-1"><a href="#使用说明-1" class="headerlink" title="使用说明"></a>使用说明</h4><p>为了更好的实现项目中类的管理，提供包的概念</p>
+<p>使用package声明类或接口所属的包，声明在源文件的首行</p>
+<p>包，属于标识符，遵循标识符的命名规则、规范(xxxyyyzzz)、“见名知意”</p>
+<p>每”.”一次，就代表一层文件目录。</p>
+<h4 id="举例-2"><a href="#举例-2" class="headerlink" title="举例"></a>举例</h4><p>举例一：</p>
+<p>某航运软件系统包括：一组域对象、GUI和reports子系统</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps15.png" alt="img"> </p>
+<p>举例二：MVC设计模式</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps62.png" alt="img"> </p>
+<h4 id="JDK中的主要包介绍"><a href="#JDK中的主要包介绍" class="headerlink" title="JDK中的主要包介绍"></a>JDK中的主要包介绍</h4><p><img src="/2020/03/06/1Java基础/面向对象一4/wps61.png" alt="img"> </p>
+<h3 id="import的使用"><a href="#import的使用" class="headerlink" title="import的使用"></a>import的使用</h3><p>import:导入</p>
+<ol>
+<li><p>在源文件中显式的使用import结构导入指定包下的类、接口</p>
+</li>
+<li><p>声明在包的声明和类的声明之间</p>
+</li>
+<li><p>如果需要导入多个结构，则并列写出即可</p>
+</li>
+<li><p>可以使用”xxx.*”的方式，表示可以导入xxx包下的所结构</p>
+</li>
+<li><p>如果使用的类或接口是java.lang包下定义的，则可以省略import结构</p>
+</li>
+<li><p>如果使用的类或接口是本包下定义的，则可以省略import结构</p>
+</li>
+<li><p>如果在源文件中，使用了不同包下的同名的类，则必须至少一个类需要以全类名的方式显示。</p>
+</li>
+</ol>
+<p><img src="file:///C:%5CUsers%5CZHANGX~1%5CAppData%5CLocal%5CTemp%5Cksohtml14372%5Cwps4.png" alt="img"> </p>
+<ol start="8">
+<li><p>使用”xxx.*”方式表明可以调用xxx包下的所结构。但是如果使用的是xxx子包下的结构，则仍需要显式导入</p>
+</li>
+<li><p>import static:导入指定类或接口中的静态结构:属性或方法。 </p>
+</li>
+</ol>
+<h2 id="关键字-return"><a href="#关键字-return" class="headerlink" title="关键字:return"></a>关键字:return</h2><p>return关键字</p>
+<p>1.使用范围：使用在方法体中</p>
+<p>2.作用：</p>
+<p>① 结束方法</p>
+<p>② 针对于返回值类型的方法，使用”return 数据”方法返回所要的数据。</p>
+<p>3.注意点：return关键字后面不可以声明执行语句。</p>
+<p><img src="/2020/03/06/1Java基础/面向对象一4/wps11.png" alt="img"></p>
+<h2 id="可变个数形参的方法"><a href="#可变个数形参的方法" class="headerlink" title="可变个数形参的方法"></a>可变个数形参的方法</h2><h3 id="使用说明-2"><a href="#使用说明-2" class="headerlink" title="使用说明"></a>使用说明</h3><p>1.jdk 5.0新增的内容</p>
+<p>2.具体使用：</p>
+<p>可变个数形参的格式：数据类型 … 变量名</p>
+<p>当调用可变个数形参的方法时，传入的参数个数可以是：0个，1个,2个，。。。</p>
+<p>可变个数形参的方法与本类中方法名相同，形参不同的方法之间构成重载</p>
+<p>可变个数形参的方法与本类中方法名相同，形参类型也相同的数组之间不构成重载。换句话说，二者不能共存。</p>
+<p>可变个数形参在方法的形参中，必须声明在末尾</p>
+<p>可变个数形参在方法的形参中,最多只能声明一个可变形参。</p>
+<h3 id="举例说明"><a href="#举例说明" class="headerlink" title="举例说明"></a>举例说明</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"show(String)"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(String ... strs)</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"show(String ... strs)"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; strs.length;i++)&#123;</span><br><span class="line">        System.out.println(strs[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//不能与上一个方法同时存在</span></span><br><span class="line"><span class="comment">//	public void show(String[] strs)&#123;</span></span><br><span class="line"><span class="comment">//		</span></span><br><span class="line"><span class="comment">//	&#125;</span></span><br><span class="line">调用时：</span><br><span class="line">test.show(<span class="string">"hello"</span>);</span><br><span class="line">test.show(<span class="string">"hello"</span>,<span class="string">"world"</span>);</span><br><span class="line">test.show();</span><br><span class="line"></span><br><span class="line">test.show(<span class="keyword">new</span> String[]&#123;<span class="string">"AA"</span>,<span class="string">"BB"</span>,<span class="string">"CC"</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-03-06, 17:35:07</p>
+        <p><span>最后更新:</span>2020-03-20, 11:45:48</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/03/06/1Java基础/面向对象一4/" title="面向对象一">http://yoursite.com/2020/03/06/1Java基础/面向对象一4/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/03/06/1Java基础/面向对象一4/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/03/06/1Java基础/面向对象三6/">
+                    面向对象三
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/03/06/1Java基础/数组8/">
+                    数组
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#类与对象"><span class="toc-number">1.</span> <span class="toc-text">类与对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面向对象学习的三条主线"><span class="toc-number">1.1.</span> <span class="toc-text">面向对象学习的三条主线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面向对象与面向过程（理解）"><span class="toc-number">1.2.</span> <span class="toc-text">面向对象与面向过程（理解）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#完成一个项目（或功能）的思路"><span class="toc-number">1.3.</span> <span class="toc-text">完成一个项目（或功能）的思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面向对象中两个重要的概念"><span class="toc-number">1.4.</span> <span class="toc-text">面向对象中两个重要的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面向对象思想落地实现的规则一"><span class="toc-number">1.5.</span> <span class="toc-text">面向对象思想落地实现的规则一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的创建与对象的内存解析"><span class="toc-number">1.6.</span> <span class="toc-text">对象的创建与对象的内存解析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解”万事万物皆对象”"><span class="toc-number">1.7.</span> <span class="toc-text">理解”万事万物皆对象”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提示"><span class="toc-number">1.8.</span> <span class="toc-text">提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举例："><span class="toc-number">1.9.</span> <span class="toc-text">举例：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法的声明："><span class="toc-number">1.10.</span> <span class="toc-text">方法的声明：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#说明："><span class="toc-number">1.11.</span> <span class="toc-text">说明：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关于权限修饰符："><span class="toc-number">1.11.1.</span> <span class="toc-text">关于权限修饰符：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#返回值类型：-返回值-vs-没返回值"><span class="toc-number">1.11.2.</span> <span class="toc-text">返回值类型： 返回值  vs 没返回值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法名："><span class="toc-number">1.11.3.</span> <span class="toc-text">方法名：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#形参列表："><span class="toc-number">1.11.4.</span> <span class="toc-text">形参列表：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法体："><span class="toc-number">1.11.5.</span> <span class="toc-text">方法体：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法的使用中，可以调用当前类的属性或方法"><span class="toc-number">1.11.6.</span> <span class="toc-text">方法的使用中，可以调用当前类的属性或方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法的重载"><span class="toc-number">1.12.</span> <span class="toc-text">方法的重载</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构成重载的举例："><span class="toc-number">1.12.1.</span> <span class="toc-text">构成重载的举例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何判断是否构成方法的重载"><span class="toc-number">1.12.2.</span> <span class="toc-text">如何判断是否构成方法的重载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何确定类中某一个方法的调用"><span class="toc-number">1.12.3.</span> <span class="toc-text">如何确定类中某一个方法的调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#针对于方法的参数概念"><span class="toc-number">1.12.4.</span> <span class="toc-text">针对于方法的参数概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#java中参数传递机制：值传递"><span class="toc-number">1.12.5.</span> <span class="toc-text">java中参数传递机制：值传递</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#典型例题与内存解析："><span class="toc-number">1.12.6.</span> <span class="toc-text">典型例题与内存解析：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归方法"><span class="toc-number">1.13.</span> <span class="toc-text">递归方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义"><span class="toc-number">1.13.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何理解递归方法？"><span class="toc-number">1.13.2.</span> <span class="toc-text">如何理解递归方法？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举例"><span class="toc-number">1.13.3.</span> <span class="toc-text">举例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面向对象的特征一：封装性"><span class="toc-number">2.</span> <span class="toc-text">面向对象的特征一：封装性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要引入封装性？"><span class="toc-number">2.1.</span> <span class="toc-text">为什么要引入封装性？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题引入："><span class="toc-number">2.2.</span> <span class="toc-text">问题引入：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#封装性思想具体的代码体现："><span class="toc-number">2.3.</span> <span class="toc-text">封装性思想具体的代码体现：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java规定的四种权限修饰符"><span class="toc-number">2.4.</span> <span class="toc-text">Java规定的四种权限修饰符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#权限从小到大顺序为："><span class="toc-number">2.4.1.</span> <span class="toc-text">权限从小到大顺序为：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#具体的修饰范围："><span class="toc-number">2.4.2.</span> <span class="toc-text">具体的修饰范围：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#权限修饰符可用来修饰的结构说明："><span class="toc-number">2.4.3.</span> <span class="toc-text">权限修饰符可用来修饰的结构说明：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类的结构之三：构造器"><span class="toc-number">3.</span> <span class="toc-text">类的结构之三：构造器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器（或构造方法）"><span class="toc-number">3.1.</span> <span class="toc-text">构造器（或构造方法）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器的作用"><span class="toc-number">3.2.</span> <span class="toc-text">构造器的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用说明"><span class="toc-number">3.3.</span> <span class="toc-text">使用说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举例-1"><span class="toc-number">3.4.</span> <span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性赋值顺序"><span class="toc-number">4.</span> <span class="toc-text">属性赋值顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#扩展知识点"><span class="toc-number">4.0.1.</span> <span class="toc-text">扩展知识点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字：this"><span class="toc-number">5.</span> <span class="toc-text">关键字：this</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字：package-import"><span class="toc-number">6.</span> <span class="toc-text">关键字：package/import</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#package的使用"><span class="toc-number">6.1.</span> <span class="toc-text">package的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用说明-1"><span class="toc-number">6.1.1.</span> <span class="toc-text">使用说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举例-2"><span class="toc-number">6.1.2.</span> <span class="toc-text">举例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JDK中的主要包介绍"><span class="toc-number">6.1.3.</span> <span class="toc-text">JDK中的主要包介绍</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import的使用"><span class="toc-number">6.2.</span> <span class="toc-text">import的使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关键字-return"><span class="toc-number">7.</span> <span class="toc-text">关键字:return</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可变个数形参的方法"><span class="toc-number">8.</span> <span class="toc-text">可变个数形参的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用说明-2"><span class="toc-number">8.1.</span> <span class="toc-text">使用说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#举例说明"><span class="toc-number">8.2.</span> <span class="toc-text">举例说明</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"面向对象一　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/03/06/1Java基础/面向对象三6/" title="上一篇: 面向对象三">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/03/06/1Java基础/数组8/" title="下一篇: 数组">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="爱吃鱼的呆先生">
+
+
+
+<meta name="description" content="Json详解以及fastjson使用教程Json是一种轻量级的数据交换格式，采用一种“键：值”对的文本格式来存储和表示数据，在系统交换数据过程中常常被使用，是一种理想的数据交换语言。在使用Java做Web开发时，不可避免的会遇到Json的使用。下面我们就简单讲一下Json的使用以及fastjson.jar包的使用。 JSON形式与语法JSON对象我们先来看以下数据 12345&amp;#123;	&quot;ID&quot;">
+<meta name="keywords" content="Json">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Json详解以及fastjson使用教程">
+<meta property="og:url" content="http://yoursite.com/2020/04/21/Json/Json/index.html">
+<meta property="og:site_name" content="爱吃鱼的呆先生">
+<meta property="og:description" content="Json详解以及fastjson使用教程Json是一种轻量级的数据交换格式，采用一种“键：值”对的文本格式来存储和表示数据，在系统交换数据过程中常常被使用，是一种理想的数据交换语言。在使用Java做Web开发时，不可避免的会遇到Json的使用。下面我们就简单讲一下Json的使用以及fastjson.jar包的使用。 JSON形式与语法JSON对象我们先来看以下数据 12345&amp;#123;	&quot;ID&quot;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/image-20200421124732824.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/4.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/5.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/6.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908175047521.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908175611602.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908180148667.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908180430227.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908181709573.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908181749212.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/2018090818232048.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908184006503.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/2018090818574391.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908190110340.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/21/Json/Json/20180908190452769.png">
+<meta property="og:updated_time" content="2020-04-21T06:06:36.745Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Json详解以及fastjson使用教程">
+<meta name="twitter:description" content="Json详解以及fastjson使用教程Json是一种轻量级的数据交换格式，采用一种“键：值”对的文本格式来存储和表示数据，在系统交换数据过程中常常被使用，是一种理想的数据交换语言。在使用Java做Web开发时，不可避免的会遇到Json的使用。下面我们就简单讲一下Json的使用以及fastjson.jar包的使用。 JSON形式与语法JSON对象我们先来看以下数据 12345&amp;#123;	&quot;ID&quot;">
+<meta name="twitter:image" content="http://yoursite.com/2020/04/21/Json/Json/image-20200421124732824.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="爱吃鱼的呆先生" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Json详解以及fastjson使用教程 | 爱吃鱼的呆先生</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">爱吃鱼的呆先生</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云与分类</a></li>
+                        
+                            <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ElasticSearch/">ElasticSearch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Idea/">Idea</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Json/">Json</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logstash/">Logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MyBatisPlus/">MyBatisPlus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL基础/">MySQL基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Cloud/">Spring Cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringDataJPA/">SpringDataJPA</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/String/">String</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Zookeeper/">Zookeeper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/easyExcel/">easyExcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据结构/">数据结构</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://mybatis.org/mybatis-3/zh/index.html">Mybatis</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-framework#overview">Spring</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://spring.io/projects/spring-boot">SpringBoot</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">真正的大师永远保持一颗学徒的心</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">爱吃鱼的呆先生</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云与分类</a></li>
+                
+                    <li><a href="/pdfdocuments/">pdf文档笔记</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="https://mail.163.com/" title="Email"></a>
+                            
+                                <a class="fa CSDN" target="_blank" href="https://www.csdn.net/" title="CSDN"></a>
+                            
+                                <a class="fa Coding" target="_blank" href="https://coding.net/login" title="Coding"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Json/Json" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/04/21/Json/Json/" class="article-date">
+      <time datetime="2020-04-21T04:48:18.642Z" itemprop="datePublished">2020-04-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Json详解以及fastjson使用教程
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Json/">Json</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Json/">Json</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="Json详解以及fastjson使用教程"><a href="#Json详解以及fastjson使用教程" class="headerlink" title="Json详解以及fastjson使用教程"></a>Json详解以及fastjson使用教程</h1><p>Json是一种轻量级的数据交换格式，采用一种“键：值”对的文本格式来存储和表示数据，在系统交换数据过程中常常被使用，是一种理想的数据交换语言。在使用Java做Web开发时，不可避免的会遇到Json的使用。下面我们就简单讲一下Json的使用以及fastjson.jar包的使用。</p>
+<h2 id="JSON形式与语法"><a href="#JSON形式与语法" class="headerlink" title="JSON形式与语法"></a>JSON形式与语法</h2><h3 id="JSON对象"><a href="#JSON对象" class="headerlink" title="JSON对象"></a>JSON对象</h3><p>我们先来看以下数据</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"ID"</span>: <span class="number">1001</span>,</span><br><span class="line">	<span class="attr">"name"</span>: <span class="string">"张三"</span>,</span><br><span class="line">	<span class="attr">"age"</span>: <span class="number">24</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第一个数据就是一个Json对象，观察它的数据形式，可以得出以下语法：</p>
+<p>1：数据在花括号中</p>
+<p>2：数据以”键：值”对的形式出现（其中键多以字符串形式出现，值可取字符串，数值，甚至其他json对象）</p>
+<p>3：每两个”键：值”对以逗号分隔（最后一个”键：值”对省略逗号）</p>
+<p>遵守上面3点，便可以形成一个json对象。</p>
+<h3 id="JSON对象数组"><a href="#JSON对象数组" class="headerlink" title="JSON对象数组"></a>JSON对象数组</h3><p>接下来我们再看第二个数据，观察它的数据形式，可以得出以下语法</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;<span class="attr">"ID"</span>: <span class="number">1001</span>, <span class="attr">"name"</span>: <span class="string">"张三"</span>, <span class="attr">"age"</span>: <span class="number">24</span>&#125;,</span><br><span class="line">	&#123;<span class="attr">"ID"</span>: <span class="number">1002</span>, <span class="attr">"name"</span>: <span class="string">"李四"</span>, <span class="attr">"age"</span>: <span class="number">25</span>&#125;,</span><br><span class="line">	&#123;<span class="attr">"ID"</span>: <span class="number">1003</span>, <span class="attr">"name"</span>: <span class="string">"王五"</span>, <span class="attr">"age"</span>: <span class="number">22</span>&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>1：数据在方括号中（可理解为数组）</p>
+<p>2：方括号中每个数据以json对象形式出现</p>
+<p>3：每两个数据以逗号分隔（最后一个无需逗号）</p>
+<p>遵守上面3点，便可形成一个json对象数组（及一个数组中，存储了多个json对象）</p>
+<p>理解了上面两种基本的形式，我们就可以得出其他的数据形式，例如下面这个：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"部门名称"</span>:<span class="string">"研发部"</span>,</span><br><span class="line">	<span class="attr">"部门成员"</span>:[</span><br><span class="line">	&#123;<span class="attr">"ID"</span>: <span class="number">1001</span>, <span class="attr">"name"</span>: <span class="string">"张三"</span>, <span class="attr">"age"</span>: <span class="number">24</span>&#125;,</span><br><span class="line">	&#123;<span class="attr">"ID"</span>: <span class="number">1002</span>, <span class="attr">"name"</span>: <span class="string">"李四"</span>, <span class="attr">"age"</span>: <span class="number">25</span>&#125;,</span><br><span class="line">	&#123;<span class="attr">"ID"</span>: <span class="number">1003</span>, <span class="attr">"name"</span>: <span class="string">"王五"</span>, <span class="attr">"age"</span>: <span class="number">22</span>&#125;],</span><br><span class="line">	<span class="attr">"部门位置"</span>:<span class="string">"xx楼21号"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是上面两个基本形式结合出来的一种变形，通过这种变形，使得数据的封装具有很大的灵活性，能让开发者自由的发挥想象力。</p>
+<h3 id="JSON字符串"><a href="#JSON字符串" class="headerlink" title="JSON字符串"></a>JSON字符串</h3><p>JSON字符串也是在平时开发中使用较多的，json字符串应满足以下条件：</p>
+<p>1：它必须是一个字符串，由” “或者’ ‘包裹数据，支持字符串的各种操作</p>
+<p>2：里面的数据格式应该要满足其中一个格式，可以是json对象，也可以是json对象数组或者是两种基本形式的组合变形。</p>
+<p>总结：json可以简单的分为基本形式：json对象，json对象数组。两种基本格式组合变形出其他的形式，但其本质还是json对象或者json对象数组中的一种。json对象或对象数组可以转化为json字符串，使用于不同的场合。</p>
+<p>注意点：在封装json数据的时候，很容易出现错误，比如粗心的在最后一条数据的末尾加上了逗号等等，这里我提供一个在线验证工具，方便大家验证json数据格式的正确性</p>
+<p><a href="http://www.bejson.com/" target="_blank" rel="noopener">http://www.bejson.com/</a></p>
+<h2 id="fastjson介绍与使用"><a href="#fastjson介绍与使用" class="headerlink" title="fastjson介绍与使用"></a>fastjson介绍与使用</h2><h3 id="fastjson简介与jar下载"><a href="#fastjson简介与jar下载" class="headerlink" title="fastjson简介与jar下载"></a>fastjson简介与jar下载</h3><p>fastjson.jar是阿里爸爸开发的一款专门用于Java开发的包，可以方便的实现json对象与JavaBean对象的转换，实现JavaBean对象与json字符串的转换，实现json对象与json字符串的转换。除了这个fastjson以外，还有Google开发的Gson包，其他形式的如net.sf.json包，都可以实现json的转换。方法名称不同而已，最后的实现结果都是一样的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">将json字符串转化为json对象</span><br><span class="line">在net.sf.json中是这么做的</span><br><span class="line">JSONObject obj = <span class="keyword">new</span> JSONObject().fromObject(jsonStr);<span class="comment">//将json字符串转换为json对象</span></span><br><span class="line"> </span><br><span class="line">在fastjson中是这么做的</span><br><span class="line">JSONObject obj=JSON.parseObject(jsonStr);<span class="comment">//将json字符串转换为json对象</span></span><br></pre></td></tr></table></figure>
+
+<p>今天我们主要讲fastjson的使用，首先应该在Java工程中导入对应的fastjson.jar包，fastjson.jar包原始下载地址：<a href="https://github.com/alibaba/fastjson，点击页面中的download即可下载最新的包" target="_blank" rel="noopener">https://github.com/alibaba/fastjson，点击页面中的download即可下载最新的包</a></p>
+<p>fastjson.jar包百度云盘下载地址：<a href="https://pan.baidu.com/s/1CCGoRCdSjNUDB736cRCDBw" target="_blank" rel="noopener">https://pan.baidu.com/s/1CCGoRCdSjNUDB736cRCDBw</a></p>
+<h3 id="fastjson源码分析与使用"><a href="#fastjson源码分析与使用" class="headerlink" title="fastjson源码分析与使用"></a>fastjson源码分析与使用</h3><p>在包中，可以发现主要的3个类，JSON,JSONArray，JSONObject</p>
+<p>三者之间的关系如下，JSONObject和JSONArray继承JSON</p>
+<p><img src="/2020/04/21/Json/Json/image-20200421124732824.png" alt="image-20200421124732824"></p>
+<p>如果你们看不到源代码，请参考另一篇博客，先安装Java反编译工具：</p>
+<p><a href="https://blog.csdn.net/srj1095530512/article/details/81587601" target="_blank" rel="noopener">https://blog.csdn.net/srj1095530512/article/details/81587601</a></p>
+<p>联系上面讲到的json基础知识并对应这三个类，可以发现，JSONObject代表json对象，JSONArray代表json对象数组，JSON代表JSONObject和JSONArray的转化。</p>
+<h4 id="JSONObject类源码分析与使用"><a href="#JSONObject类源码分析与使用" class="headerlink" title="JSONObject类源码分析与使用"></a>JSONObject类源码分析与使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JSONObject</span> <span class="keyword">extends</span> <span class="title">JSON</span> <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">String</span>, <span class="title">Object</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span>, <span class="title">InvocationHandler</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<p>观察该类的继承与实现关系，不难发现，JSONObject实现了Map接口，而json对象中的数据都是以”键：值”对形式出现，可以猜想，    JSONObject底层操作是由Map实现的。</p>
+<p>再来看类中的主要方法：</p>
+<p><img src="/2020/04/21/Json/Json/1.png" alt></p>
+<p>类中主要是get()方法。因为JSONObject相当于json对象，所以该类中主要封装了各种get方法，通过”键：值”对中的键来获取其对应的值。且方法的输入参数几乎皆为String类型，这是因为json对象中，”键：值”对的键都是String类型的。</p>
+<p>来看一下平时用到较多的getString(String key)方法，该方法输入参数为String key（键），输出为String ，用于获取json对象中的字符串型数据。例如通过该方法获取  “name”：”bob”键值对中name这个键所对应的值bob。</p>
+<p><img src="/2020/04/21/Json/Json/3.png" alt></p>
+<p>看其源码，可以发现，内部主要是由get（key）方法实现，找到这个方法如下：</p>
+<p><img src="/2020/04/21/Json/Json/4.png" alt></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span>  DEFAULT_INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, Object&gt; map;</span><br></pre></td></tr></table></figure>
+
+<p>发现内部主要由Map接口中的get()方法实现</p>
+<p>再去看JSONObject中另一个常用的方法getInteger(String key)，该方法获取json对象中的整型数据，例如获取”age：20”键值对中age对应的整型数值20.</p>
+<p><img src="/2020/04/21/Json/Json/5.png" alt></p>
+<p>对比getString(String key)方法，两者极为相似，都是通过Map接口的get()方法实现</p>
+<p>再看几个其他的方法，也是由Map接口中的相应方法实现的，这里不再赘述</p>
+<p><img src="/2020/04/21/Json/Json/6.png" alt></p>
+<p>总结：JSONObject对应json对象，通过各种形式的get()方法可以获取json对象中的数据，也可利用诸如size()，isEmpty()等方法获取”键：值”对的个数和判断是否为空。其本质是通过实现Map接口并调用接口中的方法完成的</p>
+<h4 id="JSONArray类源码分析与使用"><a href="#JSONArray类源码分析与使用" class="headerlink" title="JSONArray类源码分析与使用"></a>JSONArray类源码分析与使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JSONArray</span> <span class="keyword">extends</span> <span class="title">JSON</span> <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">Object</span>&gt;, <span class="title">Cloneable</span>, <span class="title">RandomAccess</span>, <span class="title">Serializable</span> </span>&#123;</span><br></pre></td></tr></table></figure>
+
+<p>观察JSONArray的继承与实现，并结合上面对JSONObject的分析，不难发现，其内部是有List接口中的方法来完成操作的</p>
+<p>同样观察JSONArray类中的方法，由于方法较多，下面分为两部分</p>
+<p><img src="/2020/04/21/Json/Json/20180908175047521.png" alt="img"></p>
+<p>首先来明确一点，因为JSONArray代表json对象数组，json数组对象中存储的是一个个json对象，所以类中的方法主要用于直接操作json对象。比如这其中的add(),remove()，containsAll()方法，对应于json对象的添加，删除与判断。</p>
+<p><img src="/2020/04/21/Json/Json/20180908175611602.png" alt></p>
+<p>其内部主要有List接口中的对应方法来实现。</p>
+<p>跟JSONObject一样，JSONArray里面也有一些get()方法，不过都不常用，最有用的应该是getJSONObject(int index)方法，该方法用于获取json对象数组中指定位置的JSONObject对象，配合size()方法，可用于遍历json对象数组中的各个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> JSONObject <span class="title">getJSONObject</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        Object value = list.get(index);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> JSONObject) &#123;</span><br><span class="line">            <span class="keyword">return</span> (JSONObject) value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> Map) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> JSONObject((Map) value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> (JSONObject) toJSON(value);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/04/21/Json/Json/20180908180148667.png" alt></p>
+<p>通过以上两个方法，在配合for循环，即可实现json对象数组的遍历，当然JSONArray中也实现了迭代器方法来遍历，这和List的遍历极为相似</p>
+<p><img src="/2020/04/21/Json/Json/20180908180430227.png" alt></p>
+<p>通过遍历得到JSONObject对象，然后再利用JSONObject类中的get()方法，即可实现最终json数据的获取！！！</p>
+<p>好了，接下来我们看最后一个，也是最重要的一个类JSON类。之所以把这个放在最后，是因为这个类主要是实现转化用的，最后的数据获取，还是要通过上面的JSONObject和JSONArray来实现。</p>
+<h3 id="JSON类源码分析与使用"><a href="#JSON类源码分析与使用" class="headerlink" title="JSON类源码分析与使用"></a>JSON类源码分析与使用</h3><p>先来看一下这个类中的主要方法，方法比较多，也分为两部分</p>
+<p><img src="/2020/04/21/Json/Json/20180908181709573.png" alt></p>
+<p><img src="/2020/04/21/Json/Json/20180908181749212.png" alt></p>
+<p>仔细观察这些方法，主要是实现json对象，json对象数组，javabean对象，json字符串之间的相互转化</p>
+<p>JSON类之toJSONString()方法，实现json对象转化为json字符串和javabean对象转化为json 字符串</p>
+<p><img src="/2020/04/21/Json/Json/2018090818232048.png" alt></p>
+<p>该方法经过多次重载，但最终都是实现json对象转化为json字符串和javabean对象转化为json 字符串。其中，有关键字transient修饰的toJSONString()用于json对象序列化过程中，希望某个”键：值”对数据不变的应用中</p>
+<p><strong>JSON类之parseObject()方法，实现json字符串转换为json对象或javabean对象</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JSONObject <span class="title">parseObject</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">        Object obj = parse(text);</span><br><span class="line">        <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> JSONObject) &#123;</span><br><span class="line">            <span class="keyword">return</span> (JSONObject) obj;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> (JSONObject) JSON.toJSON(obj);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> JSONException(<span class="string">"can not cast to JSONObject."</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">parse</span><span class="params">(String text)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> parse(text, DEFAULT_PARSER_FEATURE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@since</span> 1.2.38</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">parse</span><span class="params">(String text, ParserConfig config)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> parse(text, config, DEFAULT_PARSER_FEATURE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@since</span> 1.2.38</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">parse</span><span class="params">(String text, ParserConfig config, <span class="keyword">int</span> features)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (text == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    DefaultJSONParser parser = <span class="keyword">new</span> DefaultJSONParser(text, config, features);</span><br><span class="line">    Object value = parser.parse();</span><br><span class="line"></span><br><span class="line">    parser.handleResovleTask(value);</span><br><span class="line"></span><br><span class="line">    parser.close();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">parse</span><span class="params">(String text, <span class="keyword">int</span> features)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> parse(text, ParserConfig.getGlobalInstance(), features);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该方法返回JSONObject对象，用于实现json字符串向json对象的转化，其内部调用了parse()方法，调用底层的DefaultJSONParser解析类进行转化，在转化失败时，抛出can not cast to JSONObject异常。</p>
+<p>该方法不仅能实现json字符串向json对象的转化,经过重载之后，还能实现json字符串向javabean对象的转化</p>
+<p><img src="/2020/04/21/Json/Json/20180908184006503.jpg" alt></p>
+<p>json字符串与javaBean之间的转换可以使用 TypeReference<t> 这个类，也可以使用Class这个类。</t></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Student stu1=JSON.parseObject(jsonstr,new TypeReference&lt;Student&gt;()&#123;&#125;);</span><br><span class="line">Student stu1=JSON.parseObject(jsonstr,Student.class);</span><br></pre></td></tr></table></figure>
+
+<p>我推荐使用第二种Class类反射来实现，比较简单</p>
+<p><strong>JSON类之JSONArray()方法，实现json字符串转化为json对象数组或List<t></t></strong></p>
+<p>与parseObject()方法类似，parseArray()将json字符串转化为json对象数组或转化成包含泛型的List</p>
+<p><img src="/2020/04/21/Json/Json/2018090818574391.jpg" alt></p>
+<p><strong>JSON类之toJSON()方法，实现javabean对象转化为json对象</strong></p>
+<p>该方法用的比较少，主要用于将javabean对象转化为json对象，内部通过Map，LinkedHashMap，HashMap等集合接口实现。</p>
+<p><img src="/2020/04/21/Json/Json/20180908190110340.png" alt></p>
+<p><strong>JSON类之toJavaObject()方法，实现json对象转化为javabean对象</strong></p>
+<p>该方法也经过重载，通过TypeReference类和Class类反射来实现，主要讲json对象转化为javabean对象，用的也比较少。</p>
+<p><img src="/2020/04/21/Json/Json/20180908190452769.png" alt></p>
+<p>至此，JSON类中的方法也讲解的差不多了，下面给出Java实例来实现以上的各种转换</p>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jsonTest;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONArray;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSONObject;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.TypeReference;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyJson</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		List&lt;Student&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		Student student=<span class="keyword">new</span> Student(<span class="string">"bob"</span>,<span class="number">24</span>);</span><br><span class="line">		Student student12=<span class="keyword">new</span> Student(<span class="string">"lily"</span>, <span class="number">23</span>);</span><br><span class="line">		list.add(student);</span><br><span class="line">		list.add(student12);</span><br><span class="line">		System.out.println(<span class="string">"*******javaBean  to jsonString*******"</span>);</span><br><span class="line">		String str1=JSON.toJSONString(student);</span><br><span class="line">		System.out.println(str1);</span><br><span class="line">		System.out.println(JSON.toJSONString(list));</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"******jsonString to javaBean*******"</span>);</span><br><span class="line">		<span class="comment">//Student stu1=JSON.parseObject(str1,new TypeReference&lt;Student&gt;()&#123;&#125;);</span></span><br><span class="line">		Student stu1=JSON.parseObject(str1,Student.class);</span><br><span class="line">		System.out.println(stu1);</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"******javaBean to jsonObject******"</span>);</span><br><span class="line">		JSONObject jsonObject1=(JSONObject)JSON.toJSON(student);</span><br><span class="line">		System.out.println(jsonObject1.getString(<span class="string">"name"</span>));</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"******jsonObject to javaBean******"</span>);</span><br><span class="line">		Student student2=JSON.toJavaObject(jsonObject1, Student.class);</span><br><span class="line">		System.out.println(student2);</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"*******javaBean to jsonArray******"</span>);</span><br><span class="line">		List&lt;Student&gt; stulist=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">			stulist.add(<span class="keyword">new</span> Student(<span class="string">"student"</span>+i, i));</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		JSONArray jsonArrays=(JSONArray)JSON.toJSON(stulist);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;jsonArrays.size();i++)&#123;</span><br><span class="line">		System.out.println(jsonArrays.getJSONObject(i));</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"*****jsonArry to javalist******"</span>);</span><br><span class="line">		List&lt;Student&gt; myList=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;jsonArrays.size();i++)&#123;</span><br><span class="line">			</span><br><span class="line">		Student student3=JSON.toJavaObject(jsonArrays.getJSONObject(i), Student.class);</span><br><span class="line">			myList.add(student3);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(Student stu:myList)&#123;</span><br><span class="line">			System.out.println(stu);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	        System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"*****jsonObject to jsonString*****"</span>);</span><br><span class="line">		String str4=JSON.toJSONString(jsonObject1);</span><br><span class="line">		System.out.println(str4);</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"*******jsonString to jsonObject*****"</span>);</span><br><span class="line">		JSONObject jso1=JSON.parseObject(str1);</span><br><span class="line">		System.out.println(jso1.getString(<span class="string">"name"</span>));</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"*****jsonString to jsonArray*****"</span>);</span><br><span class="line">		JSONArray jArray=JSON.parseArray(JSON.toJSONString(stulist));</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;jArray.size();i++)&#123;</span><br><span class="line">		System.out.println(jArray.getJSONObject(i));</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试类对应的javabean类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jsonTest;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated constructor stub</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name,<span class="keyword">int</span> age)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name=name;</span><br><span class="line">		<span class="keyword">this</span>.age=age;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name=name;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.age=age;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"student [name="</span>+name+<span class="string">" , "</span>+<span class="string">"age="</span>+age+<span class="string">"]"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">爱吃鱼的呆先生</a></p>
+        <p><span>发布时间:</span>2020-04-21, 12:48:18</p>
+        <p><span>最后更新:</span>2020-04-21, 14:06:36</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/04/21/Json/Json/" title="Json详解以及fastjson使用教程">http://yoursite.com/2020/04/21/Json/Json/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2020/04/21/Json/Json/　　作者: 爱吃鱼的呆先生" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/04/23/数据结构/动态规划/">
+                    
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/04/18/SpringMVC/SpringMVC/">
+                    
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Json详解以及fastjson使用教程"><span class="toc-number">1.</span> <span class="toc-text">Json详解以及fastjson使用教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSON形式与语法"><span class="toc-number">1.1.</span> <span class="toc-text">JSON形式与语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON对象"><span class="toc-number">1.1.1.</span> <span class="toc-text">JSON对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON对象数组"><span class="toc-number">1.1.2.</span> <span class="toc-text">JSON对象数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON字符串"><span class="toc-number">1.1.3.</span> <span class="toc-text">JSON字符串</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson介绍与使用"><span class="toc-number">1.2.</span> <span class="toc-text">fastjson介绍与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson简介与jar下载"><span class="toc-number">1.2.1.</span> <span class="toc-text">fastjson简介与jar下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson源码分析与使用"><span class="toc-number">1.2.2.</span> <span class="toc-text">fastjson源码分析与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JSONObject类源码分析与使用"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">JSONObject类源码分析与使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSONArray类源码分析与使用"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">JSONArray类源码分析与使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON类源码分析与使用"><span class="toc-number">1.2.3.</span> <span class="toc-text">JSON类源码分析与使用</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Json详解以及fastjson使用教程　| 爱吃鱼的呆先生　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/04/23/数据结构/动态规划/" title="上一篇: ">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/04/18/SpringMVC/SpringMVC/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/1mybatis高级原理分析/">1mybatis高级原理分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/07/Mybatis/Mybatis基础1/">mybatis基础详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/04/Vue/Vue1/">Vue/Vue1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/03/面试/简历/">面试/简历</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/SpringDataJPA/SpringDataJPA/">SpringDataJPA</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/Logstash/">Logstash</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/01/ELK/ElasticSearch/">ElasticSearch</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/29/0编程工具/easyExcel/">easyExcel</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/ZooKeeper/3Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/24/Spring/2Spring核心理解/">Spring/2Spring核心理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/数据结构/动态规划/">数据结构/动态规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/Json/Json/">Json详解以及fastjson使用教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/SpringMVC/SpringMVC/">SpringMVC/SpringMVC</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/18/Kafka/Kafka/">Kafka/Kafka</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/0编程工具/Idea/">Idea</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/31/9Redis/1Redis/">Redis1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/SpringCloud/1SpringCloud/">Spring Cloud基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/29/ZooKeeper/1Zookeeper/">第1章Zookeeper理论基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/26/8MySQL/4MySQL/">8MySQL/4MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/24/8MySQL/3MySQL/">8MySQL/3MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/21/8MySQL/2MySQL/">8MySQL/2MySQL</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/20/8MySQL/1MySQL/">MySQL介绍和基本的SQL编写及解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/19/0编程工具/Linux5/">0编程工具/Linux5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/17/0编程工具/Linux3/">Linux3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/0编程工具/Linux2/">Linux2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/2栈和队列/">栈和队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/15/数据结构/1数组/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/10/0编程工具/Linux/">Linux1</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/锁/">锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/详解之同步synchronized/">多线程二之高并发详解之同步synchronized关键字</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/线程8大核心基础/">多线程三之线程8大核心基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/治理线程的第二法宝/">4悟空Java并发编程/治理线程的第二法宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/控制并发流程/">4悟空Java并发编程/控制并发流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发编程的基石/">多线程一之并发编程的基石</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发工具类纵览/">并发工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/并发容器精讲/">4悟空Java并发编程/并发容器精讲</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/实战项目/">4悟空Java并发编程/实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/原子类/">原子类</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/ThreadLocal详解/">ThreadLocal详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/Java内存模型之底层原理/">Java内存模型之底层原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/4悟空Java并发编程/AQS/">4悟空Java并发编程/AQS</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java反射机制/">Java反射机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/Java8新特性/">Java8新特性</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/3Java高级/IO流/">IO流</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/String类型相关习题/">String类型相关习题</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/StringBuffer与StringBuilder/">StringBuffer与StringBuilder</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/2Java常用类/1String与String相关的类/">String详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象二5/">面向对象二</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象三6/">面向对象三</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/面向对象一4/">面向对象一</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/数组8/">数组</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/排序算法/">十大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/异常7/">异常处理</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/八大排序算法9/">八大排序算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/代码简洁之道/">代码简洁之道</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/java3流程控制/">1Java基础/java3流程控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java2基本语法/">1Java基础/Java2基本语法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/03/06/1Java基础/Java1概述/">Java概述</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/10/06/0编程工具/Git&GitHub/">Git&GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/13/MybatisPlus/MyBatisPlus/">MyBatisPlus</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2019-2020 爱吃鱼的呆先生
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
